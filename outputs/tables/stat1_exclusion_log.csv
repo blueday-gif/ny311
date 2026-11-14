@@ -1,0 +1,13 @@
+﻿항목,건수,처리
+원본 행 수,1748276,
+unique_key 중복,0,제외 (첫 행만 유지)
+created_date 파싱 실패,0,제외
+created_date 가 분석 기간 밖,0,제외
+접수 건수 (일별 건수 집계 기준),1748276,미종결 포함
+closed_date 결측·파싱 실패 (미종결),36483,제외
+Resolution_Hours < 0,359,제외
+agency / complaint_type 결측,0,제외
+borough 결측 또는 Unspecified,1356,제외
+위경도 결측·뉴욕 범위 밖,26669,"제외 아님 (has_coord=False, 지도에서만 제외)"
+Resolution_Hours = 0 (접수 즉시 종결),35203,제외 아님 (확인용)
+최종 분석 대상 행 수,1710078,

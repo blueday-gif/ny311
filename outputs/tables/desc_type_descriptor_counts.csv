@@ -1,0 +1,37 @@
+﻿유형,세부유형,건수,유형내비율(%),전체비율(%)
+거리/보도,Loud Music/Party,26504,77.6,25.77
+거리/보도,Loud Talking,7649,22.4,7.44
+주거,Loud Music/Party,14704,47.78,14.3
+주거,Banging/Pounding,10094,32.8,9.81
+주거,Loud Talking,5371,17.45,5.22
+주거,Loud Television,606,1.97,0.59
+상업시설,Loud Music/Party,9311,81.53,9.05
+상업시설,Banging/Pounding,1106,9.68,1.08
+상업시설,Loud Talking,872,7.64,0.85
+상업시설,Car/Truck Music,57,0.5,0.06
+상업시설,Car/Truck Horn,52,0.46,0.05
+상업시설,Loud Television,23,0.2,0.02
+일반(공사·설비 등),Noise: Construction Before/After Hours (NM1),4496,46.4,4.37
+일반(공사·설비 등),Noise: Construction Equipment (NC1),1357,14.01,1.32
+일반(공사·설비 등),Noise: air condition/ventilation equipment (NV1),1106,11.42,1.08
+일반(공사·설비 등),"Noise, Barking Dog (NR5)",750,7.74,0.73
+일반(공사·설비 등),Noise: Alarms (NR3),679,7.01,0.66
+일반(공사·설비 등),Noise: Jack Hammering (NC2),542,5.59,0.53
+일반(공사·설비 등),"Noise, Ice Cream Truck (NR4)",261,2.69,0.25
+일반(공사·설비 등),Noise: Private Carting Noise (NQ1),202,2.08,0.2
+일반(공사·설비 등),"Noise: Boat(Engine,Music,Etc) (NR10)",157,1.62,0.15
+일반(공사·설비 등),Noise: lawn care equipment (NCL),116,1.2,0.11
+일반(공사·설비 등),"Noise, Other Animals (NR6)",13,0.13,0.01
+일반(공사·설비 등),Noise: Manufacturing Noise (NK1),9,0.09,0.01
+일반(공사·설비 등),Noise: Other Noise Sources (Use Comments) (NZZ),1,0.01,0.0
+헬리콥터,Other,8822,99.0,8.58
+헬리콥터,News Gathering,51,0.57,0.05
+헬리콥터,NYPD,38,0.43,0.04
+차량,Car/Truck Music,3741,58.45,3.64
+차량,Engine Idling,1451,22.67,1.41
+차량,Car/Truck Horn,1208,18.88,1.17
+공원,Loud Music/Party,1304,91.7,1.27
+공원,Loud Talking,118,8.3,0.11
+종교시설,Loud Music/Party,71,80.68,0.07
+종교시설,Loud Talking,15,17.05,0.01
+종교시설,Banging/Pounding,2,2.27,0.0

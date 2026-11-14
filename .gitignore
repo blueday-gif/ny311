@@ -1,0 +1,14 @@
+# 원본 데이터 (245MB): GitHub 파일 크기 한도(100MB)를 넘는다. analysis/stat_00_download.py 로 다시 받는다.
+# 출처와 쿼리는 data/raw/SOURCE*.txt 에 남아 있다.
+data/raw/*.csv
+data/raw/*.part
+
+# 정제 결과 (78MB): analysis/stat_01_clean_descriptive.py 로 다시 만든다. 대시보드는 쓰지 않는다.
+data/processed/*.parquet
+
+# 파이썬 캐시, 로컬 설정, 비밀 정보
+__pycache__/
+*.pyc
+.claude/
+.streamlit/secrets.toml
+.DS_Store
