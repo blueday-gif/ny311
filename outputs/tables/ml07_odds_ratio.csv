@@ -1,0 +1,109 @@
+﻿입력 열,가중치,오즈비
+problem_Vendor Enforcement,5.854,348.475
+location_type_Park/Playground,3.685,39.863
+location_type_Residential Building/House,3.46,31.806
+location_type_Store/Commercial,3.18,24.058
+problem_Noise - Commercial,3.128,22.839
+location_type_Street/Sidewalk,3.101,22.22
+location_type_Club/Bar/Restaurant,2.239,9.382
+location_type_Subway,2.142,8.517
+problem_Illegal Parking,1.948,7.018
+problem_Noise - Residential,1.889,6.611
+problem_Blocked Driveway,1.827,6.216
+problem_HEAT/HOT WATER,1.772,5.885
+problem_Noise - Street/Sidewalk,1.749,5.749
+location_type_Street/Curbside,1.687,5.403
+problem_Traffic Signal Condition,1.627,5.087
+location_type_Park,1.587,4.888
+problem_Noise - Vehicle,1.417,4.125
+problem_Abandoned Vehicle,1.372,3.943
+problem_Non-Emergency Police Matter,1.315,3.725
+problem_Derelict Vehicles,0.908,2.478
+problem_Dirty Condition,0.885,2.423
+problem_Water System,0.733,2.082
+problem_Sewer,0.657,1.93
+borough_STATEN ISLAND,0.389,1.476
+hour_4,0.361,1.435
+channel_OTHER,0.352,1.422
+weekday_2,0.244,1.276
+problem_Snow or Ice,0.233,1.262
+weekday_3,0.218,1.243
+hour_1,0.206,1.229
+problem_ELECTRIC,0.2,1.222
+weekday_1,0.2,1.222
+weekday_0,0.189,1.209
+hour_23,0.184,1.202
+season_가을,0.184,1.201
+borough_BRONX,0.177,1.193
+hour_5,0.166,1.18
+hour_3,0.159,1.172
+season_봄,0.158,1.171
+hour_2,0.148,1.16
+hour_21,0.146,1.157
+hour_22,0.133,1.143
+hour_0,0.114,1.121
+borough_MANHATTAN,0.083,1.087
+hour_20,0.083,1.087
+channel_MOBILE,0.07,1.073
+hour_19,0.069,1.072
+channel_ONLINE,0.067,1.069
+hour_17,0.049,1.051
+hour_18,0.038,1.038
+channel_PHONE,0.025,1.025
+borough_QUEENS,0.008,1.008
+season_겨울,-0.009,0.991
+season_여름,-0.01,0.99
+weekday_6,-0.019,0.981
+hour_6,-0.029,0.971
+hour_16,-0.038,0.963
+problem_PLUMBING,-0.042,0.959
+hour_15,-0.066,0.937
+hour_14,-0.084,0.919
+problem_Street Condition,-0.095,0.909
+hour_7,-0.108,0.898
+weekday_4,-0.126,0.882
+hour_8,-0.141,0.868
+borough_BROOKLYN,-0.147,0.863
+hour_13,-0.151,0.86
+hour_12,-0.187,0.83
+borough_Unspecified,-0.188,0.829
+channel_UNKNOWN,-0.192,0.825
+hour_11,-0.214,0.808
+hour_9,-0.223,0.8
+problem_GENERAL,-0.267,0.766
+hour_10,-0.295,0.744
+location_type_(없음),-0.336,0.715
+location_type_3+ Family Apartment Building,-0.337,0.714
+weekday_5,-0.384,0.681
+problem_PAINT/PLASTER,-0.423,0.655
+problem_Illegal Dumping,-0.438,0.645
+problem_Rodent,-0.445,0.641
+location_type_3+ Family Apt. Building,-0.509,0.601
+problem_General Construction/Plumbing,-0.536,0.585
+location_type_1-2 Family Dwelling,-0.551,0.576
+problem_Damaged Tree,-0.616,0.54
+location_type_기타,-0.676,0.509
+problem_기타,-0.718,0.488
+problem_Homeless Person Assistance,-0.748,0.473
+location_type_Highway,-0.861,0.423
+problem_DOOR/WINDOW,-0.931,0.394
+problem_FLOORING/STAIRS,-0.942,0.39
+problem_Missed Collection,-0.962,0.382
+problem_WATER LEAK,-0.991,0.371
+problem_APPLIANCE,-1.033,0.356
+problem_Sidewalk Condition,-1.18,0.307
+problem_UNSANITARY CONDITION,-1.191,0.304
+location_type_Street,-1.196,0.302
+location_type_Business,-1.204,0.3
+problem_Noise,-1.43,0.239
+problem_Elevator,-1.7,0.183
+problem_Overgrown Tree/Branches,-1.704,0.182
+location_type_Sidewalk,-1.747,0.174
+problem_Encampment,-1.992,0.136
+problem_Building/Use,-2.08,0.125
+location_type_Residential Building,-2.282,0.102
+problem_Street Light Condition,-2.518,0.081
+location_type_RESIDENTIAL BUILDING,-3.426,0.033
+location_type_Restaurant/Bar/Deli/Bakery,-3.789,0.023
+location_type_Above Address,-3.846,0.021
+problem_Maintenance or Facility,-4.211,0.015

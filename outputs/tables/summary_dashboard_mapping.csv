@@ -1,0 +1,17 @@
+﻿스크립트,주제,기존 앱 탭,새 대시보드 탭(제안),대시보드가 읽을 표
+eda_01_check.py,데이터 점검,0 시작하기,1부-① 데이터 점검,"eda01_overview, eda01_missing"
+eda_02_summary.py,기술통계,"2 대푯값, 3 퍼짐·기술통계",1부-② 숫자로 요약,eda02_hours_summary
+eda_03_distribution.py,분포·이상치,4 분포·변환·표준화,1부-③ 분포와 이상치,"eda03_skewness, eda03_outliers_iqr"
+eda_04_patterns.py,범주·시간·관계·집단 비교,"1 둘러보기, 6 검정·회귀, 8 기관 비교, 9 시계열",1부-④ 패턴과 비교,eda04_*
+ml_05_problem.py,문제 정의·누수,6 검정·회귀(④),2부-① 무엇을 예측하나,"ml05_split, ml05_leakage_demo"
+ml_06_split_baseline.py,기준선,"(없음, 새 내용)",2부-② 기준선,"ml06_baselines, ml06_monthly_rate"
+ml_07_logistic.py,로지스틱 회귀,6 검정·회귀,2부-③ 첫 모델,"ml07_accuracy, ml07_odds_ratio"
+ml_08_tree.py,결정나무·과적합,"(없음, 새 내용)",2부-④ 나무와 과적합,ml08_depth_curve
+ml_09_ensemble.py,앙상블·모델 비교,7 현대 방법,2부-⑤ 모델 비교,ml09_model_comparison
+ml_10_evaluation.py,평가 지표,"7 현대 방법(AUC, 보정)",2부-⑥ 평가 지표,ml10_threshold_table
+ml_11_interpret.py,해석,7 현대 방법(순열 중요도),2부-⑦ 모델 해석,ml11_permutation_importance
+ml_12_tuning.py,교차검증·튜닝,"(없음, 새 내용)",2부-⑧ 튜닝,"ml12_grid_results, ml12_final_test"
+ml_13_regression.py,회귀,"6 검정·회귀, 10 생존분석",3부-① 처리 시간 예측,ml13_regression_results
+ml_14_forecast.py,시계열 예측,9 시계열,3부-② 내일 건수 예측,ml14_forecast_results
+ml_15_clustering.py,군집,12 군집·PCA,3부-③ 동네 유형,"ml15_k_selection, ml15_cluster_profile"
+summary.py,요약·한계,(각 탭 꼬리말 정리표),마무리,"summary_findings, summary_limitations"

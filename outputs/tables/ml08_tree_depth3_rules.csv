@@ -1,0 +1,23 @@
+﻿규칙
+|--- location_type_Street/Sidewalk <= 0.50
+|   |--- location_type_Residential Building/House <= 0.50
+|   |   |--- location_type_RESIDENTIAL BUILDING <= 0.50
+|   |   |   |--- class: 0
+|   |   |--- location_type_RESIDENTIAL BUILDING >  0.50
+|   |   |   |--- class: 0
+|   |--- location_type_Residential Building/House >  0.50
+|   |   |--- problem_Encampment <= 0.50
+|   |   |   |--- class: 1
+|   |   |--- problem_Encampment >  0.50
+|   |   |   |--- class: 1
+|--- location_type_Street/Sidewalk >  0.50
+|   |--- problem_Encampment <= 0.50
+|   |   |--- problem_Noise <= 0.50
+|   |   |   |--- class: 1
+|   |   |--- problem_Noise >  0.50
+|   |   |   |--- class: 0
+|   |--- problem_Encampment >  0.50
+|   |   |--- lon <= -73.97
+|   |   |   |--- class: 1
+|   |   |--- lon >  -73.97
+|   |   |   |--- class: 1

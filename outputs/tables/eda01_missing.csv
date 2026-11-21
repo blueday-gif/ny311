@@ -1,0 +1,45 @@
+﻿열,결측 건수,결측률(%),자료형
+Taxi Company Borough,3961007,99.93,string
+Facility Type,3953131,99.73,string
+Road Ramp,3952200,99.7,string
+Bridge Highway Direction,3951268,99.68,string
+Due Date,3949035,99.62,string
+Bridge Highway Name,3942974,99.47,string
+Bridge Highway Segment,3943045,99.47,string
+Taxi Pick Up Location,3926253,99.05,string
+Vehicle Type,3786151,95.51,string
+Additional Details,2416903,60.97,string
+Landmark,1608202,40.57,string
+Intersection Street 1,1291890,32.59,string
+Intersection Street 2,1291034,32.57,string
+Cross Street 2,1197963,30.22,string
+Cross Street 1,1198015,30.22,string
+BBL,474176,11.96,string
+Location Type,473653,11.95,string
+City,212387,5.36,string
+Closed Date,158869,4.01,timestamp[ms]
+Street Name,146515,3.7,string
+Incident Address,146439,3.69,string
+Council District,101484,2.56,string
+Resolution Description,90914,2.29,string
+Longitude,83134,2.1,double
+Location,83134,2.1,string
+Latitude,83134,2.1,double
+X Coordinate (State Plane),83050,2.1,string
+Y Coordinate (State Plane),82707,2.09,string
+Problem Detail (formerly Descriptor),74639,1.88,string
+Resolution Action Updated Date,55217,1.39,string
+Incident Zip,35190,0.89,string
+Address Type,21841,0.55,string
+Park Facility Name,3030,0.08,string
+Unique Key,0,0.0,int64
+Created Date,0,0.0,timestamp[ms]
+Agency,0,0.0,string
+Problem (formerly Complaint Type),0,0.0,string
+Agency Name,0,0.0,string
+Status,0,0.0,string
+Community Board,0,0.0,string
+Police Precinct,0,0.0,string
+Park Borough,0,0.0,string
+Borough,0,0.0,string
+Open Data Channel Type,0,0.0,string

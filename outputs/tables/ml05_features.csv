@@ -1,0 +1,13 @@
+﻿열,종류,접수 시점에 아는가,설명
+problem,범주,예,민원 유형 (상위 40개 + 기타)
+borough,범주,예,자치구
+channel,범주,예,접수 경로 (온라인/전화/모바일)
+location_type,범주,예,장소 유형 (상위 20개 + 기타 + 없음)
+season,범주,예,계절 (월에서 계산)
+hour,숫자,예,접수 시각(시)
+weekday,숫자,예,요일 번호(0=월)
+"lat, lon",숫자,예,위도·경도 (2% 결측)
+"closed, status",-,아니오(누수),처리 결과 그 자체
+Resolution Description,-,아니오(누수),처리 후 작성
+Resolution Action Updated Date,-,아니오(누수),처리 후 기록
+"unique_key, Incident Zip",-,예,식별자라 숫자 특징으로 쓰지 않음
