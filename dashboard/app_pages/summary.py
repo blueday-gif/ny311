@@ -20,4 +20,4 @@ show_table(mapping, alt="분석 스크립트, 기존 앱 탭, 새 대시보드 �
 
 st.subheader("전체를 다시 실행하려면", anchor=False)
 st.code("py -3.12 analysis/run_all.py\npy -3.12 -m streamlit run dashboard/app.py", language="bash")
-st.caption("run_all.py 는 16개 스크립트를 번호 순서대로 실행합니다(약 6분). seed 가 고정되어 있어 다시 실행해도 같은 결과가 나옵니다.")
+st.caption("run_all.py 는 16개 스크립트를 번호 순서대로 실행합니다(약 10~20분, 컴퓨터 성능에 따라 다름). seed 가 고정되어 있어 다시 실행해도 같은 결과가 나옵니다.")
