@@ -1,0 +1,1258 @@
+{
+ "_temp_bin_days": {
+  "<0": 59,
+  "0-10": 90,
+  "10-20": 89,
+  "20-25": 86,
+  "25+": 39
+ },
+ "Q001": {
+  "total_rows": 3962167,
+  "first": "2025-11-01 21:09:28",
+  "last": "2026-10-31 21:09:02"
+ },
+ "Q002": {
+  "full_days": 363,
+  "daily_avg": 10885.5,
+  "per_min": 7.56,
+  "seconds_per_report": 7.9
+ },
+ "Q003": {
+  "Illegal Parking": 618157,
+  "Noise - Residential": 416594,
+  "HEAT/HOT WATER": 351780,
+  "Blocked Driveway": 196049,
+  "Noise - Street/Sidewalk": 174830,
+  "illegal_parking_share_pct": 15.6
+ },
+ "Q004": {
+  "NYPD": 1721092,
+  "NYPD_pct": 43.4,
+  "HPD_pct": 22.9,
+  "DSNY_pct": 9.1
+ },
+ "Q005": {
+  "n_types": 194,
+  "top10_share_pct": 56.8,
+  "bottom97_share_pct": 0.95
+ },
+ "Q006": {
+  "date": "2026-02-24",
+  "count": 22793,
+  "ratio_vs_avg": 2.09,
+  "snow_share_pct": 49.9
+ },
+ "Q007": {
+  "date": "2025-12-25",
+  "count": 6213,
+  "pct_of_avg": 57.1,
+  "2nd_lowest": "2026-01-18"
+ },
+ "Q008": {
+  "mon": 11656.1,
+  "tue": 11699.9,
+  "sat": 9846.7,
+  "sun": 10008.6,
+  "tue_over_sat": 1.19
+ },
+ "Q009": {
+  "jul4": 2257,
+  "daily_avg": 30.0,
+  "ratio": 75.3,
+  "jul5": 1688,
+  "median_day": 4.0
+ },
+ "Q010": {
+  "total": 10891,
+  "jun15_jul10_pct": 66.1,
+  "jul3_5_pct": 41.1
+ },
+ "Q011": {
+  "peak_hour": 21,
+  "peak_count": 739,
+  "h20_23": {
+   "20": 281,
+   "21": 739,
+   "22": 545,
+   "23": 246
+  },
+  "h21_22_share_pct": 56.9
+ },
+ "Q012": {
+  "basis": "Thursdays Nov2025-Jan2026 excl Thanksgiving & Christmas, n_days=11",
+  "noise_res": {
+   "xmas": 1328,
+   "thu_avg": 829.7,
+   "ratio": 1.6
+  },
+  "heat": {
+   "xmas": 1070,
+   "thu_avg": 1978.8,
+   "ratio": 0.54
+  },
+  "illegal_parking": {
+   "xmas": 1196,
+   "thu_avg": 1649.2,
+   "ratio": 0.73
+  },
+  "xmas_noise_res_peak_hour": 0
+ },
+ "Q013": {
+  "missed_collection": {
+   "xmas": 1,
+   "thu_avg": 94.7,
+   "ratio": 0.01
+  },
+  "street_condition": {
+   "xmas": 40,
+   "thu_avg": 185.9,
+   "ratio": 0.22
+  }
+ },
+ "Q014": {
+  "fireworks_0h_jan1": 94,
+  "fireworks_0h_avg": 3.7,
+  "ratio": 25.4,
+  "all_reports_0h_jan1": 501,
+  "top_problems": {
+   "Noise - Residential": 144,
+   "Illegal Fireworks": 94,
+   "Illegal Parking": 73
+  }
+ },
+ "Q015": {
+  "mar8_hour2": 1,
+  "avg_hour2": 169.0,
+  "mar8_hour1": 329,
+  "mar8_hour3": 228
+ },
+ "Q016": {
+  "max_date": "2026-06-21",
+  "max": 2375,
+  "avg": 1012.2,
+  "ratio": 2.35,
+  "top5": {
+   "2026-06-21": 2375,
+   "2026-05-16": 2147,
+   "2026-06-28": 2091,
+   "2026-05-31": 2073,
+   "2026-05-17": 1976
+  }
+ },
+ "Q017": {
+  "by_bin": {
+   "<0": 138.7,
+   "0-10": 252.4,
+   "10-20": 505.0,
+   "20-25": 783.1,
+   "25+": 791.1
+  },
+  "corr": 0.65,
+  "ratio_25_vs_0": 5.7
+ },
+ "Q018": {
+  "by_bin": {
+   "<0": 922.6,
+   "0-10": 975.8,
+   "10-20": 1080.2,
+   "20-25": 1071.1,
+   "25+": 947.0
+  },
+  "corr": 0.13,
+  "ratio_25_vs_0": 1.03
+ },
+ "Q019": {
+  "by_bin": {
+   "<0": 33.0,
+   "0-10": 28.7,
+   "10-20": 27.6,
+   "20-25": 70.3,
+   "25+": 121.6
+  },
+  "corr": 0.31,
+  "ratio_25_vs_10_20": 4.4,
+  "ratio_25_vs_0": 3.7
+ },
+ "Q020": {
+  "by_bin": {
+   "<0": 36.9,
+   "0-10": 24.3,
+   "10-20": 24.0,
+   "20-25": 21.7,
+   "25+": 36.0
+  },
+  "corr": -0.18,
+  "ratio_cold_vs_20_25": 1.7,
+  "ratio_hot_vs_20_25": 1.66
+ },
+ "Q021": {
+  "by_bin": {
+   "<0": 4.4,
+   "0-10": 6.7,
+   "10-20": 12.7,
+   "20-25": 19.1,
+   "25+": 19.9
+  },
+  "corr": 0.67,
+  "ratio_25_vs_0": 4.5,
+  "ratio_by_problem": {
+   "Overgrown Tree/Branches": 8.92,
+   "Dead/Dying Tree": 6.39,
+   "Noise - Park": 5.93,
+   "Noise - Street/Sidewalk": 5.7,
+   "Street Sweeping Complaint": 4.71,
+   "Drinking": 4.51,
+   "Illegal Tree Damage": 3.28,
+   "Damaged Tree": 3.25,
+   "Noise - Residential": 1.03,
+   "HEAT/HOT WATER": 0.06
+  }
+ },
+ "Q022": {
+  "by_bin": {
+   "<0": 65.2,
+   "0-10": 109.8,
+   "10-20": 141.0,
+   "20-25": 166.8,
+   "25+": 170.3
+  },
+  "corr": 0.66,
+  "ratio_25_vs_0": 2.6
+ },
+ "Q023": {
+  "total": 63941,
+  "feb23": 6524,
+  "feb24": 11370,
+  "two_day_share_pct": 28.0,
+  "days_with_any": 102
+ },
+ "Q024": {
+  "per100k": {
+   "MANHATTAN": 280.2,
+   "BROOKLYN": 708.0,
+   "QUEENS": 752.7,
+   "BRONX": 440.4,
+   "STATEN ISLAND": 3072.3
+  },
+  "counts": {
+   "MANHATTAN": 4748,
+   "BROOKLYN": 19371,
+   "QUEENS": 18105,
+   "BRONX": 6485,
+   "STATEN ISLAND": 15231
+  },
+  "SI_over_MN": 11.0
+ },
+ "Q025": {
+  "max_date": "2026-02-23",
+  "max": 1496,
+  "avg": 122.1,
+  "ratio": 12.3,
+  "detail_top_that_day": {
+   "Branch or Limb Has Fallen Down": 724,
+   "Entire Tree Has Fallen Down": 572,
+   "Branch Cracked and Will Fall": 141
+  }
+ },
+ "Q026": {
+  "by_month": {
+   "1": 3215,
+   "2": 4612,
+   "3": 22761,
+   "4": 11371,
+   "5": 7102,
+   "6": 6053,
+   "7": 4632,
+   "8": 4278,
+   "9": 3640,
+   "10": 3325,
+   "11": 1845,
+   "12": 2910
+  },
+  "mar": 22761,
+  "nov": 1845,
+  "mar_over_nov": 12.3,
+  "mar_over_month_avg": 3.6
+ },
+ "Q027": {
+  "n_ex_SA": 369581,
+  "share_pct": {
+   "Loud Music/Party": 49.6,
+   "Banging/Pounding": 40.4,
+   "Loud Talking": 8.0,
+   "Loud Television": 2.0
+  }
+ },
+ "Q028": {
+  "n": 8588,
+  "peak_hour": 9,
+  "peak": 544,
+  "night22_03_share_pct": 17.0,
+  "party_peak_hour": 22,
+  "party_night_share_pct": 52.7
+ },
+ "Q029": {
+  "n": 52438,
+  "share_pct": {
+   "Car/Truck Music": 42.1,
+   "Car/Truck Horn": 38.5,
+   "Engine Idling": 19.4
+  }
+ },
+ "Q030": {
+  "n": 1111,
+  "mar_oct_pct": 98.6,
+  "by_month": {
+   "1": 3,
+   "2": 3,
+   "3": 88,
+   "4": 178,
+   "5": 192,
+   "6": 195,
+   "7": 96,
+   "8": 145,
+   "9": 113,
+   "10": 88,
+   "11": 9,
+   "12": 1
+  },
+  "peak_hour": 20
+ },
+ "Q031": {
+  "n": 10971,
+  "per100k": {
+   "MANHATTAN": 409.9,
+   "BROOKLYN": 95.1,
+   "QUEENS": 51.1,
+   "BRONX": 6.6,
+   "STATEN ISLAND": 20.0
+  },
+  "counts": {
+   "MANHATTAN": 6945,
+   "BROOKLYN": 2601,
+   "QUEENS": 1229,
+   "BRONX": 97,
+   "STATEN ISLAND": 99
+  },
+  "MN_over_BX": 62.1
+ },
+ "Q032": {
+  "cb07_manhattan": 4849,
+  "share_pct": 44.2,
+  "top_cbs": {
+   "07 MANHATTAN": 4849,
+   "08 BROOKLYN": 1793,
+   "06 MANHATTAN": 1444,
+   "10 QUEENS": 619
+  }
+ },
+ "Q033": {
+  "dep_noise_n": 61181,
+  "afterhours_n": 15321,
+  "afterhours_share_pct": 25.0,
+  "afterhours_peak_hour": 22,
+  "top_details": {
+   "Noise: Construction Before/After Hours (NM1)": 15321,
+   "Construction": 7575,
+   "Noise, Barking Dog (NR5)": 6077,
+   "Noise: Alarms (NR3)": 5691
+  }
+ },
+ "Q034": {
+  "weekend_share_pct": {
+   "Noise": 25.4,
+   "Noise - Commercial": 47.4,
+   "Noise - Helicopter": 23.6,
+   "Noise - House of Worship": 20.7,
+   "Noise - Park": 50.0,
+   "Noise - Residential": 40.5,
+   "Noise - Street/Sidewalk": 44.7,
+   "Noise - Vehicle": 34.6
+  },
+  "expected_pct": 28.6
+ },
+ "Q035": {
+  "n": 11053,
+  "counts": {
+   "Cat": 4220,
+   "Raccoon": 1362,
+   "Rat or Mouse": 1356,
+   "Bird": 1001,
+   "Other": 882,
+   "Squirrel": 809,
+   "Opossum": 793,
+   "Dog": 544,
+   "Deer": 86
+  },
+  "cat_share_pct": 38.2
+ },
+ "Q036": {
+  "per100k": {
+   "MANHATTAN": 2.5,
+   "BROOKLYN": 13.8,
+   "QUEENS": 21.2,
+   "BRONX": 9.7,
+   "STATEN ISLAND": 58.3
+  },
+  "counts": {
+   "MANHATTAN": 43,
+   "BROOKLYN": 377,
+   "QUEENS": 510,
+   "BRONX": 143,
+   "STATEN ISLAND": 289
+  },
+  "SI_over_MN": 23.3
+ },
+ "Q037": {
+  "counts": {
+   "MANHATTAN": 2,
+   "BROOKLYN": 3,
+   "QUEENS": 7,
+   "BRONX": 6,
+   "STATEN ISLAND": 68
+  },
+  "SI_share_pct": 79.1,
+  "total": 86
+ },
+ "Q038": {
+  "n": 623,
+  "counts": {
+   "Rooster": 382,
+   "Other": 121,
+   "Farm Animal": 79,
+   "Snake": 18,
+   "Ferret": 15,
+   "Monkey": 5,
+   "Iguana": 2,
+   "Turtle Under 4 inches Long": 1
+  },
+  "rooster_share_pct": 61.3,
+  "rooster_per100k": {
+   "MANHATTAN": 0.9,
+   "BROOKLYN": 3.9,
+   "QUEENS": 3.9,
+   "BRONX": 6.2,
+   "STATEN ISLAND": 14.9
+  }
+ },
+ "Q039": {
+  "n": 119,
+  "counts": {
+   "Turtle Under 4 inches Long": 72,
+   "Other": 35,
+   "Farm Animal": 4,
+   "Monkey": 3,
+   "Rooster": 3,
+   "Ferret": 1,
+   "Snake": 1
+  },
+  "turtle_share_pct": 60.5
+ },
+ "Q040": {
+  "per100k": {
+   "MANHATTAN": 269.4,
+   "BROOKLYN": 234.5,
+   "QUEENS": 129.9,
+   "BRONX": 186.5,
+   "STATEN ISLAND": 116.4
+  },
+  "counts": {
+   "MANHATTAN": 4564,
+   "BROOKLYN": 6417,
+   "QUEENS": 3125,
+   "BRONX": 2747,
+   "STATEN ISLAND": 577
+  },
+  "MN_over_SI": 2.3
+ },
+ "Q041": {
+  "by_month": {
+   "1": 917,
+   "2": 798,
+   "3": 1364,
+   "4": 1444,
+   "5": 1899,
+   "6": 1676,
+   "7": 1871,
+   "8": 2139,
+   "9": 1755,
+   "10": 1863,
+   "11": 915,
+   "12": 789
+  },
+  "aug_over_dec": 2.7,
+  "corr_daily_rodent_temp": 0.71
+ },
+ "Q042": {
+  "n": 634,
+  "by_month": {
+   "4": 8,
+   "5": 13,
+   "6": 74,
+   "7": 108,
+   "8": 224,
+   "9": 181,
+   "10": 26
+  },
+  "aug_share_pct": 35.3,
+  "aug_sep_share_pct": 63.9
+ },
+ "Q043": {
+  "n": 436,
+  "by_month": {
+   "1": 3,
+   "2": 3,
+   "3": 6,
+   "4": 29,
+   "5": 44,
+   "6": 37,
+   "7": 54,
+   "8": 66,
+   "9": 98,
+   "10": 77,
+   "11": 15,
+   "12": 4
+  },
+  "sep_share_pct": 22.5
+ },
+ "Q044": {
+  "per100k": {
+   "MANHATTAN": 49.0,
+   "BROOKLYN": 12.6,
+   "QUEENS": 18.7,
+   "BRONX": 7.5,
+   "STATEN ISLAND": 22.8
+  },
+  "counts": {
+   "MANHATTAN": 830,
+   "BROOKLYN": 345,
+   "QUEENS": 451,
+   "BRONX": 110,
+   "STATEN ISLAND": 113
+  },
+  "MN_over_BX": 6.5
+ },
+ "Q045": {
+  "n": 11684,
+  "counts": {
+   "Neglected": 5737,
+   "Other (complaint details)": 2877,
+   "Tortured": 1644,
+   "No Shelter": 878,
+   "Chained": 401,
+   "In Car": 147
+  },
+  "neglected_share_pct": 49.1
+ },
+ "Q046": {
+  "n": 5738,
+  "counts": {
+   "Dog Off Leash": 3053,
+   "Injured Wildlife": 984,
+   "Dead Animal": 769,
+   "Wildlife Sighting": 263,
+   "Animal Waste": 236,
+   "Domestic Strays": 232,
+   "Removing Wildlife": 201
+  },
+  "offleash_share_pct": 53.2
+ },
+ "Q047": {
+  "n": 618157,
+  "share_pct": {
+   "Blocked Hydrant": 27.9,
+   "Posted Parking Sign Violation": 24.3,
+   "Blocked Sidewalk": 14.2,
+   "Commercial Overnight Parking": 7.0,
+   "Blocked Crosswalk": 6.3,
+   "Double Parked Blocking Traffic": 5.5
+  }
+ },
+ "Q048": {
+  "per100k": {
+   "MANHATTAN": 291.5,
+   "BROOKLYN": 2606.3,
+   "QUEENS": 3422.0,
+   "BRONX": 2132.9,
+   "STATEN ISLAND": 1225.4
+  },
+  "counts": {
+   "MANHATTAN": 4939,
+   "BROOKLYN": 71309,
+   "QUEENS": 82316,
+   "BRONX": 31410,
+   "STATEN ISLAND": 6075
+  },
+  "QN_over_MN": 11.7
+ },
+ "Q049": {
+  "per100k": {
+   "MANHATTAN": 164.9,
+   "BROOKLYN": 853.6,
+   "QUEENS": 1286.7,
+   "BRONX": 646.7,
+   "STATEN ISLAND": 1150.6
+  },
+  "counts": {
+   "MANHATTAN": 2794,
+   "BROOKLYN": 23355,
+   "QUEENS": 30951,
+   "BRONX": 9524,
+   "STATEN ISLAND": 5704
+  },
+  "QN_over_MN": 7.8
+ },
+ "Q050": {
+  "per100k": {
+   "MANHATTAN": 332.7,
+   "BROOKLYN": 326.1,
+   "QUEENS": 86.0,
+   "BRONX": 200.4,
+   "STATEN ISLAND": 14.1
+  },
+  "counts": {
+   "MANHATTAN": 5636,
+   "BROOKLYN": 8921,
+   "QUEENS": 2068,
+   "BRONX": 2951,
+   "STATEN ISLAND": 70
+  },
+  "MN_over_QN": 3.9,
+  "MN_over_SI": 23.6
+ },
+ "Q051": {
+  "per100k": {
+   "MANHATTAN": 366.5,
+   "BROOKLYN": 365.2,
+   "QUEENS": 383.9,
+   "BRONX": 521.6,
+   "STATEN ISLAND": 1164.3
+  },
+  "counts": {
+   "MANHATTAN": 6210,
+   "BROOKLYN": 9993,
+   "QUEENS": 9235,
+   "BRONX": 7681,
+   "STATEN ISLAND": 5772
+  },
+  "SI_over_BK": 3.2
+ },
+ "Q052": {
+  "per100k": {
+   "MANHATTAN": 33.5,
+   "BROOKLYN": 41.8,
+   "QUEENS": 14.4,
+   "BRONX": 4.8,
+   "STATEN ISLAND": 1.8
+  },
+  "counts": {
+   "MANHATTAN": 568,
+   "BROOKLYN": 1144,
+   "QUEENS": 347,
+   "BRONX": 70,
+   "STATEN ISLAND": 9
+  },
+  "BK_over_BX": 8.7
+ },
+ "Q053": {
+  "counts": {
+   "MANHATTAN": 2,
+   "BROOKLYN": 24,
+   "QUEENS": 292,
+   "BRONX": 133,
+   "STATEN ISLAND": 1
+  },
+  "total": 452,
+  "QN_share_pct": 64.6,
+  "QN_BX_share_pct": 94.0
+ },
+ "Q054": {
+  "per100k": {
+   "MANHATTAN": 70.8,
+   "BROOKLYN": 22.2,
+   "QUEENS": 33.4,
+   "BRONX": 13.6,
+   "STATEN ISLAND": 11.7
+  },
+  "counts": {
+   "MANHATTAN": 1199,
+   "BROOKLYN": 608,
+   "QUEENS": 803,
+   "BRONX": 201,
+   "STATEN ISLAND": 58
+  },
+  "MN_share_pct": 41.8,
+  "MN_over_BX": 5.2,
+  "MN_over_SI": 6.1
+ },
+ "Q055": {
+  "by_hour": {
+   "0": 18499,
+   "1": 12296,
+   "2": 9090,
+   "3": 8026,
+   "4": 9268,
+   "5": 13154,
+   "6": 21418,
+   "7": 33216,
+   "8": 39138,
+   "9": 37788,
+   "10": 33369,
+   "11": 33408,
+   "12": 32008,
+   "13": 30607,
+   "14": 28568,
+   "15": 27057,
+   "16": 26857,
+   "17": 28882,
+   "18": 29407,
+   "19": 28695,
+   "20": 29611,
+   "21": 35226,
+   "22": 29961,
+   "23": 22608
+  },
+  "peak_hour": 8,
+  "min_hour": 3,
+  "peak_over_min": 4.9
+ },
+ "Q056": {
+  "per100k": {
+   "MANHATTAN": 12141.2,
+   "BROOKLYN": 9782.0,
+   "QUEENS": 4880.4,
+   "BRONX": 20545.0,
+   "STATEN ISLAND": 2774.0
+  },
+  "counts": {
+   "MANHATTAN": 205702,
+   "BROOKLYN": 267642,
+   "QUEENS": 117396,
+   "BRONX": 302557,
+   "STATEN ISLAND": 13752
+  },
+  "BX_over_SI": 7.4
+ },
+ "Q057": {
+  "n": 139424,
+  "counts": {
+   "PESTS": 73498,
+   "MOLD": 39820,
+   "GARBAGE/RECYCLING STORAGE": 21642,
+   "SEWAGE": 4464
+  },
+  "pests_share_pct": 52.7,
+  "mold_share_pct": 28.6
+ },
+ "Q058": {
+  "by_month": {
+   "1": 5711,
+   "2": 4568,
+   "3": 5093,
+   "4": 5216,
+   "5": 6020,
+   "6": 6079,
+   "7": 7174,
+   "8": 7925,
+   "9": 7733,
+   "10": 7815,
+   "11": 5131,
+   "12": 5033
+  },
+  "aug_over_feb": 1.73
+ },
+ "Q059": {
+  "n_heat": 351780,
+  "n_buildings": 42621,
+  "top1pct_buildings": 426,
+  "top1pct_share_pct": 23.2,
+  "missing_address": 0
+ },
+ "Q060": {
+  "address": "1040B EAST 217 STREET",
+  "borough": "BRONX",
+  "count": 2211,
+  "days_with_report": 138,
+  "second": {
+   "2800 CRESTON AVENUE": 1661
+  }
+ },
+ "Q061": {
+  "per100k": {
+   "MANHATTAN": 389.8,
+   "BROOKLYN": 258.5,
+   "QUEENS": 152.0,
+   "BRONX": 687.9,
+   "STATEN ISLAND": 50.2
+  },
+  "counts": {
+   "MANHATTAN": 6605,
+   "BROOKLYN": 7073,
+   "QUEENS": 3656,
+   "BRONX": 10131,
+   "STATEN ISLAND": 249
+  },
+  "BX_over_QN": 4.5,
+  "BX_share_pct": 36.6,
+  "BX_over_SI": 13.7
+ },
+ "Q062": {
+  "n": 26486,
+  "counts": {
+   "ELECTRIC/GAS RANGE": 16103,
+   "REFRIGERATOR": 10368,
+   "MICROWAVE": 15
+  },
+  "range_share_pct": 60.8
+ },
+ "Q063": {
+  "HPD_noaccess_pct": 27.1,
+  "by_problem_pct": {
+   "APPLIANCE": 45.1,
+   "ELECTRIC": 42.4,
+   "PLUMBING": 42.0,
+   "SAFETY": 39.9,
+   "FLOORING/STAIRS": 39.1,
+   "DOOR/WINDOW": 35.2
+  }
+ },
+ "Q064": {
+  "HPD_violation_pct_all": 14.1,
+  "by_problem_pct": {
+   "HEAT/HOT WATER": 4.0,
+   "APPLIANCE": 9.0,
+   "PLUMBING": 15.4,
+   "GENERAL": 16.6,
+   "ELECTRIC": 16.6,
+   "SAFETY": 20.2,
+   "DOOR/WINDOW": 20.6,
+   "UNSANITARY CONDITION": 22.7,
+   "WATER LEAK": 25.4,
+   "FLOORING/STAIRS": 26.0,
+   "PAINT/PLASTER": 26.0
+  }
+ },
+ "Q065": {
+  "address": "655 EAST 230 STREET",
+  "borough": "BRONX",
+  "rows": 47105,
+  "share_all_pct": 1.19,
+  "noise_res_rows": 47013,
+  "active_days": 128
+ },
+ "Q066": {
+  "share_NYC_noise_res_pct": 11.3,
+  "share_BX_noise_res_pct": 32.5
+ },
+ "Q067": {
+  "bronx_dec2025_all": 37472,
+  "bronx_dec2025_exSA": 9316,
+  "ratio": 4.02,
+  "bronx_jun2026_all": 7843
+ },
+ "Q068": {
+  "date": "2025-11-30",
+  "count": 2195,
+  "median_gap_sec": 39.5,
+  "hours_covered": 24,
+  "nov7_dec16_share_pct": 90.1
+ },
+ "Q069": {
+  "mobile_pct": 99.8,
+  "outcome_pct": {
+   "noevidence": 63.2,
+   "corrected": 21.6,
+   "notnecessary": 14.1,
+   "noentry": 1.1,
+   "summons": 0.0,
+   "arrest": 0.0,
+   "other": 0.0
+  }
+ },
+ "Q070": {
+  "address": "1869 83 STREET",
+  "borough": "BROOKLYN",
+  "rows": 8847,
+  "days_with_report": 364,
+  "days_in_data": 365,
+  "noise_res_pct": 99.8,
+  "per_day": 24.3
+ },
+ "Q071": {
+  "address": "5-47 50 AVENUE",
+  "borough": "QUEENS",
+  "rows": 7604,
+  "days": 343,
+  "per_day": 22.2,
+  "blocked_sidewalk_pct": 96.5
+ },
+ "Q072": {
+  "n": 2663,
+  "top_address": "78-15 PARSONS BOULEVARD",
+  "top_rows": 1645,
+  "share_pct": 61.8
+ },
+ "Q073": {
+  "n": 10971,
+  "n_addresses": 1997,
+  "top10_share_pct": 37.8,
+  "top1": {
+   "295 ST JOHNS PLACE": 946
+  }
+ },
+ "Q074": {
+  "n_addresses": 592939,
+  "rows_with_address": 3815958,
+  "top1pct_share_pct": 30.1,
+  "top0.1pct_share_pct": 11.3,
+  "single_report_addr_pct": 43.0
+ },
+ "Q075": {
+  "rows_in_repeat_groups_pct": 24.2,
+  "n_groups": 3327807,
+  "top_problems_pct": {
+   "Encampment": 56.1,
+   "Noise - Park": 55.9,
+   "Noise - Residential": 47.9,
+   "Traffic": 47.6,
+   "Noise - Helicopter": 44.4
+  }
+ },
+ "Q076": {
+  "n_nypd_exSA": 1674043,
+  "outcome_pct": {
+   "noevidence": 40.8,
+   "corrected": 25.3,
+   "notnecessary": 13.5,
+   "summons": 13.4,
+   "noentry": 3.0,
+   "notjuris": 1.2,
+   "enc_none": 0.9,
+   "other": 0.8,
+   "enc_found": 0.7,
+   "report": 0.3,
+   "arrest": 0.1,
+   "blank": 0.0
+  }
+ },
+ "Q077": {
+  "noise_res_summons_pct": 0.4,
+  "noise_res_n": 369581,
+  "noise_res_corrected_pct": 32.7
+ },
+ "Q078": {
+  "summons_pct_top": {
+   "Blocked Driveway": 33.0,
+   "Illegal Parking": 23.8,
+   "Abandoned Vehicle": 7.1,
+   "Drinking": 3.7,
+   "Noise - Park": 2.8
+  }
+ },
+ "Q079": {
+  "fireworks_noevidence_pct": 72.8,
+  "top_noevidence": {
+   "Illegal Fireworks": 72.8,
+   "Panhandling": 63.5,
+   "Noise - Vehicle": 54.0,
+   "Drinking": 54.0,
+   "Noise - Street/Sidewalk": 52.3
+  }
+ },
+ "Q080": {
+  "arrests": 1163,
+  "arrest_pct": 0.07,
+  "by_problem": {
+   "Noise - Street/Sidewalk": 419,
+   "Noise - Residential": 245,
+   "Panhandling": 119,
+   "Illegal Parking": 91,
+   "Non-Emergency Police Matter": 69
+  }
+ },
+ "Q081": {
+  "noise_res_noentry_pct": 12.7
+ },
+ "Q082": {
+  "encampment_found_pct": 36.0,
+  "encampment_none_pct": 45.8,
+  "n": 31133
+ },
+ "Q083": {
+  "corrected_by_hour_pct": {
+   "0": 37.2,
+   "1": 33.6,
+   "2": 30.2,
+   "3": 27.2,
+   "4": 26.1,
+   "5": 22.2,
+   "6": 21.7,
+   "7": 23.9,
+   "8": 25.9,
+   "9": 27.2,
+   "10": 29.0,
+   "11": 28.8,
+   "12": 30.3,
+   "13": 30.6,
+   "14": 30.3,
+   "15": 30.6,
+   "16": 32.8,
+   "17": 34.7,
+   "18": 36.5,
+   "19": 38.7,
+   "20": 40.2,
+   "21": 39.9,
+   "22": 39.8,
+   "23": 37.4
+  },
+  "max_hour": 20,
+  "min_hour": 6
+ },
+ "Q084": {
+  "summons_pct_by_borough": {
+   "BRONX": 28.4,
+   "BROOKLYN": 23.6,
+   "MANHATTAN": 22.8,
+   "QUEENS": 22.7,
+   "STATEN ISLAND": 19.0
+  }
+ },
+ "Q085": {
+  "median_hours": {
+   "Traffic": 0.66,
+   "Panhandling": 0.81,
+   "Illegal Fireworks": 0.91,
+   "Noise - Vehicle": 0.98,
+   "Noise - Commercial": 0.99,
+   "Noise - Park": 1.06,
+   "Drug Activity": 1.07,
+   "Encampment": 1.14,
+   "Noise - Street/Sidewalk": 1.14,
+   "Noise - Residential": 1.23,
+   "Non-Emergency Police Matter": 1.32,
+   "Drinking": 1.4,
+   "Illegal Parking": 1.52,
+   "Blocked Driveway": 1.65,
+   "Animal-Abuse": 1.84,
+   "Abandoned Vehicle": 2.3
+  },
+  "nypd_overall_median_h": 1.38
+ },
+ "Q086": {
+  "notfound_pct_by_agency": {
+   "DHS": 48.1,
+   "NYPD": 42.2,
+   "DSNY": 17.6,
+   "DEP": 10.3,
+   "DOHMH": 9.6,
+   "DPR": 6.3,
+   "DOT": 5.1,
+   "DOB": 1.4,
+   "DCWP": 0.0,
+   "HPD": 0.0,
+   "TLC": 0.0
+  }
+ },
+ "Q087": {
+  "DHS_n": 50650,
+  "declined_pct": 11.1,
+  "notfound_pct": 48.1,
+  "declined_incl_refused_pct": 13.8,
+  "accepted_pct": 2.6,
+  "categories_pct": {
+   "못 찾음": 48.1,
+   "접촉 시도·협의 중": 14.3,
+   "기타 안내": 13.8,
+   "도움 거절": 13.8,
+   "빈 값": 4.3,
+   "경찰로 넘김": 3.1,
+   "도움 받아들임": 2.6
+  }
+ },
+ "Q088": {
+  "dup_pct_overall": 5.0,
+  "top_problems_pct": {
+   "Rodent": 33.5,
+   "Water System": 32.7,
+   "HEAT/HOT WATER": 30.7,
+   "Water Maintenance": 27.8,
+   "Noise": 23.5
+  }
+ },
+ "Q089": {
+  "count": 12781,
+  "pct_of_DPR": 9.2,
+  "DPR_count": 12759,
+  "DPR_categories": {
+   "작업 완료": 38060,
+   "기타 안내": 33466,
+   "빈 값": 23295,
+   "작업 필요 없음": 15734,
+   "작업 지시 (1년 이상 걸릴 수 있음)": 12759,
+   "가 보니 없음": 8733,
+   "작업 지시 (120일 안)": 7216
+  }
+ },
+ "Q090": {
+  "count": 20186,
+  "summer_jun_aug_pct": 83.0
+ },
+ "Q091": {
+  "n_closed_valid": 3619281,
+  "within_1h_pct": 21.6,
+  "over_30d_pct": 5.4,
+  "median_h": 7.42
+ },
+ "Q092": {
+  "helicopter_n": 10971,
+  "closed": 0,
+  "status": {
+   "In Progress": 10971
+  },
+  "agency": "EDC",
+  "open_pct_top": {
+   "Construction Lead Dust": 100.0,
+   "Noise - Helicopter": 100.0,
+   "Lot Condition": 93.5,
+   "Root/Sewer/Sidewalk Condition": 86.0,
+   "Taxi Complaint": 78.0,
+   "Overgrown Tree/Branches": 67.4,
+   "For Hire Vehicle Complaint": 66.6,
+   "Unleashed Dog": 34.4
+  }
+ },
+ "Q093": {
+  "DOB_n": 117631,
+  "twice_noaccess_pct": 10.6,
+  "twice_count": 12472,
+  "categories_pct": {
+   "조치 필요 없음": 34.8,
+   "검토 후 종결": 20.1,
+   "소환장 발부": 11.0,
+   "두 번 가도 못 들어감": 10.6,
+   "기타": 7.1,
+   "한 번 못 들어감·거부": 6.6,
+   "처리 대기": 6.3,
+   "다른 신고로 처리": 3.2,
+   "빈 값": 0.2
+  }
+ },
+ "Q094": {
+  "share_pct_exSA": {
+   "ONLINE": 53.8,
+   "PHONE": 24.8,
+   "MOBILE": 21.4,
+   "OTHER": 0.1
+  },
+  "share_pct_all": {
+   "ONLINE": 53.1,
+   "PHONE": 24.5,
+   "MOBILE": 22.4,
+   "OTHER": 0.1
+  }
+ },
+ "Q095": {
+  "mobile_top": {
+   "Panhandling": 91.1,
+   "Illegal Parking": 46.4,
+   "Street Sign - Damaged": 45.9,
+   "Dirty Condition": 45.2,
+   "Encampment": 44.6
+  },
+  "phone_top": {
+   "Derelict Vehicles": 100.0,
+   "Dead Animal": 65.3,
+   "Overgrown Tree/Branches": 65.2,
+   "Lost Property": 63.4,
+   "Water Conservation": 61.3,
+   "Sewer": 60.8
+  }
+ },
+ "Q096": {
+  "by_borough_pct": {
+   "BRONX": {
+    "MOBILE": 20.2,
+    "ONLINE": 50.3,
+    "OTHER": 0.0,
+    "PHONE": 29.4
+   },
+   "BROOKLYN": {
+    "MOBILE": 22.9,
+    "ONLINE": 53.2,
+    "OTHER": 0.1,
+    "PHONE": 23.8
+   },
+   "MANHATTAN": {
+    "MOBILE": 21.9,
+    "ONLINE": 56.3,
+    "OTHER": 0.0,
+    "PHONE": 21.7
+   },
+   "QUEENS": {
+    "MOBILE": 21.4,
+    "ONLINE": 54.8,
+    "OTHER": 0.1,
+    "PHONE": 23.8
+   },
+   "STATEN ISLAND": {
+    "MOBILE": 12.2,
+    "ONLINE": 57.6,
+    "OTHER": 0.1,
+    "PHONE": 30.1
+   }
+  }
+ },
+ "Q097": {
+  "taxi_complaint": 10455,
+  "taxi_compliment": 113,
+  "ratio": 92.5
+ },
+ "Q098": {
+  "n": 6914,
+  "detail_pct": {
+   "Bag/Wallet": 49.2,
+   "Electronics/Phones": 27.7,
+   "Other": 12.5,
+   "Clothing/Glasses": 7.9
+  },
+  "taxi_location_pct": 97.9,
+  "airports_pct": 16.2
+ },
+ "Q099": {
+  "n": 21126,
+  "top_pct": {
+   "Tow Truck Company": 10.6,
+   "Other Store (Non-Food)": 7.5,
+   "Bodega, Deli, or Convenience Store": 7.1,
+   "Restaurant": 6.5
+  }
+ },
+ "Q100": {
+  "types_le10": 17,
+  "types_eq1": {
+   "Building Marshals office": 1,
+   "Trapping Pigeon": 1
+  },
+  "examples": {
+   "Squeegee": 5,
+   "Tanning": 9,
+   "Calorie Labeling": 8,
+   "Public Payphone Complaint": 5,
+   "Lifeguard": 30,
+   "Radioactive Material": 15,
+   "Public Toilet": 66
+  },
+  "chart": {
+   "Public Toilet": 66,
+   "Lifeguard": 30,
+   "Radioactive Material": 15,
+   "Tanning": 9,
+   "Calorie Labeling": 8,
+   "Squeegee": 5,
+   "Public Payphone Complaint": 5,
+   "Leaning Bar": 4,
+   "Trapping Pigeon": 1
+  }
+ },
+ "_check_diffs": []
+}

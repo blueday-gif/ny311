@@ -1,0 +1,2220 @@
+[
+  {
+    "id": "Q001",
+    "part": "숫자로 만나는 311",
+    "part_intro": "1년치 396만 건의 신고를 처음 펼쳤을 때 눈에 들어오는 숫자들부터 봅니다.",
+    "question": "뉴욕은 1년에 311에 몇 번 신고할까?",
+    "answer": "1년 동안 약 396만 건, 하루 평균 1만 건이 넘는다.",
+    "big_number": "396만 건",
+    "big_label": "1년 신고 수",
+    "method": "[B] 행 수를 센다(3,962,167). 기간은 created_date 2025-11-01 21:09 ~ 2026-10-31 21:09. 하루 평균은 FULL 363일 기준 일별 건수 평균.",
+    "chart": "큰 숫자 카드 + 월별 막대(created_date 월별 건수, 첫·끝 월은 부분 월 표시)",
+    "check_values": {
+      "total_rows": 3962167,
+      "first": "2025-11-01 21:09:28",
+      "last": "2026-10-31 21:09:02"
+    },
+    "caveat": "첫날(2025-11-01)과 마지막 날(2026-10-31)은 21시 무렵부터/까지만 있어 일 단위 비교에서 뺀다."
+  },
+  {
+    "id": "Q002",
+    "part": "숫자로 만나는 311",
+    "question": "311 신고는 몇 초에 한 번 들어올까?",
+    "answer": "평균 7.9초마다 한 건, 1분에 7.6건꼴이다.",
+    "big_number": "7.9초",
+    "big_label": "신고 1건당 간격",
+    "method": "[B] FULL 363일의 일별 건수 평균(10,885.5)을 구한 뒤 86,400초 ÷ 평균 = 7.9초, 평균 ÷ 1,440분 = 7.56건/분.",
+    "chart": "시계 모양 인포그래픽 또는 가로 막대: 1분·1시간·1일 단위 평균 건수",
+    "check_values": {
+      "full_days": 363,
+      "daily_avg": 10885.5,
+      "per_min": 7.56,
+      "seconds_per_report": 7.9
+    }
+  },
+  {
+    "id": "Q003",
+    "part": "숫자로 만나는 311",
+    "question": "뉴욕에서 가장 많이 신고되는 민원은?",
+    "answer": "불법주차가 61.8만 건으로 1위, 전체의 15.6%.",
+    "big_number": "15.6%",
+    "big_label": "불법주차 비중",
+    "method": "[B] problem별 건수를 세어 내림차순. 1위 Illegal Parking 618,157건 ÷ 전체 3,962,167.",
+    "chart": "가로 막대: 민원 유형 상위 10개 건수(한글 번역 라벨)",
+    "check_values": {
+      "Illegal Parking": 618157,
+      "Noise - Residential": 416594,
+      "HEAT/HOT WATER": 351780,
+      "Blocked Driveway": 196049,
+      "Noise - Street/Sidewalk": 174830,
+      "illegal_parking_share_pct": 15.6
+    }
+  },
+  {
+    "id": "Q004",
+    "part": "숫자로 만나는 311",
+    "question": "경찰이 받는 신고는 전체의 몇 %?",
+    "answer": "10건 중 4건 넘게(43.4%)가 경찰(NYPD) 몫이다.",
+    "big_number": "43.4%",
+    "big_label": "NYPD 담당 비중",
+    "method": "[B] agency별 건수 ÷ 전체. NYPD 1,721,092건(43.4%), HPD 22.9%, DSNY 9.1% 순.",
+    "chart": "가로 막대(또는 도넛): 기관별 신고 비중 상위 8개",
+    "check_values": {
+      "NYPD": 1721092,
+      "NYPD_pct": 43.4,
+      "HPD_pct": 22.9,
+      "DSNY_pct": 9.1
+    }
+  },
+  {
+    "id": "Q005",
+    "part": "숫자로 만나는 311",
+    "question": "민원 194종, 상위 10종이 차지하는 몫은?",
+    "answer": "상위 10종이 56.8%, 하위 97종은 다 합쳐도 1%가 안 된다.",
+    "big_number": "56.8%",
+    "big_label": "상위 10종 비중",
+    "method": "[B] problem 값 중 건수>0인 유형 수(194). 건수 내림차순으로 상위 10개 합 ÷ 전체 = 56.8%. 98위 이하(하위 97종) 합 ÷ 전체 = 0.95%.",
+    "chart": "누적 비율 곡선(파레토): x=유형 순위, y=누적 비중, 10위·97위 표시",
+    "check_values": {
+      "n_types": 194,
+      "top10_share_pct": 56.8,
+      "bottom97_share_pct": 0.95
+    },
+    "caveat": "problem 컬럼이 category형이면 value_counts에 0건 범주가 섞이므로 >0만 센다."
+  },
+  {
+    "id": "Q006",
+    "part": "숫자로 만나는 311",
+    "question": "신고가 가장 많이 쏟아진 날은?",
+    "answer": "2026년 2월 24일 폭설일, 하루 2.28만 건으로 평소 2배.",
+    "big_number": "2.1배",
+    "big_label": "평소 대비 최다일",
+    "method": "[B] FULL 일별 건수 최댓값: 2026-02-24 22,793건 ÷ 평균 10,885.5 = 2.09배. 그날 Snow or Ice 비중 49.9%.",
+    "chart": "선 그래프: 일별 신고 수 1년, 최다일 주석",
+    "check_values": {
+      "date": "2026-02-24",
+      "count": 22793,
+      "ratio_vs_avg": 2.09,
+      "snow_share_pct": 49.9
+    }
+  },
+  {
+    "id": "Q007",
+    "part": "숫자로 만나는 311",
+    "question": "1년 중 가장 조용했던 날은?",
+    "answer": "크리스마스. 6,213건으로 평소의 57%뿐이었다.",
+    "big_number": "57%",
+    "big_label": "크리스마스/평균",
+    "method": "[B] FULL 일별 건수 최솟값: 2025-12-25 6,213건 ÷ 평균 10,885.5 = 57.1%. 2위는 2026-01-18.",
+    "chart": "선 그래프(Q006과 같은 그림 재사용 가능) 또는 하위 10일 가로 막대",
+    "check_values": {
+      "date": "2025-12-25",
+      "count": 6213,
+      "pct_of_avg": 57.1,
+      "2nd_lowest": "2026-01-18"
+    }
+  },
+  {
+    "id": "Q008",
+    "part": "숫자로 만나는 311",
+    "question": "가장 바쁜 요일과 한가한 요일 차이는?",
+    "answer": "화요일 1만1,700건 대 토요일 9,847건, 1.19배.",
+    "big_number": "1.19배",
+    "big_label": "화요일/토요일",
+    "method": "[B] FULL 기간에서 created_dow(1=월…7=일)별 건수 ÷ 해당 요일 날짜 수. 화 11,699.9, 월 11,656.1, 토 9,846.7, 일 10,008.6.",
+    "chart": "세로 막대: 요일별 하루 평균 신고 수",
+    "check_values": {
+      "mon": 11656.1,
+      "tue": 11699.9,
+      "sat": 9846.7,
+      "sun": 10008.6,
+      "tue_over_sat": 1.19
+    }
+  },
+  {
+    "id": "Q009",
+    "part": "달력이 만든 민원",
+    "part_intro": "독립기념일, 크리스마스, 새해, 서머타임처럼 달력의 특별한 날이 신고 장부에 남긴 흔적입니다.",
+    "question": "독립기념일 불꽃놀이 신고는 평소 몇 배?",
+    "answer": "7월 4일 하루 2,257건, 1년 하루 평균의 75배.",
+    "big_number": "75배",
+    "big_label": "7/4 ÷ 하루 평균",
+    "method": "[B] problem=='Illegal Fireworks'. FULL 363일 일별 건수(없는 날 0) 평균 30.0. 2026-07-04 2,257건 ÷ 30.0 = 75.3배. (중앙값은 4건)",
+    "chart": "선 그래프: 불꽃놀이 신고 일별 건수, 7/4 주석",
+    "check_values": {
+      "jul4": 2257,
+      "daily_avg": 30.0,
+      "ratio": 75.3,
+      "jul5": 1688,
+      "median_day": 4.0
+    }
+  },
+  {
+    "id": "Q010",
+    "part": "달력이 만든 민원",
+    "question": "불꽃놀이 신고는 언제 몰릴까?",
+    "answer": "1년 치의 66%가 6월 15일~7월 10일, 한 달 안에 몰린다.",
+    "big_number": "66%",
+    "big_label": "6/15~7/10 비중",
+    "method": "[B] problem=='Illegal Fireworks' 전체 10,891건 중 date가 2026-06-15~2026-07-10인 비율 = 66.1%. 7/3~7/5 사흘만 41.1%.",
+    "chart": "주별 막대: 불꽃놀이 신고 주별 건수, 해당 기간 음영",
+    "check_values": {
+      "total": 10891,
+      "jun15_jul10_pct": 66.1,
+      "jul3_5_pct": 41.1
+    }
+  },
+  {
+    "id": "Q011",
+    "part": "달력이 만든 민원",
+    "question": "7월 4일 밤, 불꽃 신고 최고조는 몇 시?",
+    "answer": "밤 9시대에 739건. 9~10시 두 시간이 하루의 57%.",
+    "big_number": "밤 9시",
+    "big_label": "피크 시각",
+    "method": "[B] problem=='Illegal Fireworks' & date==2026-07-04, created_hour별 건수. 21시 739, 22시 545, 20시 281, 23시 246. 21~22시 합 ÷ 그날 합 = 56.9%.",
+    "chart": "세로 막대: 7월 4일 시간대별 불꽃놀이 신고",
+    "check_values": {
+      "peak_hour": 21,
+      "peak_count": 739,
+      "h20_23": {
+        "20": 281,
+        "21": 739,
+        "22": 545,
+        "23": 246
+      },
+      "h21_22_share_pct": 56.9
+    }
+  },
+  {
+    "id": "Q012",
+    "part": "달력이 만든 민원",
+    "question": "크리스마스에 오히려 늘어난 민원은?",
+    "answer": "이웃 소음. 평소 목요일보다 1.6배 많았다.",
+    "big_number": "1.6배",
+    "big_label": "이웃 소음 성탄/평소",
+    "method": "[B] SA 제외. 비교 기준 = 2025-11~2026-01 사이 목요일(created_dow==4) 중 추수감사절(11/27)·성탄(12/25)을 뺀 11일의 problem별 하루 평균. 2025-12-25(목) Noise - Residential 1,328건 ÷ 829.7 = 1.60배. 같은 방식 불법주차 0.73배, 난방 0.54배.",
+    "chart": "가로 막대: 주요 민원별 '성탄절 ÷ 평소 목요일' 비율(1 기준선)",
+    "check_values": {
+      "basis": "Thursdays Nov2025-Jan2026 excl Thanksgiving & Christmas, n_days=11",
+      "noise_res": {
+        "xmas": 1328,
+        "thu_avg": 829.7,
+        "ratio": 1.6
+      },
+      "heat": {
+        "xmas": 1070,
+        "thu_avg": 1978.8,
+        "ratio": 0.54
+      },
+      "illegal_parking": {
+        "xmas": 1196,
+        "thu_avg": 1649.2,
+        "ratio": 0.73
+      },
+      "xmas_noise_res_peak_hour": 0
+    },
+    "caveat": "성탄 이브 밤(성탄 0시대)이 그날 이웃 소음의 피크다. 겨울 목요일끼리 비교해야 계절 효과가 섞이지 않는다."
+  },
+  {
+    "id": "Q013",
+    "part": "달력이 만든 민원",
+    "question": "크리스마스에 사라진 민원은?",
+    "answer": "쓰레기 미수거 신고가 단 1건. 평소 목요일엔 95건.",
+    "big_number": "1건",
+    "big_label": "성탄 미수거 신고",
+    "method": "[B] Q012와 같은 비교 기준. problem=='Missed Collection' 성탄 1건 vs 평소 목요일 평균 94.7건(0.01배). Street Condition 0.22배.",
+    "chart": "Q012 그림의 아래쪽 끝(감소 민원)을 강조한 가로 막대",
+    "check_values": {
+      "missed_collection": {
+        "xmas": 1,
+        "thu_avg": 94.7,
+        "ratio": 0.01
+      },
+      "street_condition": {
+        "xmas": 40,
+        "thu_avg": 185.9,
+        "ratio": 0.22
+      }
+    },
+    "caveat": "성탄절은 청소국 수거가 쉬는 날이라 '미수거' 개념 자체가 없다는 해석을 함께 쓴다."
+  },
+  {
+    "id": "Q014",
+    "part": "달력이 만든 민원",
+    "question": "새해 첫 1시간, 불꽃 신고는 평소 몇 배?",
+    "answer": "1월 1일 0시대 94건, 평소 자정 1시간의 25배.",
+    "big_number": "25배",
+    "big_label": "새해 0시 ÷ 평소 0시",
+    "method": "[B] problem=='Illegal Fireworks' & created_hour==0. FULL 363일의 0시대 일별 건수 평균 3.7. 2026-01-01 0시대 94건 ÷ 3.7 = 25.4배. 그 1시간 전체 신고 501건 중 이웃 소음 144, 불꽃 94, 불법주차 73.",
+    "chart": "가로 막대: 2026-01-01 0시대 민원 유형 상위 5개",
+    "check_values": {
+      "fireworks_0h_jan1": 94,
+      "fireworks_0h_avg": 3.7,
+      "ratio": 25.4,
+      "all_reports_0h_jan1": 501,
+      "top_problems": {
+        "Noise - Residential": 144,
+        "Illegal Fireworks": 94,
+        "Illegal Parking": 73
+      }
+    }
+  },
+  {
+    "id": "Q015",
+    "part": "달력이 만든 민원",
+    "question": "서머타임 시작일, 새벽 2시 신고는?",
+    "answer": "딱 1건. 시계가 2시를 건너뛰어 평소 169건이 사라졌다.",
+    "big_number": "1건",
+    "big_label": "3/8 새벽 2시대",
+    "method": "[B] date==2026-03-08의 created_hour별 건수: 1시 329, 2시 1, 3시 228. 비교: FULL 일별 2시대 건수 평균 169.0.",
+    "chart": "세로 막대: 3월 8일 0~6시 시간대별 건수 vs 평소 평균(점선)",
+    "check_values": {
+      "mar8_hour2": 1,
+      "avg_hour2": 169.0,
+      "mar8_hour1": 329,
+      "mar8_hour3": 228
+    },
+    "caveat": "남은 1건은 시스템 기록 오류로 보인다. 가을 서머타임 해제일(11/1)은 데이터 끝 이후라 없다."
+  },
+  {
+    "id": "Q016",
+    "part": "달력이 만든 민원",
+    "question": "이웃 소음 신고가 가장 많았던 날은?",
+    "answer": "2026년 6월 21일, 2,375건으로 평소의 2.3배.",
+    "big_number": "2.3배",
+    "big_label": "최다일/평균",
+    "method": "[B] SA 제외. problem=='Noise - Residential' FULL 일별 건수. 최댓값 2026-06-21 2,375 ÷ 평균 1,012.2 = 2.35배. 상위 5일: 6/21, 5/16, 6/28, 5/31, 5/17 (모두 초여름 주말).",
+    "chart": "달력 히트맵: 날짜별 이웃 소음 건수(SA 제외)",
+    "check_values": {
+      "max_date": "2026-06-21",
+      "max": 2375,
+      "avg": 1012.2,
+      "ratio": 2.35,
+      "top5": {
+        "2026-06-21": 2375,
+        "2026-05-16": 2147,
+        "2026-06-28": 2091,
+        "2026-05-31": 2073,
+        "2026-05-17": 1976
+      }
+    },
+    "caveat": "SA를 빼지 않으면 2025-11~12월 날짜들이 상위를 차지한다(Q065~Q068 참고). 6/21은 일요일로 토요일 밤 새벽분이 포함된다."
+  },
+  {
+    "id": "Q017",
+    "part": "날씨가 바꾸는 민원",
+    "part_intro": "기온과 눈보라가 어떤 민원은 몇 배로 키우고, 어떤 민원은 그대로 두는지 비교합니다.",
+    "question": "길거리 소음은 더운 날 몇 배로 늘까?",
+    "answer": "기온 25도 넘는 날이 영하인 날의 5.7배다.",
+    "big_number": "5.7배",
+    "big_label": "25도+ ÷ 영하",
+    "method": "[B] SA 제외. problem=='Noise - Street/Sidewalk'. TEMP 구간(일평균 기온 °C: <0, 0-10, 10-20, 20-25, 25+, 왼쪽 포함)으로 FULL 363일을 나누고 구간별 '하루 평균 건수'를 낸다. <0: 138.7, 0-10: 252.4, 10-20: 505.0, 20-25: 783.1, 25+: 791.1. 일별 건수-기온 상관 0.65.",
+    "chart": "세로 막대: 기온 구간별 하루 평균 길거리 소음 신고",
+    "check_values": {
+      "by_bin": {
+        "<0": 138.7,
+        "0-10": 252.4,
+        "10-20": 505.0,
+        "20-25": 783.1,
+        "25+": 791.1
+      },
+      "corr": 0.65,
+      "ratio_25_vs_0": 5.7
+    }
+  },
+  {
+    "id": "Q018",
+    "part": "날씨가 바꾸는 민원",
+    "question": "이웃집 소음도 날씨를 탈까?",
+    "answer": "거의 안 탄다. 25도+ 날과 영하인 날이 1.03배 차이.",
+    "big_number": "1.03배",
+    "big_label": "25도+ ÷ 영하",
+    "method": "[B] SA 제외. problem=='Noise - Residential'. TEMP 구간(일평균 기온 °C: <0, 0-10, 10-20, 20-25, 25+, 왼쪽 포함)으로 FULL 363일을 나누고 구간별 '하루 평균 건수'를 낸다. <0: 922.6, 0-10: 975.8, 10-20: 1,080.2, 20-25: 1,071.1, 25+: 947.0. 상관 0.13.",
+    "chart": "Q017과 나란히 놓는 두 줄 막대(길거리 vs 이웃집), 영하=1로 지수화",
+    "check_values": {
+      "by_bin": {
+        "<0": 922.6,
+        "0-10": 975.8,
+        "10-20": 1080.2,
+        "20-25": 1071.1,
+        "25+": 947.0
+      },
+      "corr": 0.13,
+      "ratio_25_vs_0": 1.03
+    },
+    "caveat": "SA를 빼지 않으면 겨울 값이 크게 부풀어 '추울수록 많다'로 잘못 보인다."
+  },
+  {
+    "id": "Q019",
+    "part": "날씨가 바꾸는 민원",
+    "question": "소화전 물놀이 신고는 더운 날 몇 배?",
+    "answer": "25도 넘는 날 하루 122건, 선선한 날의 4.4배.",
+    "big_number": "4.4배",
+    "big_label": "25도+ ÷ 10~20도",
+    "method": "[B] SA 제외. problem_detail ∈ {'Hydrant Running (WC3)','Hydrant Running Full (WA4)','Illegal Use Of A Hydrant (CIN)'}. TEMP 구간(일평균 기온 °C: <0, 0-10, 10-20, 20-25, 25+, 왼쪽 포함)으로 FULL 363일을 나누고 구간별 '하루 평균 건수'를 낸다. <0: 33.0, 0-10: 28.7, 10-20: 27.6, 20-25: 70.3, 25+: 121.6.",
+    "chart": "세로 막대: 기온 구간별 하루 평균 소화전 물 흐름 신고",
+    "check_values": {
+      "by_bin": {
+        "<0": 33.0,
+        "0-10": 28.7,
+        "10-20": 27.6,
+        "20-25": 70.3,
+        "25+": 121.6
+      },
+      "corr": 0.31,
+      "ratio_25_vs_10_20": 4.4
+    },
+    "caveat": "겨울 값(33건)은 동파·고장 누수가 섞인 것으로, 여름 증가분이 '물놀이' 몫이다."
+  },
+  {
+    "id": "Q020",
+    "part": "날씨가 바꾸는 민원",
+    "question": "정전 신고는 언제 많을까?",
+    "answer": "너무 춥거나 너무 더울 때. 양 끝이 중간의 1.7배.",
+    "big_number": "1.7배",
+    "big_label": "영하 ÷ 20~25도",
+    "method": "[B] SA 제외. problem_detail=='POWER OUTAGE'(HPD). TEMP 구간(일평균 기온 °C: <0, 0-10, 10-20, 20-25, 25+, 왼쪽 포함)으로 FULL 363일을 나누고 구간별 '하루 평균 건수'를 낸다. <0: 36.9, 0-10: 24.3, 10-20: 24.0, 20-25: 21.7, 25+: 36.0. U자 모양.",
+    "chart": "세로 막대(U자): 기온 구간별 하루 평균 정전 신고",
+    "check_values": {
+      "by_bin": {
+        "<0": 36.9,
+        "0-10": 24.3,
+        "10-20": 24.0,
+        "20-25": 21.7,
+        "25+": 36.0
+      },
+      "corr": -0.18,
+      "ratio_cold_vs_20_25": 1.7,
+      "ratio_hot_vs_20_25": 1.66
+    }
+  },
+  {
+    "id": "Q021",
+    "part": "날씨가 바꾸는 민원",
+    "question": "길에서 술 마신다는 신고, 여름엔 몇 배?",
+    "answer": "25도+ 날 하루 20건, 영하인 날의 4.5배.",
+    "big_number": "4.5배",
+    "big_label": "25도+ ÷ 영하",
+    "method": "[B] SA 제외. problem=='Drinking'. TEMP 구간(일평균 기온 °C: <0, 0-10, 10-20, 20-25, 25+, 왼쪽 포함)으로 FULL 363일을 나누고 구간별 '하루 평균 건수'를 낸다. <0: 4.4, 0-10: 6.7, 10-20: 12.7, 20-25: 19.1, 25+: 19.9. 상관 0.67.",
+    "chart": "세로 막대: 기온 구간별 하루 평균 음주 신고",
+    "check_values": {
+      "by_bin": {
+        "<0": 4.4,
+        "0-10": 6.7,
+        "10-20": 12.7,
+        "20-25": 19.1,
+        "25+": 19.9
+      },
+      "corr": 0.67,
+      "ratio_25_vs_0": 4.5
+    }
+  },
+  {
+    "id": "Q022",
+    "part": "날씨가 바꾸는 민원",
+    "question": "노숙인 텐트 신고는 따뜻할 때 늘까?",
+    "answer": "그렇다. 25도+ 날이 영하인 날의 2.6배.",
+    "big_number": "2.6배",
+    "big_label": "25도+ ÷ 영하",
+    "method": "[B] SA 제외. problem=='Encampment'. TEMP 구간(일평균 기온 °C: <0, 0-10, 10-20, 20-25, 25+, 왼쪽 포함)으로 FULL 363일을 나누고 구간별 '하루 평균 건수'를 낸다. <0: 65.2, 0-10: 109.8, 10-20: 141.0, 20-25: 166.8, 25+: 170.3. 상관 0.66.",
+    "chart": "세로 막대: 기온 구간별 하루 평균 텐트 신고",
+    "check_values": {
+      "by_bin": {
+        "<0": 65.2,
+        "0-10": 109.8,
+        "10-20": 141.0,
+        "20-25": 166.8,
+        "25+": 170.3
+      },
+      "corr": 0.66,
+      "ratio_25_vs_0": 2.6
+    }
+  },
+  {
+    "id": "Q023",
+    "part": "날씨가 바꾸는 민원",
+    "question": "1년 눈 민원의 몇 %가 단 이틀에?",
+    "answer": "28%. 2월 23~24일 폭설 이틀에 1.8만 건이 몰렸다.",
+    "big_number": "28%",
+    "big_label": "2/23~24 비중",
+    "method": "[B] problem=='Snow or Ice' 전체 63,941건. date 2026-02-23 6,524 + 2026-02-24 11,370 = 17,894 → 28.0%. 눈 민원이 1건 이상 있던 날은 102일.",
+    "chart": "일별 막대: 눈 민원 일별 건수(12~3월), 상위 이틀 강조",
+    "check_values": {
+      "total": 63941,
+      "feb23": 6524,
+      "feb24": 11370,
+      "two_day_share_pct": 28.0,
+      "days_with_any": 102
+    }
+  },
+  {
+    "id": "Q024",
+    "part": "날씨가 바꾸는 민원",
+    "question": "눈 민원, 1인당 가장 많은 자치구는?",
+    "answer": "스태튼아일랜드. 인구 대비 맨해튼의 11배.",
+    "big_number": "11배",
+    "big_label": "SI ÷ 맨해튼(1인당)",
+    "method": "[B] problem=='Snow or Ice' 자치구별 건수 ÷ POP × 10만. SI 3,072.3, 퀸스 752.7, 브루클린 708.0, 브롱크스 440.4, 맨해튼 280.2.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 눈 민원",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 280.2,
+        "BROOKLYN": 708.0,
+        "QUEENS": 752.7,
+        "BRONX": 440.4,
+        "STATEN ISLAND": 3072.3
+      },
+      "counts": {
+        "MANHATTAN": 4748,
+        "BROOKLYN": 19371,
+        "QUEENS": 18105,
+        "BRONX": 6485,
+        "STATEN ISLAND": 15231
+      },
+      "SI_over_MN": 11.0
+    }
+  },
+  {
+    "id": "Q025",
+    "part": "날씨가 바꾸는 민원",
+    "question": "나무가 가장 많이 쓰러진 날은?",
+    "answer": "폭설 첫날 2월 23일, 1,496건으로 평소의 12배.",
+    "big_number": "12배",
+    "big_label": "최다일 ÷ 평균",
+    "method": "[B] SA 제외. problem=='Damaged Tree' FULL 일별 건수. 최댓값 2026-02-23 1,496 ÷ 평균 122.1 = 12.3배. 그날 '가지 부러져 떨어짐' 724, '나무 통째로 쓰러짐' 572.",
+    "chart": "선 그래프: 나무 피해 신고 일별 건수, 2/23 주석",
+    "check_values": {
+      "max_date": "2026-02-23",
+      "max": 1496,
+      "avg": 122.1,
+      "ratio": 12.3,
+      "detail_top_that_day": {
+        "Branch or Limb Has Fallen Down": 724,
+        "Entire Tree Has Fallen Down": 572,
+        "Branch Cracked and Will Fall": 141
+      }
+    }
+  },
+  {
+    "id": "Q026",
+    "part": "날씨가 바꾸는 민원",
+    "question": "포트홀 신고가 가장 많은 달은?",
+    "answer": "3월. 2.3만 건으로 11월의 12배다.",
+    "big_number": "12배",
+    "big_label": "3월 ÷ 11월",
+    "method": "[B] problem=='Street Condition' & problem_detail=='Pothole', created_date 월별 건수. 3월 22,761 ÷ 11월 1,845 = 12.3배. 4월 11,371.",
+    "chart": "세로 막대: 월별 포트홀 신고(11월~10월 순서)",
+    "check_values": {
+      "by_month": {
+        "1": 3215,
+        "2": 4612,
+        "3": 22761,
+        "4": 11371,
+        "5": 7102,
+        "6": 6053,
+        "7": 4632,
+        "8": 4278,
+        "9": 3640,
+        "10": 3325,
+        "11": 1845,
+        "12": 2910
+      },
+      "mar": 22761,
+      "nov": 1845,
+      "mar_over_nov": 12.3
+    },
+    "caveat": "11월 값은 2025-11(첫날 부분) 한 달. 얼었다 녹는 늦겨울 뒤 폭증하는 패턴으로 해석."
+  },
+  {
+    "id": "Q027",
+    "part": "소음의 다른 얼굴들",
+    "part_intro": "밤 파티 소음 말고도 개, 헬기, 아이스크림 트럭, 공사장까지 소음에는 여러 얼굴이 있습니다.",
+    "question": "이웃 소음, 음악과 '쿵쿵' 중 뭐가 많을까?",
+    "answer": "음악·파티 50%, 쿵쿵 소리 40%. 말소리는 8%뿐.",
+    "big_number": "50%",
+    "big_label": "음악·파티 비중",
+    "method": "[B] SA 제외. problem=='Noise - Residential'(369,581건)의 problem_detail 비중. Loud Music/Party 49.6, Banging/Pounding 40.4, Loud Talking 8.0, Loud Television 2.0.",
+    "chart": "100% 누적 가로 막대 또는 도넛: 이웃 소음 세부 유형",
+    "check_values": {
+      "n_ex_SA": 369581,
+      "share_pct": {
+        "Loud Music/Party": 49.6,
+        "Banging/Pounding": 40.4,
+        "Loud Talking": 8.0,
+        "Loud Television": 2.0
+      }
+    },
+    "caveat": "SA를 포함하면 음악·파티 비중이 55%로 달라진다."
+  },
+  {
+    "id": "Q028",
+    "part": "소음의 다른 얼굴들",
+    "question": "개 짖는 소리 신고는 몇 시에 많을까?",
+    "answer": "오전 9시가 최고. 파티 소음과 달리 낮 민원이다.",
+    "big_number": "오전 9시",
+    "big_label": "개 짖음 피크",
+    "method": "[B] SA 제외. problem=='Noise' & problem_detail ∈ {'Noise, Barking Dog (NR5)','Dog'}(8,588건) created_hour별 건수: 피크 9시 544. 22~03시 비중 17.0%. 비교: 이웃 소음 중 Loud Music/Party 피크 22시, 22~03시 비중 52.7%.",
+    "chart": "두 선 그래프(각각 합=100%로 정규화): 시간대별 개 짖음 vs 파티 소음",
+    "check_values": {
+      "n": 8588,
+      "peak_hour": 9,
+      "peak": 544,
+      "night22_03_share_pct": 17.0,
+      "party_peak_hour": 22,
+      "party_night_share_pct": 52.7
+    }
+  },
+  {
+    "id": "Q029",
+    "part": "소음의 다른 얼굴들",
+    "question": "차 소음 1위는 경적일까, 음악일까?",
+    "answer": "차 안 음악이 42%로 경적(39%)보다 많다.",
+    "big_number": "42%",
+    "big_label": "차량 음악 비중",
+    "method": "[B] SA 제외. problem=='Noise - Vehicle'(52,438건)의 problem_detail 비중. Car/Truck Music 42.1, Car/Truck Horn 38.5, Engine Idling 19.4.",
+    "chart": "가로 막대 3개: 차량 소음 세부 유형 비중",
+    "check_values": {
+      "n": 52438,
+      "share_pct": {
+        "Car/Truck Music": 42.1,
+        "Car/Truck Horn": 38.5,
+        "Engine Idling": 19.4
+      }
+    }
+  },
+  {
+    "id": "Q030",
+    "part": "소음의 다른 얼굴들",
+    "question": "아이스크림 트럭 소음 신고는 언제?",
+    "answer": "3~10월에 99%. 6월이 가장 많고 저녁 8시가 피크.",
+    "big_number": "99%",
+    "big_label": "3~10월 비중",
+    "method": "[B] SA 제외. problem_detail ∈ {'Noise, Ice Cream Truck (NR4)','Ice Cream Truck'}(1,111건). 월(3~10월) 비중 98.6%. 월별 최다 6월 195. created_hour 피크 20시.",
+    "chart": "세로 막대: 월별 아이스크림 트럭 소음 신고",
+    "check_values": {
+      "n": 1111,
+      "mar_oct_pct": 98.6,
+      "by_month": {
+        "1": 3,
+        "2": 3,
+        "3": 88,
+        "4": 178,
+        "5": 192,
+        "6": 195,
+        "7": 96,
+        "8": 145,
+        "9": 113,
+        "10": 88,
+        "11": 9,
+        "12": 1
+      },
+      "peak_hour": 20
+    }
+  },
+  {
+    "id": "Q031",
+    "part": "소음의 다른 얼굴들",
+    "question": "헬기 소음, 맨해튼은 브롱크스의 몇 배?",
+    "answer": "인구 대비 62배. 맨해튼이 압도적이다.",
+    "big_number": "62배",
+    "big_label": "맨해튼 ÷ 브롱크스(1인당)",
+    "method": "[B] problem=='Noise - Helicopter'(10,971건) 자치구별 ÷ POP × 10만. 맨해튼 409.9, 브루클린 95.1, 퀸스 51.1, SI 20.0, 브롱크스 6.6.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 헬기 소음 신고",
+    "check_values": {
+      "n": 10971,
+      "per100k": {
+        "MANHATTAN": 409.9,
+        "BROOKLYN": 95.1,
+        "QUEENS": 51.1,
+        "BRONX": 6.6,
+        "STATEN ISLAND": 20.0
+      },
+      "counts": {
+        "MANHATTAN": 6945,
+        "BROOKLYN": 2601,
+        "QUEENS": 1229,
+        "BRONX": 97,
+        "STATEN ISLAND": 99
+      },
+      "MN_over_BX": 62.1
+    },
+    "caveat": "소수 주소의 반복 신고 영향이 크다(Q073: 상위 10개 주소가 38%)."
+  },
+  {
+    "id": "Q032",
+    "part": "소음의 다른 얼굴들",
+    "question": "헬기 소음 신고 절반이 한 동네에서?",
+    "answer": "44%가 맨해튼 어퍼웨스트사이드(7번 커뮤니티보드).",
+    "big_number": "44%",
+    "big_label": "MN CB7 비중",
+    "method": "[B] problem=='Noise - Helicopter'. community_board=='07 MANHATTAN' 4,849건 ÷ 10,971 = 44.2%. 다음은 08 BROOKLYN 1,793, 06 MANHATTAN 1,444.",
+    "chart": "가로 막대: 커뮤니티보드별 헬기 소음 신고 상위 8곳",
+    "check_values": {
+      "cb07_manhattan": 4849,
+      "share_pct": 44.2,
+      "top_cbs": {
+        "07 MANHATTAN": 4849,
+        "08 BROOKLYN": 1793,
+        "06 MANHATTAN": 1444,
+        "10 QUEENS": 619
+      }
+    }
+  },
+  {
+    "id": "Q033",
+    "part": "소음의 다른 얼굴들",
+    "question": "공사 소음 신고 1위 사유는?",
+    "answer": "허가 시간 밖 공사가 25%. 신고 피크는 밤 10시.",
+    "big_number": "25%",
+    "big_label": "시간 외 공사 비중",
+    "method": "[B] SA 제외. problem=='Noise'(환경보호국 DEP 소음, 61,181건)의 problem_detail 중 'Noise: Construction Before/After Hours (NM1)' 15,321건 = 25.0%. 이 항목의 created_hour 피크 22시.",
+    "chart": "가로 막대: DEP 소음 세부 유형 상위 8개",
+    "check_values": {
+      "dep_noise_n": 61181,
+      "afterhours_n": 15321,
+      "afterhours_share_pct": 25.0,
+      "afterhours_peak_hour": 22,
+      "top_details": {
+        "Noise: Construction Before/After Hours (NM1)": 15321,
+        "Construction": 7575,
+        "Noise, Barking Dog (NR5)": 6077,
+        "Noise: Alarms (NR3)": 5691
+      }
+    },
+    "caveat": "'Construction'(7,575)은 다른 분류 체계의 일반 공사 소음이라 따로 둔다."
+  },
+  {
+    "id": "Q034",
+    "part": "소음의 다른 얼굴들",
+    "question": "주말에 가장 몰리는 소음은?",
+    "answer": "공원 소음. 절반(50%)이 토·일에 들어온다.",
+    "big_number": "50%",
+    "big_label": "공원 소음 주말 비중",
+    "method": "[B] SA 제외. problem이 'Noise'로 시작하는 8종 각각 created_dow∈{6,7} 비중. 공원 50.0, 상업시설 47.4, 길거리 44.7, 이웃 40.5, 차량 34.6, DEP 25.4, 헬기 23.6, 종교시설 20.7. 균등 기준 28.6%(2/7).",
+    "chart": "가로 막대: 소음 유형별 주말 비중, 28.6% 기준선",
+    "check_values": {
+      "weekend_share_pct": {
+        "Noise": 25.4,
+        "Noise - Commercial": 47.4,
+        "Noise - Helicopter": 23.6,
+        "Noise - House of Worship": 20.7,
+        "Noise - Park": 50.0,
+        "Noise - Residential": 40.5,
+        "Noise - Street/Sidewalk": 44.7,
+        "Noise - Vehicle": 34.6
+      },
+      "expected_pct": 28.6
+    }
+  },
+  {
+    "id": "Q035",
+    "part": "동물의 도시",
+    "part_intro": "쥐와 비둘기부터 너구리, 사슴, 수탉까지 뉴욕 신고 장부에 등장하는 동물들입니다.",
+    "question": "죽은 동물 신고 1위는 어떤 동물?",
+    "answer": "고양이. 동물 사체 신고의 38%를 차지한다.",
+    "big_number": "38%",
+    "big_label": "고양이 비중",
+    "method": "[B] problem=='Dead Animal'(11,053건) problem_detail 비중. Cat 4,220(38.2%), Raccoon 1,362, Rat or Mouse 1,356, Bird 1,001, Other 882, Squirrel 809, Opossum 793, Dog 544, Deer 86.",
+    "chart": "가로 막대: 사체 신고 동물 종류별 건수",
+    "check_values": {
+      "n": 11053,
+      "counts": {
+        "Cat": 4220,
+        "Raccoon": 1362,
+        "Rat or Mouse": 1356,
+        "Bird": 1001,
+        "Other": 882,
+        "Squirrel": 809,
+        "Opossum": 793,
+        "Dog": 544,
+        "Deer": 86
+      },
+      "cat_share_pct": 38.2
+    }
+  },
+  {
+    "id": "Q036",
+    "part": "동물의 도시",
+    "question": "너구리 사체 신고, 어디서 가장 많을까?",
+    "answer": "스태튼아일랜드. 인구 대비 맨해튼의 23배.",
+    "big_number": "23배",
+    "big_label": "SI ÷ 맨해튼(1인당)",
+    "method": "[B] problem=='Dead Animal' & problem_detail=='Raccoon', 자치구별 ÷ POP × 10만. SI 58.3, 퀸스 21.2, 브루클린 13.8, 브롱크스 9.7, 맨해튼 2.5.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 너구리 사체 신고",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 2.5,
+        "BROOKLYN": 13.8,
+        "QUEENS": 21.2,
+        "BRONX": 9.7,
+        "STATEN ISLAND": 58.3
+      },
+      "counts": {
+        "MANHATTAN": 43,
+        "BROOKLYN": 377,
+        "QUEENS": 510,
+        "BRONX": 143,
+        "STATEN ISLAND": 289
+      },
+      "SI_over_MN": 23.3
+    }
+  },
+  {
+    "id": "Q037",
+    "part": "동물의 도시",
+    "question": "뉴욕에 사슴이? 사체 신고는 어디서?",
+    "answer": "86건 중 79%가 스태튼아일랜드에서 나왔다.",
+    "big_number": "79%",
+    "big_label": "SI 비중",
+    "method": "[B] problem=='Dead Animal' & problem_detail=='Deer' 86건, 자치구별: SI 68, 퀸스 7, 브롱크스 6, 브루클린 3, 맨해튼 2 → SI 79.1%.",
+    "chart": "지도 점 또는 가로 막대: 사슴 사체 신고 위치/자치구",
+    "check_values": {
+      "counts": {
+        "MANHATTAN": 2,
+        "BROOKLYN": 3,
+        "QUEENS": 7,
+        "BRONX": 6,
+        "STATEN ISLAND": 68
+      },
+      "SI_share_pct": 79.1,
+      "total": 86
+    }
+  },
+  {
+    "id": "Q038",
+    "part": "동물의 도시",
+    "question": "몰래 키우다 신고된 동물 1위는?",
+    "answer": "수탉. 불법 반려동물 신고의 61%다.",
+    "big_number": "61%",
+    "big_label": "수탉 비중",
+    "method": "[B] problem=='Illegal Animal Kept as Pet'(623건) problem_detail: Rooster 382(61.3%), Other 121, Farm Animal 79, Snake 18, Ferret 15, Monkey 5, Iguana 2. 수탉 1인당(10만 명당): SI 14.9, 브롱크스 6.2, 맨해튼 0.9.",
+    "chart": "가로 막대: 불법 반려동물 종류별 건수",
+    "check_values": {
+      "n": 623,
+      "counts": {
+        "Rooster": 382,
+        "Other": 121,
+        "Farm Animal": 79,
+        "Snake": 18,
+        "Ferret": 15,
+        "Monkey": 5,
+        "Iguana": 2,
+        "Turtle Under 4 inches Long": 1
+      },
+      "rooster_share_pct": 61.3,
+      "rooster_per100k": {
+        "MANHATTAN": 0.9,
+        "BROOKLYN": 3.9,
+        "QUEENS": 3.9,
+        "BRONX": 6.2,
+        "STATEN ISLAND": 14.9
+      }
+    }
+  },
+  {
+    "id": "Q039",
+    "part": "동물의 도시",
+    "question": "팔면 안 되는 동물 신고 1위는?",
+    "answer": "등딱지 4인치(10cm) 미만 새끼 거북이 61%.",
+    "big_number": "61%",
+    "big_label": "작은 거북 비중",
+    "method": "[B] problem=='Illegal Animal Sold'(119건) problem_detail: 'Turtle Under 4 inches Long' 72(60.5%), Other 35, Farm Animal 4, Monkey 3, Rooster 3.",
+    "chart": "가로 막대: 불법 판매 동물 종류별 건수",
+    "check_values": {
+      "n": 119,
+      "counts": {
+        "Turtle Under 4 inches Long": 72,
+        "Other": 35,
+        "Farm Animal": 4,
+        "Monkey": 3,
+        "Rooster": 3,
+        "Ferret": 1,
+        "Snake": 1
+      },
+      "turtle_share_pct": 60.5
+    },
+    "caveat": "4인치 미만 거북 판매는 살모넬라 때문에 금지된 것이라는 배경 설명을 덧붙인다."
+  },
+  {
+    "id": "Q040",
+    "part": "동물의 도시",
+    "question": "쥐 목격 신고, 인구 대비 1위 자치구는?",
+    "answer": "맨해튼. 10만 명당 269건으로 스태튼아일랜드의 2.3배.",
+    "big_number": "2.3배",
+    "big_label": "맨해튼 ÷ SI",
+    "method": "[B] problem=='Rodent' & problem_detail=='Rat Sighting', 자치구별 ÷ POP × 10만. 맨해튼 269.4, 브루클린 234.5, 브롱크스 186.5, 퀸스 129.9, SI 116.4.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 쥐 목격 신고",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 269.4,
+        "BROOKLYN": 234.5,
+        "QUEENS": 129.9,
+        "BRONX": 186.5,
+        "STATEN ISLAND": 116.4
+      },
+      "counts": {
+        "MANHATTAN": 4564,
+        "BROOKLYN": 6417,
+        "QUEENS": 3125,
+        "BRONX": 2747,
+        "STATEN ISLAND": 577
+      },
+      "MN_over_SI": 2.3
+    }
+  },
+  {
+    "id": "Q041",
+    "part": "동물의 도시",
+    "question": "쥐는 여름에 몇 배 더 눈에 띌까?",
+    "answer": "8월 목격 신고가 12월의 2.7배다.",
+    "big_number": "2.7배",
+    "big_label": "8월 ÷ 12월",
+    "method": "[B] problem=='Rodent' & problem_detail=='Rat Sighting' 월별 건수. 8월 2,139 ÷ 12월 789 = 2.7배. (Rodent 전체 일별 건수-기온 상관 0.71, SA 제외 FULL 기준)",
+    "chart": "세로 막대: 월별 쥐 목격 신고 + 월평균 기온 선(보조축)",
+    "check_values": {
+      "by_month": {
+        "1": 917,
+        "2": 798,
+        "3": 1364,
+        "4": 1444,
+        "5": 1899,
+        "6": 1676,
+        "7": 1871,
+        "8": 2139,
+        "9": 1755,
+        "10": 1863,
+        "11": 915,
+        "12": 789
+      },
+      "aug_over_dec": 2.7,
+      "corr_daily_rodent_temp": 0.71
+    }
+  },
+  {
+    "id": "Q042",
+    "part": "동물의 도시",
+    "question": "모기 신고가 몰리는 달은?",
+    "answer": "8~9월에 64%. 겨울엔 0건이다.",
+    "big_number": "64%",
+    "big_label": "8~9월 비중",
+    "method": "[B] problem=='Mosquitoes'(634건) 월별: 4월 8, 5월 13, 6월 74, 7월 108, 8월 224, 9월 181, 10월 26, 나머지 0. 8월 35.3%, 8~9월 63.9%.",
+    "chart": "세로 막대: 월별 모기 신고(0인 달 포함 12칸)",
+    "check_values": {
+      "n": 634,
+      "by_month": {
+        "4": 8,
+        "5": 13,
+        "6": 74,
+        "7": 108,
+        "8": 224,
+        "9": 181,
+        "10": 26
+      },
+      "aug_share_pct": 35.3,
+      "aug_sep_share_pct": 63.9
+    }
+  },
+  {
+    "id": "Q043",
+    "part": "동물의 도시",
+    "question": "벌·말벌 신고는 언제 가장 많을까?",
+    "answer": "한여름이 아니라 9월. 1년 치의 22.5%.",
+    "big_number": "9월",
+    "big_label": "벌 신고 최다월",
+    "method": "[B] problem=='Harboring Bees/Wasps'(436건) 월별: 7월 54, 8월 66, 9월 98, 10월 77. 9월 비중 22.5%.",
+    "chart": "세로 막대: 월별 벌·말벌 신고",
+    "check_values": {
+      "n": 436,
+      "by_month": {
+        "1": 3,
+        "2": 3,
+        "3": 6,
+        "4": 29,
+        "5": 44,
+        "6": 37,
+        "7": 54,
+        "8": 66,
+        "9": 98,
+        "10": 77,
+        "11": 15,
+        "12": 4
+      },
+      "sep_share_pct": 22.5
+    }
+  },
+  {
+    "id": "Q044",
+    "part": "동물의 도시",
+    "question": "비둘기 배설물 신고, 맨해튼은 몇 배?",
+    "answer": "인구 대비 브롱크스의 6.5배다.",
+    "big_number": "6.5배",
+    "big_label": "맨해튼 ÷ 브롱크스",
+    "method": "[B] problem=='Unsanitary Pigeon Condition'(1,849건) 자치구별 ÷ POP × 10만. 맨해튼 49.0, SI 22.8, 퀸스 18.7, 브루클린 12.6, 브롱크스 7.5.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 비둘기 신고",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 49.0,
+        "BROOKLYN": 12.6,
+        "QUEENS": 18.7,
+        "BRONX": 7.5,
+        "STATEN ISLAND": 22.8
+      },
+      "counts": {
+        "MANHATTAN": 830,
+        "BROOKLYN": 345,
+        "QUEENS": 451,
+        "BRONX": 110,
+        "STATEN ISLAND": 113
+      },
+      "MN_over_BX": 6.5
+    }
+  },
+  {
+    "id": "Q045",
+    "part": "동물의 도시",
+    "question": "동물 학대 신고, 가장 흔한 유형은?",
+    "answer": "'방치'가 49%로 절반. 차 안 방치는 147건.",
+    "big_number": "49%",
+    "big_label": "방치 비중",
+    "method": "[B] problem=='Animal-Abuse'(11,684건) problem_detail: Neglected 5,737(49.1%), Other 2,877, Tortured 1,644, No Shelter 878, Chained 401, In Car 147.",
+    "chart": "가로 막대: 동물 학대 신고 세부 유형",
+    "check_values": {
+      "n": 11684,
+      "counts": {
+        "Neglected": 5737,
+        "Other (complaint details)": 2877,
+        "Tortured": 1644,
+        "No Shelter": 878,
+        "Chained": 401,
+        "In Car": 147
+      },
+      "neglected_share_pct": 49.1
+    }
+  },
+  {
+    "id": "Q046",
+    "part": "동물의 도시",
+    "question": "공원 동물 신고 1위는?",
+    "answer": "목줄 없는 개. 공원 동물 신고의 53%다.",
+    "big_number": "53%",
+    "big_label": "목줄 없는 개 비중",
+    "method": "[B] problem=='Animal in a Park'(5,738건) problem_detail: Dog Off Leash 3,053(53.2%), Injured Wildlife 984, Dead Animal 769, Wildlife Sighting 263, Animal Waste 236.",
+    "chart": "가로 막대: 공원 동물 신고 세부 유형",
+    "check_values": {
+      "n": 5738,
+      "counts": {
+        "Dog Off Leash": 3053,
+        "Injured Wildlife": 984,
+        "Dead Animal": 769,
+        "Wildlife Sighting": 263,
+        "Animal Waste": 236,
+        "Domestic Strays": 232,
+        "Removing Wildlife": 201
+      },
+      "offleash_share_pct": 53.2
+    }
+  },
+  {
+    "id": "Q047",
+    "part": "도로 위의 신경전",
+    "part_intro": "주차, 차고 앞, 버려진 차와 자전거, 포트홀까지 길 위에서 벌어지는 다툼입니다.",
+    "question": "불법주차 신고 1위 사유는?",
+    "answer": "소화전 앞 주차가 28%로 1위, 표지판 위반이 24%.",
+    "big_number": "28%",
+    "big_label": "소화전 앞 비중",
+    "method": "[B] problem=='Illegal Parking'(618,157건) problem_detail 비중: Blocked Hydrant 27.9, Posted Parking Sign Violation 24.3, Blocked Sidewalk 14.2, Commercial Overnight Parking 7.0, Blocked Crosswalk 6.3, Double Parked 5.5.",
+    "chart": "가로 막대: 불법주차 세부 사유 상위 8개",
+    "check_values": {
+      "n": 618157,
+      "share_pct": {
+        "Blocked Hydrant": 27.9,
+        "Posted Parking Sign Violation": 24.3,
+        "Blocked Sidewalk": 14.2,
+        "Commercial Overnight Parking": 7.0,
+        "Blocked Crosswalk": 6.3,
+        "Double Parked Blocking Traffic": 5.5
+      }
+    }
+  },
+  {
+    "id": "Q048",
+    "part": "도로 위의 신경전",
+    "question": "'차고 앞 막힘' 신고, 퀸스는 몇 배?",
+    "answer": "인구 대비 맨해튼의 11.7배. 차고 있는 집이 많은 곳.",
+    "big_number": "11.7배",
+    "big_label": "퀸스 ÷ 맨해튼",
+    "method": "[B] problem=='Blocked Driveway' 자치구별 ÷ POP × 10만. 퀸스 3,422.0, 브루클린 2,606.3, 브롱크스 2,132.9, SI 1,225.4, 맨해튼 291.5.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 차고 막힘 신고",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 291.5,
+        "BROOKLYN": 2606.3,
+        "QUEENS": 3422.0,
+        "BRONX": 2132.9,
+        "STATEN ISLAND": 1225.4
+      },
+      "counts": {
+        "MANHATTAN": 4939,
+        "BROOKLYN": 71309,
+        "QUEENS": 82316,
+        "BRONX": 31410,
+        "STATEN ISLAND": 6075
+      },
+      "QN_over_MN": 11.7
+    }
+  },
+  {
+    "id": "Q049",
+    "part": "도로 위의 신경전",
+    "question": "버려진 차 신고, 어디서 가장 많을까?",
+    "answer": "퀸스. 인구 대비 맨해튼의 7.8배.",
+    "big_number": "7.8배",
+    "big_label": "퀸스 ÷ 맨해튼",
+    "method": "[B] problem=='Abandoned Vehicle' 자치구별 ÷ POP × 10만. 퀸스 1,286.7, SI 1,150.6, 브루클린 853.6, 브롱크스 646.7, 맨해튼 164.9.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 버려진 차 신고",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 164.9,
+        "BROOKLYN": 853.6,
+        "QUEENS": 1286.7,
+        "BRONX": 646.7,
+        "STATEN ISLAND": 1150.6
+      },
+      "counts": {
+        "MANHATTAN": 2794,
+        "BROOKLYN": 23355,
+        "QUEENS": 30951,
+        "BRONX": 9524,
+        "STATEN ISLAND": 5704
+      },
+      "QN_over_MN": 7.8
+    }
+  },
+  {
+    "id": "Q050",
+    "part": "도로 위의 신경전",
+    "question": "자전거도로 막는 주차, 어디서 신고될까?",
+    "answer": "맨해튼·브루클린. 인구 대비 퀸스의 약 4배.",
+    "big_number": "3.9배",
+    "big_label": "맨해튼 ÷ 퀸스",
+    "method": "[B] problem=='Illegal Parking' & problem_detail=='Blocked Bike Lane' 자치구별 ÷ POP × 10만. 맨해튼 332.7, 브루클린 326.1, 브롱크스 200.4, 퀸스 86.0, SI 14.1.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 자전거도로 막힘 신고",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 332.7,
+        "BROOKLYN": 326.1,
+        "QUEENS": 86.0,
+        "BRONX": 200.4,
+        "STATEN ISLAND": 14.1
+      },
+      "counts": {
+        "MANHATTAN": 5636,
+        "BROOKLYN": 8921,
+        "QUEENS": 2068,
+        "BRONX": 2951,
+        "STATEN ISLAND": 70
+      },
+      "MN_over_QN": 3.9
+    }
+  },
+  {
+    "id": "Q051",
+    "part": "도로 위의 신경전",
+    "question": "가로등 꺼짐 신고, 1인당 1위는?",
+    "answer": "스태튼아일랜드. 브루클린의 3.2배.",
+    "big_number": "3.2배",
+    "big_label": "SI ÷ 브루클린",
+    "method": "[B] problem=='Street Light Condition' 자치구별 ÷ POP × 10만. SI 1,164.3, 브롱크스 521.6, 퀸스 383.9, 맨해튼 366.5, 브루클린 365.2.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 가로등 신고",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 366.5,
+        "BROOKLYN": 365.2,
+        "QUEENS": 383.9,
+        "BRONX": 521.6,
+        "STATEN ISLAND": 1164.3
+      },
+      "counts": {
+        "MANHATTAN": 6210,
+        "BROOKLYN": 9993,
+        "QUEENS": 9235,
+        "BRONX": 7681,
+        "STATEN ISLAND": 5772
+      },
+      "SI_over_BK": 3.2
+    }
+  },
+  {
+    "id": "Q052",
+    "part": "도로 위의 신경전",
+    "question": "버려진 자전거 신고, 브루클린은 몇 배?",
+    "answer": "인구 대비 브롱크스의 8.7배다.",
+    "big_number": "8.7배",
+    "big_label": "브루클린 ÷ 브롱크스",
+    "method": "[B] problem=='Abandoned Bike'(2,138건) 자치구별 ÷ POP × 10만. 브루클린 41.8, 맨해튼 33.5, 퀸스 14.4, 브롱크스 4.8, SI 1.8.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 버려진 자전거 신고",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 33.5,
+        "BROOKLYN": 41.8,
+        "QUEENS": 14.4,
+        "BRONX": 4.8,
+        "STATEN ISLAND": 1.8
+      },
+      "counts": {
+        "MANHATTAN": 568,
+        "BROOKLYN": 1144,
+        "QUEENS": 347,
+        "BRONX": 70,
+        "STATEN ISLAND": 9
+      },
+      "BK_over_BX": 8.7
+    }
+  },
+  {
+    "id": "Q053",
+    "part": "도로 위의 신경전",
+    "question": "전동킥보드 신고는 어디서 나올까?",
+    "answer": "94%가 퀸스·브롱크스. 맨해튼은 2건뿐.",
+    "big_number": "94%",
+    "big_label": "퀸스+브롱크스 비중",
+    "method": "[B] problem=='E-Scooter'(452건) 자치구별: 퀸스 292, 브롱크스 133, 브루클린 24, 맨해튼 2, SI 1. 퀸스 64.6%, 퀸스+브롱크스 94.0%.",
+    "chart": "가로 막대: 자치구별 전동킥보드 신고 건수",
+    "check_values": {
+      "counts": {
+        "MANHATTAN": 2,
+        "BROOKLYN": 24,
+        "QUEENS": 292,
+        "BRONX": 133,
+        "STATEN ISLAND": 1
+      },
+      "total": 452,
+      "QN_share_pct": 64.6,
+      "QN_BX_share_pct": 94.0
+    },
+    "caveat": "공유 전동킥보드가 퀸스·브롱크스 일부 지역에서만 운영된다는 배경이 있다(데이터 밖 사실이므로 '~로 보인다'로 쓴다)."
+  },
+  {
+    "id": "Q054",
+    "part": "도로 위의 신경전",
+    "question": "고장 난 주차 미터 신고, 맨해튼 몫은?",
+    "answer": "42%. 인구 대비로는 브롱크스의 5.2배.",
+    "big_number": "42%",
+    "big_label": "맨해튼 비중",
+    "method": "[B] problem=='Broken Parking Meter'(2,869건) 자치구별: 맨해튼 1,199(41.8%), 퀸스 803, 브루클린 608, 브롱크스 201, SI 58. 10만 명당 맨해튼 70.8 ÷ 브롱크스 13.6 = 5.2배.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 주차 미터 고장 신고",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 70.8,
+        "BROOKLYN": 22.2,
+        "QUEENS": 33.4,
+        "BRONX": 13.6,
+        "STATEN ISLAND": 11.7
+      },
+      "counts": {
+        "MANHATTAN": 1199,
+        "BROOKLYN": 608,
+        "QUEENS": 803,
+        "BRONX": 201,
+        "STATEN ISLAND": 58
+      },
+      "MN_share_pct": 41.8,
+      "MN_over_BX": 5.2
+    }
+  },
+  {
+    "id": "Q055",
+    "part": "도로 위의 신경전",
+    "question": "불법주차 신고가 가장 많은 시각은?",
+    "answer": "오전 8시. 가장 적은 새벽 3시의 4.9배.",
+    "big_number": "4.9배",
+    "big_label": "8시 ÷ 3시",
+    "method": "[B] problem=='Illegal Parking' created_hour별 건수. 8시 39,138(최다), 3시 8,026(최소) → 4.9배. 저녁 21시에 2차 봉우리 35,226.",
+    "chart": "세로 막대: 시간대별 불법주차 신고(0~23시)",
+    "check_values": {
+      "by_hour": {
+        "0": 18499,
+        "1": 12296,
+        "2": 9090,
+        "3": 8026,
+        "4": 9268,
+        "5": 13154,
+        "6": 21418,
+        "7": 33216,
+        "8": 39138,
+        "9": 37788,
+        "10": 33369,
+        "11": 33408,
+        "12": 32008,
+        "13": 30607,
+        "14": 28568,
+        "15": 27057,
+        "16": 26857,
+        "17": 28882,
+        "18": 29407,
+        "19": 28695,
+        "20": 29611,
+        "21": 35226,
+        "22": 29961,
+        "23": 22608
+      },
+      "peak_hour": 8,
+      "min_hour": 3,
+      "peak_over_min": 4.9
+    }
+  },
+  {
+    "id": "Q056",
+    "part": "집이 아프다",
+    "part_intro": "집주인에게 고쳐 달라고 할 일을 시 주택국(HPD)에 신고한 기록으로 본 뉴욕의 집입니다.",
+    "question": "집 수리 민원, 브롱크스는 몇 배?",
+    "answer": "인구 대비 스태튼아일랜드의 7.4배다.",
+    "big_number": "7.4배",
+    "big_label": "브롱크스 ÷ SI",
+    "method": "[B] agency=='HPD'(주택보존개발국) 자치구별 건수 ÷ POP × 10만. 브롱크스 20,545.0, 맨해튼 12,141.2, 브루클린 9,782.0, 퀸스 4,880.4, SI 2,774.0.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 HPD 민원",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 12141.2,
+        "BROOKLYN": 9782.0,
+        "QUEENS": 4880.4,
+        "BRONX": 20545.0,
+        "STATEN ISLAND": 2774.0
+      },
+      "counts": {
+        "MANHATTAN": 205702,
+        "BROOKLYN": 267642,
+        "QUEENS": 117396,
+        "BRONX": 302557,
+        "STATEN ISLAND": 13752
+      },
+      "BX_over_SI": 7.4
+    },
+    "caveat": "HPD 민원은 세입자 건물에서 나오므로 임대주택 비중 차이가 크게 반영된다."
+  },
+  {
+    "id": "Q057",
+    "part": "집이 아프다",
+    "question": "집 안 위생 민원 1위는 해충? 곰팡이?",
+    "answer": "해충이 53%, 곰팡이가 29%다.",
+    "big_number": "53%",
+    "big_label": "해충 비중",
+    "method": "[B] agency=='HPD' & problem=='UNSANITARY CONDITION'(139,424건) problem_detail: PESTS 73,498(52.7%), MOLD 39,820(28.6%), GARBAGE/RECYCLING STORAGE 21,642, SEWAGE 4,464.",
+    "chart": "도넛 또는 가로 막대: 위생 민원 세부 유형",
+    "check_values": {
+      "n": 139424,
+      "counts": {
+        "PESTS": 73498,
+        "MOLD": 39820,
+        "GARBAGE/RECYCLING STORAGE": 21642,
+        "SEWAGE": 4464
+      },
+      "pests_share_pct": 52.7,
+      "mold_share_pct": 28.6
+    }
+  },
+  {
+    "id": "Q058",
+    "part": "집이 아프다",
+    "question": "집 안 해충 신고, 8월은 2월의 몇 배?",
+    "answer": "1.7배. 8~10월이 가장 많다.",
+    "big_number": "1.7배",
+    "big_label": "8월 ÷ 2월",
+    "method": "[B] agency=='HPD' & problem_detail=='PESTS' 월별 건수. 8월 7,925 ÷ 2월 4,568 = 1.73배. 9월 7,733, 10월 7,815.",
+    "chart": "세로 막대: 월별 해충 신고",
+    "check_values": {
+      "by_month": {
+        "1": 5711,
+        "2": 4568,
+        "3": 5093,
+        "4": 5216,
+        "5": 6020,
+        "6": 6079,
+        "7": 7174,
+        "8": 7925,
+        "9": 7733,
+        "10": 7815,
+        "11": 5131,
+        "12": 5033
+      },
+      "aug_over_feb": 1.73
+    }
+  },
+  {
+    "id": "Q059",
+    "part": "집이 아프다",
+    "question": "난방 민원 상위 1% 건물의 몫은?",
+    "answer": "426개 건물(1%)이 난방 민원의 23%를 낸다.",
+    "big_number": "23%",
+    "big_label": "상위 1% 건물 비중",
+    "method": "[B] agency=='HPD' & problem=='HEAT/HOT WATER'(351,780건) address_key별 건수(42,621개 건물). 건수 상위 426개(=42,621//100) 합 ÷ 전체 = 23.2%.",
+    "chart": "로렌츠 곡선: 건물 누적 비율 vs 난방 민원 누적 비율",
+    "check_values": {
+      "n_heat": 351780,
+      "n_buildings": 42621,
+      "top1pct_buildings": 426,
+      "top1pct_share_pct": 23.2,
+      "missing_address": 0
+    },
+    "caveat": "같은 건물의 다른 세대가 같은 날 신고한 경우도 포함된 '신고 수' 기준이다."
+  },
+  {
+    "id": "Q060",
+    "part": "집이 아프다",
+    "question": "한 건물 난방 민원 최다 기록은?",
+    "answer": "브롱크스의 한 건물, 1년에 2,211건이다.",
+    "big_number": "2,211건",
+    "big_label": "한 건물 1년 난방 민원",
+    "method": "[B] Q059와 같은 집계의 1위: address_key '1040B EAST 217 STREET'(BRONX) 2,211건, 신고가 있던 날 138일. 2위 '2800 CRESTON AVENUE' 1,661건.",
+    "chart": "가로 막대: 난방 민원 상위 10개 건물(주소는 거리명만 표시 권장)",
+    "check_values": {
+      "address": "1040B EAST 217 STREET",
+      "borough": "BRONX",
+      "count": 2211,
+      "days_with_report": 138,
+      "second": {
+        "2800 CRESTON AVENUE": 1661
+      }
+    },
+    "caveat": "개인 주소이므로 책에는 번지 대신 '브롱크스 217번가의 한 건물'처럼 쓴다."
+  },
+  {
+    "id": "Q061",
+    "part": "집이 아프다",
+    "question": "엘리베이터 고장 신고, 1인당 1위는?",
+    "answer": "브롱크스. 인구 대비 퀸스의 4.5배.",
+    "big_number": "4.5배",
+    "big_label": "브롱크스 ÷ 퀸스",
+    "method": "[B] problem=='Elevator'(DOB+HPD, 27,714건) 자치구별 ÷ POP × 10만. 브롱크스 687.9, 맨해튼 389.8, 브루클린 258.5, 퀸스 152.0, SI 50.2. 건수 비중 브롱크스 36.6%.",
+    "chart": "가로 막대: 자치구별 인구 10만 명당 엘리베이터 신고",
+    "check_values": {
+      "per100k": {
+        "MANHATTAN": 389.8,
+        "BROOKLYN": 258.5,
+        "QUEENS": 152.0,
+        "BRONX": 687.9,
+        "STATEN ISLAND": 50.2
+      },
+      "counts": {
+        "MANHATTAN": 6605,
+        "BROOKLYN": 7073,
+        "QUEENS": 3656,
+        "BRONX": 10131,
+        "STATEN ISLAND": 249
+      },
+      "BX_over_QN": 4.5,
+      "BX_share_pct": 36.6
+    }
+  },
+  {
+    "id": "Q062",
+    "part": "집이 아프다",
+    "question": "고장 신고 1위 가전은?",
+    "answer": "가스·전기레인지 61%, 냉장고 39%. 전자레인지는 15건.",
+    "big_number": "61%",
+    "big_label": "레인지 비중",
+    "method": "[B] agency=='HPD' & problem=='APPLIANCE'(26,486건) problem_detail: ELECTRIC/GAS RANGE 16,103(60.8%), REFRIGERATOR 10,368, MICROWAVE 15.",
+    "chart": "가로 막대 3개: 가전 종류별 고장 신고",
+    "check_values": {
+      "n": 26486,
+      "counts": {
+        "ELECTRIC/GAS RANGE": 16103,
+        "REFRIGERATOR": 10368,
+        "MICROWAVE": 15
+      },
+      "range_share_pct": 60.8
+    }
+  },
+  {
+    "id": "Q063",
+    "part": "집이 아프다",
+    "question": "집 수리 민원, 검사관이 못 들어간 비율?",
+    "answer": "27%. 4건 중 1건은 문 앞에서 돌아섰다.",
+    "big_number": "27%",
+    "big_label": "검사 불발 비율",
+    "method": "[B] agency=='HPD'. resolution_description에 정규식 'gain access|gain entry|unable to complete the inspection|not able to gain'(대소문자 무시) 포함 비율 = 27.1%. 유형별: APPLIANCE 45.1, ELECTRIC 42.4, PLUMBING 42.0, SAFETY 39.9.",
+    "chart": "가로 막대: HPD 민원 유형별 '집에 못 들어감' 비율",
+    "check_values": {
+      "HPD_noaccess_pct": 27.1,
+      "by_problem_pct": {
+        "APPLIANCE": 45.1,
+        "ELECTRIC": 42.4,
+        "PLUMBING": 42.0,
+        "SAFETY": 39.9,
+        "FLOORING/STAIRS": 39.1,
+        "DOOR/WINDOW": 35.2
+      }
+    }
+  },
+  {
+    "id": "Q064",
+    "part": "집이 아프다",
+    "question": "난방 민원에 위반 딱지가 붙는 비율은?",
+    "answer": "4%뿐. 페인트·바닥 민원은 26%다.",
+    "big_number": "4%",
+    "big_label": "난방 위반 발부율",
+    "method": "[B] agency=='HPD'. resolution_description에 'Violations were issued' 포함 비율, problem별(건수>10,000). HEAT/HOT WATER 4.0, APPLIANCE 9.0, PLUMBING 15.4, ... PAINT/PLASTER 26.0, FLOORING/STAIRS 26.0. HPD 전체 14.1%.",
+    "chart": "가로 막대: HPD 민원 유형별 위반 발부율",
+    "check_values": {
+      "HPD_violation_pct_all": 14.1,
+      "by_problem_pct": {
+        "HEAT/HOT WATER": 4.0,
+        "APPLIANCE": 9.0,
+        "PLUMBING": 15.4,
+        "GENERAL": 16.6,
+        "ELECTRIC": 16.6,
+        "SAFETY": 20.2,
+        "DOOR/WINDOW": 20.6,
+        "UNSANITARY CONDITION": 22.7,
+        "WATER LEAK": 25.4,
+        "FLOORING/STAIRS": 26.0,
+        "PAINT/PLASTER": 26.0
+      }
+    },
+    "caveat": "난방 민원은 30.7%가 '이미 다른 세입자가 신고함(중복)'으로 닫힌다(Q088)."
+  },
+  {
+    "id": "Q065",
+    "part": "한 주소가 바꾼 통계",
+    "part_intro": "어떤 주소는 1년에 수만 건을 신고합니다. 몇몇 '프로 신고러'가 통계를 얼마나 흔드는지 봅니다.",
+    "question": "한 주소가 1년에 낸 최다 신고는?",
+    "answer": "브롱크스의 한 주소에서 4만7,105건, 전체의 1.2%.",
+    "big_number": "4만7,105건",
+    "big_label": "한 주소 1년 신고",
+    "method": "[B] address_key별 건수 1위: SA('655 EAST 230 STREET', BRONX) 47,105건 ÷ 3,962,167 = 1.19%. 그중 Noise - Residential 47,013건. 신고 있던 날 128일.",
+    "chart": "가로 막대: 신고 수 상위 10개 주소(번지 가림)",
+    "check_values": {
+      "address": "655 EAST 230 STREET",
+      "borough": "BRONX",
+      "rows": 47105,
+      "share_all_pct": 1.19,
+      "noise_res_rows": 47013,
+      "active_days": 128
+    },
+    "caveat": "개인 거주지일 수 있으므로 번지를 쓰지 않고 '브롱크스 230번가의 한 주소'로 표현한다."
+  },
+  {
+    "id": "Q066",
+    "part": "한 주소가 바꾼 통계",
+    "question": "그 주소 하나가 뉴욕 이웃 소음의 몇 %?",
+    "answer": "뉴욕 전체의 11%, 브롱크스의 3분의 1이다.",
+    "big_number": "11%",
+    "big_label": "NYC 이웃 소음 중 비중",
+    "method": "[B] SA의 Noise - Residential 47,013 ÷ 전체 Noise - Residential 416,594 = 11.3%. ÷ 브롱크스 Noise - Residential = 32.5%.",
+    "chart": "누적 막대: 브롱크스 이웃 소음 = SA 몫 + 나머지",
+    "check_values": {
+      "share_NYC_noise_res_pct": 11.3,
+      "share_BX_noise_res_pct": 32.5
+    }
+  },
+  {
+    "id": "Q067",
+    "part": "한 주소가 바꾼 통계",
+    "question": "브롱크스 12월 이웃 소음, 그 주소를 빼면?",
+    "answer": "3만7,472건이 9,316건으로. 통계가 4배 부풀었다.",
+    "big_number": "4.0배",
+    "big_label": "포함 ÷ 제외",
+    "method": "[B] borough=='BRONX' & problem=='Noise - Residential', created_date 월별 건수를 SA 포함/제외로 각각. 2025-12: 37,472 vs 9,316 → 4.02배. 2026-06은 둘 다 7,843.",
+    "chart": "두 선 그래프: 브롱크스 이웃 소음 월별(SA 포함 vs 제외)",
+    "check_values": {
+      "bronx_dec2025_all": 37472,
+      "bronx_dec2025_exSA": 9316,
+      "ratio": 4.02,
+      "bronx_jun2026_all": 7843
+    }
+  },
+  {
+    "id": "Q068",
+    "part": "한 주소가 바꾼 통계",
+    "question": "가장 바쁜 날, 그 주소는 몇 초마다?",
+    "answer": "11월 30일 하루 2,195건, 약 40초에 한 번꼴.",
+    "big_number": "40초",
+    "big_label": "신고 간격(중앙값)",
+    "method": "[B] SA & problem=='Noise - Residential' & date==2025-11-30: 2,195건. created_date 정렬 후 차이(초)의 중앙값 39.5초. 24개 시간대 모두에 신고. SA 신고의 90.1%가 2025-11-07~12-16 사이.",
+    "chart": "세로 막대: 2025-11-30 SA의 시간대별 신고 수",
+    "check_values": {
+      "date": "2025-11-30",
+      "count": 2195,
+      "median_gap_sec": 39.5,
+      "hours_covered": 24,
+      "nov7_dec16_share_pct": 90.1
+    }
+  },
+  {
+    "id": "Q069",
+    "part": "한 주소가 바꾼 통계",
+    "question": "그 신고들에 경찰은 뭐라 답했나?",
+    "answer": "63%가 '증거 없음'. 딱지는 0건이었다.",
+    "big_number": "63%",
+    "big_label": "'증거 없음' 비율",
+    "method": "[B] SA 중 agency=='NYPD' 행에 NYPD 결과 분류(plan.md 규칙) 적용: noevidence 63.2, corrected 21.6, notnecessary 14.1, noentry 1.1, summons 0.0. 앱(MOBILE) 접수 99.8%.",
+    "chart": "도넛: SA 신고의 경찰 처리 결과",
+    "check_values": {
+      "mobile_pct": 99.8,
+      "outcome_pct": {
+        "noevidence": 63.2,
+        "corrected": 21.6,
+        "notnecessary": 14.1,
+        "noentry": 1.1,
+        "summons": 0.0,
+        "arrest": 0.0,
+        "other": 0.0
+      }
+    }
+  },
+  {
+    "id": "Q070",
+    "part": "한 주소가 바꾼 통계",
+    "question": "1년 내내 하루도 안 쉬고 신고한 곳은?",
+    "answer": "브루클린의 한 주소, 364일 신고했다. 하루 24건.",
+    "big_number": "364일",
+    "big_label": "신고한 날 수",
+    "method": "[B] address_key=='1869 83 STREET'(BROOKLYN) 8,847건, 서로 다른 date 364일(데이터 전체 365개 날짜). 99.8%가 Noise - Residential. 하루 평균 24.3건.",
+    "chart": "달력 히트맵: 해당 주소의 날짜별 신고 수",
+    "check_values": {
+      "address": "1869 83 STREET",
+      "borough": "BROOKLYN",
+      "rows": 8847,
+      "days_with_report": 364,
+      "days_in_data": 365,
+      "noise_res_pct": 99.8,
+      "per_day": 24.3
+    },
+    "caveat": "번지를 가리고 '브루클린 83번가의 한 주소'로 표현."
+  },
+  {
+    "id": "Q071",
+    "part": "한 주소가 바꾼 통계",
+    "question": "불법주차를 가장 많이 신고한 주소는?",
+    "answer": "퀸스의 한 주소, 7,604건. 하루 22건꼴이다.",
+    "big_number": "7,604건",
+    "big_label": "한 주소 주차 신고",
+    "method": "[B] problem=='Illegal Parking'의 address_key별 1위: '5-47 50 AVENUE'(QUEENS) 7,604건, 343일, 하루 22.2건. 96.5%가 Blocked Sidewalk.",
+    "chart": "가로 막대: 불법주차 신고 상위 10개 주소",
+    "check_values": {
+      "address": "5-47 50 AVENUE",
+      "borough": "QUEENS",
+      "rows": 7604,
+      "days": 343,
+      "per_day": 22.2,
+      "blocked_sidewalk_pct": 96.5
+    }
+  },
+  {
+    "id": "Q072",
+    "part": "한 주소가 바꾼 통계",
+    "question": "종교시설 소음 신고, 한 곳이 몇 %?",
+    "answer": "62%가 퀸스의 한 주소에서 나왔다.",
+    "big_number": "62%",
+    "big_label": "1위 주소 비중",
+    "method": "[B] problem=='Noise - House of Worship'(2,663건) address_key 1위 '78-15 PARSONS BOULEVARD'(QUEENS) 1,645건 = 61.8%. 2위는 57건.",
+    "chart": "가로 막대: 종교시설 소음 신고 상위 5개 주소(1위가 압도적)",
+    "check_values": {
+      "n": 2663,
+      "top_address": "78-15 PARSONS BOULEVARD",
+      "top_rows": 1645,
+      "share_pct": 61.8
+    }
+  },
+  {
+    "id": "Q073",
+    "part": "한 주소가 바꾼 통계",
+    "question": "헬기 소음 신고, 10개 주소의 몫은?",
+    "answer": "주소 1,997곳 중 상위 10곳이 38%를 낸다.",
+    "big_number": "38%",
+    "big_label": "상위 10개 주소 비중",
+    "method": "[B] problem=='Noise - Helicopter'(10,971건) address_key별 건수(1,997곳). 상위 10개 합 ÷ 전체 = 37.8%. 1위 '295 ST JOHNS PLACE' 946건.",
+    "chart": "로렌츠 곡선 또는 상위 20개 주소 막대",
+    "check_values": {
+      "n": 10971,
+      "n_addresses": 1997,
+      "top10_share_pct": 37.8,
+      "top1": {
+        "295 ST JOHNS PLACE": 946
+      }
+    }
+  },
+  {
+    "id": "Q074",
+    "part": "한 주소가 바꾼 통계",
+    "question": "상위 1% 주소가 내는 신고는 몇 %?",
+    "answer": "30%. 주소 100곳 중 1곳이 신고 3건 중 1건을 낸다.",
+    "big_number": "30%",
+    "big_label": "상위 1% 주소 비중",
+    "method": "[B] address_key가 있는 행(3,815,958)만. address_key별 건수(592,939곳) 내림차순, 상위 5,929곳(=//100) 합 ÷ 3,815,958 = 30.1%. 상위 0.1%는 11.3%. 1년에 딱 1번 신고된 주소가 43.0%.",
+    "chart": "로렌츠 곡선: 주소 누적 비율 vs 신고 누적 비율",
+    "check_values": {
+      "n_addresses": 592939,
+      "rows_with_address": 3815958,
+      "top1pct_share_pct": 30.1,
+      "top0.1pct_share_pct": 11.3,
+      "single_report_addr_pct": 43.0
+    },
+    "caveat": "address_key는 거리 이름만 있는 행(예: 'BROADWAY')도 포함하므로 '주소'는 근사치다."
+  },
+  {
+    "id": "Q075",
+    "part": "한 주소가 바꾼 통계",
+    "question": "같은 날 같은 곳 같은 민원, 몇 % 반복?",
+    "answer": "신고 4건 중 1건(24%)은 같은 날 반복 신고였다.",
+    "big_number": "24%",
+    "big_label": "반복 묶음 속 신고",
+    "method": "[B] incident_group_size>1(같은 problem·problem_detail·borough·address_key·날짜) 행 비율 = 24.2%. 유형별(건수>5,000): Encampment 56.1, Noise - Park 55.9, Noise - Residential 47.9, Traffic 47.6, Noise - Helicopter 44.4.",
+    "chart": "가로 막대: 민원 유형별 반복 신고 비율 상위 10개",
+    "check_values": {
+      "rows_in_repeat_groups_pct": 24.2,
+      "n_groups": 3327807,
+      "top_problems_pct": {
+        "Encampment": 56.1,
+        "Noise - Park": 55.9,
+        "Noise - Residential": 47.9,
+        "Traffic": 47.6,
+        "Noise - Helicopter": 44.4
+      }
+    }
+  },
+  {
+    "id": "Q076",
+    "part": "경찰이 도착했을 때",
+    "part_intro": "경찰(NYPD)이 출동한 뒤 남긴 결과 문장을 분류해, 신고가 실제로 어떻게 끝나는지 봅니다.",
+    "question": "경찰 출동, '흔적 없음'으로 끝난 비율은?",
+    "answer": "41%. 가장 흔한 결말은 '도착하니 아무것도 없었다'.",
+    "big_number": "41%",
+    "big_label": "흔적 없음 비율",
+    "method": "[B] SA 제외 agency=='NYPD'(1,674,043행)에 NYPD 결과 분류(plan.md 규칙)를 적용. 비중: noevidence 40.8, corrected 25.3, notnecessary 13.5, summons 13.4, noentry 3.0, 기타.",
+    "chart": "100% 누적 가로 막대 또는 도넛: NYPD 처리 결과 분포",
+    "check_values": {
+      "n_nypd_exSA": 1674043,
+      "outcome_pct": {
+        "noevidence": 40.8,
+        "corrected": 25.3,
+        "notnecessary": 13.5,
+        "summons": 13.4,
+        "noentry": 3.0,
+        "notjuris": 1.2,
+        "enc_none": 0.9,
+        "other": 0.8,
+        "enc_found": 0.7,
+        "report": 0.3,
+        "arrest": 0.1,
+        "blank": 0.0
+      }
+    }
+  },
+  {
+    "id": "Q077",
+    "part": "경찰이 도착했을 때",
+    "question": "이웃 소음 신고에 딱지가 나올 확률은?",
+    "answer": "0.4%. 250건에 1건꼴이다.",
+    "big_number": "0.4%",
+    "big_label": "소환장 발부율",
+    "method": "[B] SA 제외 agency=='NYPD'(1,674,043행)에 NYPD 결과 분류(plan.md 규칙)를 적용. problem=='Noise - Residential'(369,581건) 중 summons 0.4%, corrected(현장에서 정리) 32.7%.",
+    "chart": "가로 막대: 소음 유형별 소환장 발부율(모두 2% 미만임을 보여줌)",
+    "check_values": {
+      "noise_res_summons_pct": 0.4,
+      "noise_res_n": 369581,
+      "noise_res_corrected_pct": 32.7
+    }
+  },
+  {
+    "id": "Q078",
+    "part": "경찰이 도착했을 때",
+    "question": "경찰 신고 중 딱지 확률 1위는?",
+    "answer": "차고 앞 막힘. 3건 중 1건(33%)에 딱지가 나온다.",
+    "big_number": "33%",
+    "big_label": "차고 막힘 발부율",
+    "method": "[B] SA 제외 agency=='NYPD'(1,674,043행)에 NYPD 결과 분류(plan.md 규칙)를 적용. problem별(건수>3,000) summons 비율: Blocked Driveway 33.0, Illegal Parking 23.8, Abandoned Vehicle 7.1, Drinking 3.7, Noise - Park 2.8.",
+    "chart": "가로 막대: NYPD 민원 유형별 소환장 발부율 상위 10개",
+    "check_values": {
+      "summons_pct_top": {
+        "Blocked Driveway": 33.0,
+        "Illegal Parking": 23.8,
+        "Abandoned Vehicle": 7.1,
+        "Drinking": 3.7,
+        "Noise - Park": 2.8
+      }
+    }
+  },
+  {
+    "id": "Q079",
+    "part": "경찰이 도착했을 때",
+    "question": "불꽃놀이 신고, 경찰이 가 보면?",
+    "answer": "73%는 이미 아무것도 없다. 흔적 없음 1위.",
+    "big_number": "73%",
+    "big_label": "흔적 없음 비율",
+    "method": "[B] SA 제외 agency=='NYPD'(1,674,043행)에 NYPD 결과 분류(plan.md 규칙)를 적용. problem별 noevidence 비율: Illegal Fireworks 72.8, Panhandling 63.5, Noise - Vehicle 54.0, Drinking 54.0, Noise - Street/Sidewalk 52.3.",
+    "chart": "가로 막대: 유형별 '흔적 없음' 비율 상위 10개",
+    "check_values": {
+      "fireworks_noevidence_pct": 72.8,
+      "top_noevidence": {
+        "Illegal Fireworks": 72.8,
+        "Panhandling": 63.5,
+        "Noise - Vehicle": 54.0,
+        "Drinking": 54.0,
+        "Noise - Street/Sidewalk": 52.3
+      }
+    }
+  },
+  {
+    "id": "Q080",
+    "part": "경찰이 도착했을 때",
+    "question": "경찰 신고가 체포로 끝난 건 몇 건?",
+    "answer": "1,163건, 0.07%. 1,400건에 1건꼴.",
+    "big_number": "0.07%",
+    "big_label": "체포 비율",
+    "method": "[B] SA 제외 agency=='NYPD'(1,674,043행)에 NYPD 결과 분류(plan.md 규칙)를 적용. arrest('made an arrest' 포함) 1,163건 ÷ 1,674,043 = 0.07%. 유형별: Noise - Street/Sidewalk 419, Noise - Residential 245, Panhandling 119, Illegal Parking 91.",
+    "chart": "가로 막대: 체포로 끝난 신고의 민원 유형",
+    "check_values": {
+      "arrests": 1163,
+      "arrest_pct": 0.07,
+      "by_problem": {
+        "Noise - Street/Sidewalk": 419,
+        "Noise - Residential": 245,
+        "Panhandling": 119,
+        "Illegal Parking": 91,
+        "Non-Emergency Police Matter": 69
+      }
+    }
+  },
+  {
+    "id": "Q081",
+    "part": "경찰이 도착했을 때",
+    "question": "이웃 소음, 문을 안 열어줘 끝난 비율?",
+    "answer": "13%. 8건 중 1건은 경찰이 들어가지 못했다.",
+    "big_number": "13%",
+    "big_label": "진입 불가 비율",
+    "method": "[B] SA 제외 agency=='NYPD'(1,674,043행)에 NYPD 결과 분류(plan.md 규칙)를 적용. problem=='Noise - Residential' 중 noentry('unable to gain entry') 12.7%.",
+    "chart": "100% 누적 가로 막대: 이웃 소음 처리 결과",
+    "check_values": {
+      "noise_res_noentry_pct": 12.7
+    }
+  },
+  {
+    "id": "Q082",
+    "part": "경찰이 도착했을 때",
+    "question": "노숙인 텐트 신고, 실제로 텐트가 있었나?",
+    "answer": "36%만 발견. 46%는 가 보니 없었다.",
+    "big_number": "36%",
+    "big_label": "텐트 발견 비율",
+    "method": "[B] SA 제외 agency=='NYPD'(1,674,043행)에 NYPD 결과 분류(plan.md 규칙)를 적용. problem=='Encampment'(31,133건): enc_found('observed an encampment' 또는 DHS 이관) 36.0, enc_none('no encampment') 45.8.",
+    "chart": "도넛: 텐트 신고 처리 결과",
+    "check_values": {
+      "encampment_found_pct": 36.0,
+      "encampment_none_pct": 45.8,
+      "n": 31133
+    },
+    "caveat": "Encampment는 DPR 등 다른 기관 접수분도 있어 NYPD 몫만 센다."
+  },
+  {
+    "id": "Q083",
+    "part": "경찰이 도착했을 때",
+    "question": "소음 현장 정리, 몇 시 출동이 잘될까?",
+    "answer": "저녁 8시 신고는 40%가 정리, 새벽 6시는 22%.",
+    "big_number": "40%",
+    "big_label": "20시 '정리' 비율",
+    "method": "[B] SA 제외 agency=='NYPD'(1,674,043행)에 NYPD 결과 분류(plan.md 규칙)를 적용. problem이 'Noise'로 시작하는 NYPD 신고의 created_hour별 corrected 비율. 최고 20시 40.2, 최저 6시 21.7.",
+    "chart": "선 그래프: 시간대별 소음 신고 '정리됨' 비율",
+    "check_values": {
+      "corrected_by_hour_pct": {
+        "0": 37.2,
+        "1": 33.6,
+        "2": 30.2,
+        "3": 27.2,
+        "4": 26.1,
+        "5": 22.2,
+        "6": 21.7,
+        "7": 23.9,
+        "8": 25.9,
+        "9": 27.2,
+        "10": 29.0,
+        "11": 28.8,
+        "12": 30.3,
+        "13": 30.6,
+        "14": 30.3,
+        "15": 30.6,
+        "16": 32.8,
+        "17": 34.7,
+        "18": 36.5,
+        "19": 38.7,
+        "20": 40.2,
+        "21": 39.9,
+        "22": 39.8,
+        "23": 37.4
+      },
+      "max_hour": 20,
+      "min_hour": 6
+    }
+  },
+  {
+    "id": "Q084",
+    "part": "경찰이 도착했을 때",
+    "question": "불법주차 딱지 확률, 자치구마다 다를까?",
+    "answer": "브롱크스 28%, 스태튼아일랜드 19%. 1.5배 차이.",
+    "big_number": "1.5배",
+    "big_label": "브롱크스 ÷ SI",
+    "method": "[B] SA 제외 agency=='NYPD'(1,674,043행)에 NYPD 결과 분류(plan.md 규칙)를 적용. problem=='Illegal Parking' 자치구별 summons 비율: 브롱크스 28.4, 브루클린 23.6, 맨해튼 22.8, 퀸스 22.7, SI 19.0.",
+    "chart": "가로 막대: 자치구별 불법주차 소환장 발부율",
+    "check_values": {
+      "summons_pct_by_borough": {
+        "BRONX": 28.4,
+        "BROOKLYN": 23.6,
+        "MANHATTAN": 22.8,
+        "QUEENS": 22.7,
+        "STATEN ISLAND": 19.0
+      }
+    }
+  },
+  {
+    "id": "Q085",
+    "part": "경찰이 도착했을 때",
+    "question": "경찰이 가장 빨리 닫는 신고는?",
+    "answer": "교통 민원. 접수부터 종료까지 중앙값 40분.",
+    "big_number": "40분",
+    "big_label": "교통 민원 중앙값",
+    "method": "[B] SA 제외 NYPD, is_closed & resolution_hours>0 & ~flag_status_date_mismatch & ~flag_midnight_close. problem별(>3,000건) 중앙값(시간): Traffic 0.66, Panhandling 0.81, Illegal Fireworks 0.91 ... Abandoned Vehicle 2.30. NYPD 전체 1.38.",
+    "chart": "가로 막대: NYPD 민원 유형별 처리시간 중앙값(분 단위)",
+    "check_values": {
+      "median_hours": {
+        "Traffic": 0.66,
+        "Panhandling": 0.81,
+        "Illegal Fireworks": 0.91,
+        "Noise - Vehicle": 0.98,
+        "Noise - Commercial": 0.99,
+        "Noise - Park": 1.06,
+        "Drug Activity": 1.07,
+        "Encampment": 1.14,
+        "Noise - Street/Sidewalk": 1.14,
+        "Noise - Residential": 1.23,
+        "Non-Emergency Police Matter": 1.32,
+        "Drinking": 1.4,
+        "Illegal Parking": 1.52,
+        "Blocked Driveway": 1.65,
+        "Animal-Abuse": 1.84,
+        "Abandoned Vehicle": 2.3
+      },
+      "nypd_overall_median_h": 1.38
+    },
+    "caveat": "레퍼런스 책 '처리시간 병목'과 겹치지 않게 경찰 민원 안에서의 순위로만 다룬다."
+  },
+  {
+    "id": "Q086",
+    "part": "답변서에 숨은 이야기",
+    "part_intro": "다른 기관들이 남긴 처리 결과 문장과 처리 상태에서 '가 보니 없었다', '이미 접수됨' 같은 이야기를 찾습니다.",
+    "question": "'가 보니 없었다' 답이 가장 많은 기관은?",
+    "answer": "노숙인서비스국(DHS) 48%, 경찰 42%.",
+    "big_number": "48%",
+    "big_label": "DHS '못 찾음' 비율",
+    "method": "[B] resolution_description에 정규식 'could not find|found no condition|no evidence|no criminal violation upon|were gone|could not locate|unable to locate|did not find|no encampment|was not found'(대소문자 무시) 포함 비율, agency별(건수>20,000). DHS 48.1, NYPD 42.2, DSNY 17.6, DEP 10.3, DOHMH 9.6, DPR 6.3, DOT 5.1.",
+    "chart": "가로 막대: 기관별 '가 보니 없었다' 답변 비율",
+    "check_values": {
+      "notfound_pct_by_agency": {
+        "DHS": 48.1,
+        "NYPD": 42.2,
+        "DSNY": 17.6,
+        "DEP": 10.3,
+        "DOHMH": 9.6,
+        "DPR": 6.3,
+        "DOT": 5.1,
+        "DOB": 1.4,
+        "DCWP": 0.0,
+        "HPD": 0.0,
+        "TLC": 0.0
+      }
+    }
+  },
+  {
+    "id": "Q087",
+    "part": "답변서에 숨은 이야기",
+    "question": "노숙인 지원팀의 도움, 거절 비율은?",
+    "answer": "11%. 도움을 제안해도 받지 않았다.",
+    "big_number": "11%",
+    "big_label": "도움 거절 비율",
+    "method": "[B] agency=='DHS'(50,650건) resolution_description에 'did not accept' 포함 비율 11.1%. 같은 기관 '못 찾음' 48.1%.",
+    "chart": "100% 누적 막대: DHS 출동 결과(못 찾음/거절/연계/기타)",
+    "check_values": {
+      "DHS_n": 50650,
+      "declined_pct": 11.1,
+      "notfound_pct": 48.1
+    }
+  },
+  {
+    "id": "Q088",
+    "part": "답변서에 숨은 이야기",
+    "question": "'이미 접수됨' 답이 가장 많은 민원은?",
+    "answer": "쥐 신고. 3건 중 1건(34%)이 중복 처리.",
+    "big_number": "34%",
+    "big_label": "쥐 신고 중복 비율",
+    "method": "[B] resolution_description에 정규식 'duplicate|earlier complaint about the same|already reported|addressed under another service request' 포함 비율, problem별(>5,000건). Rodent 33.5, Water System 32.7, HEAT/HOT WATER 30.7, Water Maintenance 27.8, Noise 23.5. 전체 5.0%.",
+    "chart": "가로 막대: 민원 유형별 '중복' 답변 비율 상위 10개",
+    "check_values": {
+      "dup_pct_overall": 5.0,
+      "top_problems_pct": {
+        "Rodent": 33.5,
+        "Water System": 32.7,
+        "HEAT/HOT WATER": 30.7,
+        "Water Maintenance": 27.8,
+        "Noise": 23.5
+      }
+    }
+  },
+  {
+    "id": "Q089",
+    "part": "답변서에 숨은 이야기",
+    "question": "공원국 나무 민원, '1년 넘게 걸릴 수도'는?",
+    "answer": "1만2,759건이 '1년 이상 걸릴 수 있다'는 답을 받았다.",
+    "big_number": "1만2,759건",
+    "big_label": "'1년 이상' 답변 수",
+    "method": "[B] agency=='DPR'(139,263건) 중 resolution_description에 'a year or more' 포함 12,759건(9.2%). 기관 무관 전체로는 12,781건.",
+    "chart": "큰 숫자 카드 + DPR 답변 유형 가로 막대(완료/불필요/작업지시/1년 이상 등)",
+    "check_values": {
+      "count": 12781,
+      "pct_of_DPR": 9.2,
+      "DPR_count": 12759
+    }
+  },
+  {
+    "id": "Q090",
+    "part": "답변서에 숨은 이야기",
+    "question": "흐르는 소화전, 몇 번이나 잠갔을까?",
+    "answer": "1년에 2만 번 넘게. 83%가 6~8월이다.",
+    "big_number": "2만186번",
+    "big_label": "소화전 잠금 횟수",
+    "method": "[B] resolution_description에 'shut the running hydrant' 포함 행 20,186건. 그중 created_date 월 6~8 비율 83.0%.",
+    "chart": "월별 막대: 소화전 잠금 답변 건수",
+    "check_values": {
+      "count": 20186,
+      "summer_jun_aug_pct": 83.0
+    }
+  },
+  {
+    "id": "Q091",
+    "part": "답변서에 숨은 이야기",
+    "question": "끝난 민원, 1시간 안에 끝난 비율은?",
+    "answer": "22%. 반면 한 달 넘게 걸린 것도 5%.",
+    "big_number": "22%",
+    "big_label": "1시간 내 종료",
+    "method": "[B] is_closed & resolution_hours>0 & ~flag_status_date_mismatch & ~flag_midnight_close(3,619,281행). resolution_hours<=1 비율 21.6%, >720(30일) 5.4%, 중앙값 7.42시간.",
+    "chart": "히스토그램(로그 x축): 처리시간 분포, 1시간·1일·30일 세로선",
+    "check_values": {
+      "n_closed_valid": 3619281,
+      "within_1h_pct": 21.6,
+      "over_30d_pct": 5.4,
+      "median_h": 7.42
+    },
+    "caveat": "flag_midnight_close(자정 일괄 종료)는 실제 처리 시각이 아니라 제외한다."
+  },
+  {
+    "id": "Q092",
+    "part": "답변서에 숨은 이야기",
+    "question": "한 건도 '종료'되지 않은 민원은?",
+    "answer": "헬기 소음. 1만971건 모두 아직 '처리 중'.",
+    "big_number": "0건",
+    "big_label": "종료된 헬기 민원",
+    "method": "[B] problem=='Noise - Helicopter'(agency EDC) 10,971건의 status: In Progress 10,971, Closed 0.",
+    "chart": "가로 막대: 미종료 비율 상위 민원(헬기 100%, Construction Lead Dust 100%, Lot Condition 93.5% 등)",
+    "check_values": {
+      "helicopter_n": 10971,
+      "closed": 0,
+      "status": {
+        "In Progress": 10971
+      },
+      "agency": "EDC"
+    },
+    "caveat": "Construction Lead Dust(1,316건)도 100% 미종료다. 헬기는 접수 기록용으로 쓰이는 것으로 보인다."
+  },
+  {
+    "id": "Q093",
+    "part": "답변서에 숨은 이야기",
+    "question": "건물국이 두 번 가도 못 들어간 비율?",
+    "answer": "11%. 1만2,472건이 두 번 헛걸음했다.",
+    "big_number": "11%",
+    "big_label": "2회 진입 실패",
+    "method": "[B] agency=='DOB'(117,631건) resolution_description에 'twice' 포함('attempted to investigate this complaint twice but could not gain access') 12,472건 = 10.6%.",
+    "chart": "100% 누적 막대: DOB 처리 결과(조치 불필요/종결/소환장/2회 실패 등)",
+    "check_values": {
+      "DOB_n": 117631,
+      "twice_noaccess_pct": 10.6,
+      "twice_count": 12472
+    }
+  },
+  {
+    "id": "Q094",
+    "part": "전화·웹·앱",
+    "part_intro": "같은 불편이라도 어떤 건 앱으로, 어떤 건 전화로 신고됩니다.",
+    "question": "311 신고, 어떤 방법이 가장 많을까?",
+    "answer": "웹(온라인) 54%, 전화 25%, 앱 21%.",
+    "big_number": "54%",
+    "big_label": "온라인 비중",
+    "method": "[B] SA 제외. open_data_channel_type 비중: ONLINE 53.8, PHONE 24.8, MOBILE 21.4, OTHER 0.1. (SA 포함 시 MOBILE 22.4)",
+    "chart": "도넛: 신고 채널 비중",
+    "check_values": {
+      "share_pct_exSA": {
+        "ONLINE": 53.8,
+        "PHONE": 24.8,
+        "MOBILE": 21.4,
+        "OTHER": 0.1
+      },
+      "share_pct_all": {
+        "ONLINE": 53.1,
+        "PHONE": 24.5,
+        "MOBILE": 22.4,
+        "OTHER": 0.1
+      }
+    }
+  },
+  {
+    "id": "Q095",
+    "part": "전화·웹·앱",
+    "question": "앱으로 가장 많이 신고되는 민원은?",
+    "answer": "구걸(패닉핸들링). 91%가 앱으로 들어온다.",
+    "big_number": "91%",
+    "big_label": "구걸 앱 비중",
+    "method": "[B] SA 제외. problem별(>5,000건) MOBILE 비율: Panhandling 91.1, Illegal Parking 46.4, Street Sign - Damaged 45.9, Dirty Condition 45.2. 반대로 PHONE 비율: Dead Animal 65.3, Overgrown Tree 65.2, Lost Property 63.4.",
+    "chart": "양쪽 가로 막대: 앱 비율 상위 5 vs 전화 비율 상위 5",
+    "check_values": {
+      "mobile_top": {
+        "Panhandling": 91.1,
+        "Illegal Parking": 46.4,
+        "Street Sign - Damaged": 45.9,
+        "Dirty Condition": 45.2,
+        "Encampment": 44.6
+      },
+      "phone_top": {
+        "Derelict Vehicles": 100.0,
+        "Dead Animal": 65.3,
+        "Overgrown Tree/Branches": 65.2,
+        "Lost Property": 63.4,
+        "Water Conservation": 61.3,
+        "Sewer": 60.8
+      }
+    },
+    "caveat": "일부 민원은 앱에 메뉴가 없어 MOBILE 0%다(헬기·불꽃놀이 등). Derelict Vehicles는 100% PHONE으로 기록돼 제외."
+  },
+  {
+    "id": "Q096",
+    "part": "전화·웹·앱",
+    "question": "전화 신고 비율이 가장 높은 자치구는?",
+    "answer": "스태튼아일랜드 30%. 앱 비율은 12%로 꼴찌.",
+    "big_number": "30%",
+    "big_label": "SI 전화 비중",
+    "method": "[B] SA 제외. 자치구별 채널 비중: SI PHONE 30.1·MOBILE 12.2, 브롱크스 29.4·20.2, 브루클린 23.8·22.9, 퀸스 23.8·21.4, 맨해튼 21.7·21.9.",
+    "chart": "100% 누적 가로 막대: 자치구별 채널 구성",
+    "check_values": {
+      "by_borough_pct": {
+        "BRONX": {
+          "MOBILE": 20.2,
+          "ONLINE": 50.3,
+          "OTHER": 0.0,
+          "PHONE": 29.4
+        },
+        "BROOKLYN": {
+          "MOBILE": 22.9,
+          "ONLINE": 53.2,
+          "OTHER": 0.1,
+          "PHONE": 23.8
+        },
+        "MANHATTAN": {
+          "MOBILE": 21.9,
+          "ONLINE": 56.3,
+          "OTHER": 0.0,
+          "PHONE": 21.7
+        },
+        "QUEENS": {
+          "MOBILE": 21.4,
+          "ONLINE": 54.8,
+          "OTHER": 0.1,
+          "PHONE": 23.8
+        },
+        "STATEN ISLAND": {
+          "MOBILE": 12.2,
+          "ONLINE": 57.6,
+          "OTHER": 0.1,
+          "PHONE": 30.1
+        }
+      }
+    }
+  },
+  {
+    "id": "Q097",
+    "part": "이런 것도 신고해?",
+    "part_intro": "칭찬, 분실물, 견인차, 1년에 단 한 건뿐인 민원까지 311의 별난 구석입니다.",
+    "question": "택시 불만과 칭찬, 비율은?",
+    "answer": "불만 93건에 칭찬 1건. 칭찬은 1년에 113건.",
+    "big_number": "93:1",
+    "big_label": "불만 : 칭찬",
+    "method": "[B] problem=='Taxi Complaint' 10,455건 ÷ problem=='Taxi Compliment' 113건 = 92.5.",
+    "chart": "아이콘 배열 또는 두 막대: 택시 불만 vs 칭찬",
+    "check_values": {
+      "taxi_complaint": 10455,
+      "taxi_compliment": 113,
+      "ratio": 92.5
+    }
+  },
+  {
+    "id": "Q098",
+    "part": "이런 것도 신고해?",
+    "question": "311에 신고된 분실물 1위는?",
+    "answer": "가방·지갑 49%. 98%가 택시에서 잃어버렸다.",
+    "big_number": "49%",
+    "big_label": "가방·지갑 비중",
+    "method": "[B] problem=='Lost Property'(6,914건) problem_detail: Bag/Wallet 49.2, Electronics/Phones 27.7, Other 12.5, Clothing/Glasses 7.9. location_type=='Taxi' 97.9%. 주소가 JFK·라과디아 공항 16.2%.",
+    "chart": "가로 막대: 분실물 종류",
+    "check_values": {
+      "n": 6914,
+      "detail_pct": {
+        "Bag/Wallet": 49.2,
+        "Electronics/Phones": 27.7,
+        "Other": 12.5,
+        "Clothing/Glasses": 7.9
+      },
+      "taxi_location_pct": 97.9,
+      "airports_pct": 16.2
+    }
+  },
+  {
+    "id": "Q099",
+    "part": "이런 것도 신고해?",
+    "question": "가게 불만 신고 1위 업종은?",
+    "answer": "견인차 회사. 소비자 민원의 11%로 1위.",
+    "big_number": "11%",
+    "big_label": "견인차 비중",
+    "method": "[B] problem=='Consumer Complaint'(21,126건) problem_detail: Tow Truck Company 10.6, Other Store (Non-Food) 7.5, Bodega/Deli 7.1, Restaurant 6.5.",
+    "chart": "가로 막대: 소비자 민원 업종 상위 10",
+    "check_values": {
+      "n": 21126,
+      "top_pct": {
+        "Tow Truck Company": 10.6,
+        "Other Store (Non-Food)": 7.5,
+        "Bodega, Deli, or Convenience Store": 7.1,
+        "Restaurant": 6.5
+      }
+    }
+  },
+  {
+    "id": "Q100",
+    "part": "이런 것도 신고해?",
+    "question": "1년에 10건도 안 들어온 민원은?",
+    "answer": "17종. 비둘기 포획 신고는 1년에 딱 1건.",
+    "big_number": "17종",
+    "big_label": "10건 이하 민원 종류",
+    "method": "[B] problem별 건수(>0) 중 <=10인 유형 17종. 1건: Trapping Pigeon, Building Marshals office. 예: Squeegee 5, Public Payphone Complaint 5, Calorie Labeling 8, Tanning 9, Radioactive Material 15, Lifeguard 30, Public Toilet 66.",
+    "chart": "점 그래프/단어 구름: 희귀 민원 이름과 건수(로그 축)",
+    "check_values": {
+      "types_le10": 17,
+      "types_eq1": {
+        "Building Marshals office": 1,
+        "Trapping Pigeon": 1
+      },
+      "examples": {
+        "Squeegee": 5,
+        "Tanning": 9,
+        "Calorie Labeling": 8,
+        "Public Payphone Complaint": 5,
+        "Lifeguard": 30,
+        "Radioactive Material": 15,
+        "Public Toilet": 66
+      }
+    },
+    "caveat": "'Building Marshals office'는 표기 차이(대소문자) 중복 범주일 수 있어 예시는 Trapping Pigeon으로."
+  }
+]
