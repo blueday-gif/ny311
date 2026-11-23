@@ -1,0 +1,491 @@
+<title>뉴욕 자치구 민원 지도</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="NYC 311 민원 유형 구성으로 다섯 자치구의 성격을 읽는 대시보드">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 한 열 보고서. 위에서 아래로 요약 → 주제 지도 → 자치구 깊이 보기 → 계절 → 닮은 정도. 섹션마다 출처 줄. */
+:root {
+  --bg: #f6f7f9; --surface: #ffffff; --ink: #14171c; --ink-2: #4a5160; --ink-3: #737b8a; --rule: #dde1e7; --rule-2: #eceef2;
+  --accent: #1c5cab;
+  --hi: #d6453f; --lo: #2a78d6; --mid: #eceae6;
+  --b1: #2a78d6; --b2: #eb6834; --b3: #1baf7a; --b4: #eda100; --b5: #e87ba4;
+  --seq-0: #f1f5fb; --seq-1: #1c5cab;
+  --warn-bg: #fff6e0; --warn-ink: #6b4a00; --warn-rule: #f0d48a;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121418; --surface: #1a1d22; --ink: #eef0f3; --ink-2: #b9bfca; --ink-3: #8a919e; --rule: #2e333b; --rule-2: #24282f;
+  --accent: #6da7ec; --hi: #e66767; --lo: #3987e5; --mid: #383835;
+  --b1: #3987e5; --b2: #d95926; --b3: #199e70; --b4: #c98500; --b5: #d55181;
+  --seq-0: #1f2630; --seq-1: #5598e7;
+  --warn-bg: #2b2414; --warn-ink: #f2d28a; --warn-rule: #5a4a20; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #121418; --surface: #1a1d22; --ink: #eef0f3; --ink-2: #b9bfca; --ink-3: #8a919e; --rule: #2e333b; --rule-2: #24282f;
+  --accent: #6da7ec; --hi: #e66767; --lo: #3987e5; --mid: #383835;
+  --b1: #3987e5; --b2: #d95926; --b3: #199e70; --b4: #c98500; --b5: #d55181;
+  --seq-0: #1f2630; --seq-1: #5598e7;
+  --warn-bg: #2b2414; --warn-ink: #f2d28a; --warn-rule: #5a4a20; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6;
+  padding-block: 32px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.25; }
+h1 { font-size: clamp(28px, 4.4vw, 42px); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: 16px; font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.lede { color: var(--ink-2); font-size: 16px; }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+section { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.sec-head { display: flex; flex-direction: column; gap: 6px; }
+.source { font-size: 12px; color: var(--ink-3); }
+.source code { font-family: var(--font-mono); font-size: 11.5px; }
+header.top { display: flex; flex-direction: column; gap: 14px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--ink-2); font-size: 13px; }
+.facts b { color: var(--ink); font-weight: 500; }
+
+/* 성격 카드 */
+.cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 980px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .cards { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 10px;
+  text-align: left; font: inherit; color: inherit; cursor: pointer; min-width: 0; }
+.card:hover { border-color: var(--ink-3); }
+.card:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.card .name { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.card .key { font-size: 13px; font-weight: 500; color: var(--accent); }
+.card .one { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+.card ul { list-style: none; margin: 0; padding: 10px 0 0; border-top: 1px solid var(--rule-2); display: flex; flex-direction: column; gap: 4px; }
+.card li { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; }
+.card li span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); }
+
+/* 컨트롤 */
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 3px; background: var(--rule-2); border-radius: 8px; }
+.seg button { font: inherit; font-size: 13px; border: 0; background: transparent; color: var(--ink-2); padding: 6px 12px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 500; box-shadow: 0 1px 2px rgb(0 0 0 / 0.12); }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+select { font: inherit; font-size: 13px; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); }
+
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 20px; min-width: 0; }
+.scroll-x { overflow-x: auto; }
+
+/* 히트맵 */
+table.heat { border-collapse: separate; border-spacing: 2px; font-size: 12.5px; width: 100%; min-width: 760px; }
+table.heat th { font-weight: 500; color: var(--ink-2); padding: 4px 6px; }
+table.heat thead th { font-size: 12px; vertical-align: bottom; text-align: center; line-height: 1.3; }
+table.heat tbody th { text-align: left; white-space: nowrap; }
+table.heat td { text-align: center; padding: 9px 4px; border-radius: 4px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; cursor: default; }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 12px; color: var(--ink-2); }
+.ramp { width: 180px; height: 10px; border-radius: 3px; }
+.key-item { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { width: 12px; height: 12px; border-radius: 3px; }
+
+.meaning { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; color: var(--ink-2); font-size: 14px; }
+.meaning b { color: var(--ink); font-weight: 500; }
+.warn { background: var(--warn-bg); color: var(--warn-ink); border: 1px solid var(--warn-rule); border-radius: 8px; padding: 12px 14px; font-size: 13.5px; display: flex; flex-direction: column; gap: 6px; }
+.warn p { max-width: none; }
+
+/* 깊이 보기 */
+.deep { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 20px; }
+@media (max-width: 900px) { .deep { grid-template-columns: minmax(0, 1fr); } }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.stat { border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.stat .lab { font-size: 11.5px; color: var(--ink-3); }
+.stat .val { font-family: var(--font-mono); font-size: 20px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.stat .sub { font-size: 11.5px; color: var(--ink-2); }
+.story { display: flex; flex-direction: column; gap: 12px; font-size: 14.5px; }
+.story .ctx { font-size: 13px; color: var(--ink-3); }
+
+table.detail { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 12.5px; }
+table.detail th, table.detail td { padding: 7px 8px; border-bottom: 1px solid var(--rule-2); text-align: right; white-space: nowrap; }
+table.detail th { font-weight: 500; color: var(--ink-3); font-size: 11.5px; }
+table.detail td:nth-child(1), table.detail td:nth-child(2), table.detail th:nth-child(1), table.detail th:nth-child(2) { text-align: left; }
+table.detail td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+table.detail td.txt { font-family: var(--font-body); }
+.pill { font-family: var(--font-body); font-size: 11px; padding: 1px 7px; border-radius: 999px; border: 1px solid currentColor; }
+.pill.hi { color: var(--hi); } .pill.lo { color: var(--lo); }
+.cbbar { display: inline-flex; align-items: center; gap: 6px; }
+.cbbar i { display: inline-block; width: 60px; height: 6px; background: var(--rule-2); border-radius: 3px; position: relative; overflow: hidden; }
+.cbbar i b { position: absolute; inset: 0 auto 0 0; background: var(--ink-3); border-radius: 3px; }
+
+svg text { fill: var(--ink-2); font-family: var(--font-body); }
+svg .axis text { font-family: var(--font-mono); font-size: 11px; fill: var(--ink-3); }
+svg .grid line { stroke: var(--rule-2); }
+svg .base { stroke: var(--ink-3); }
+
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+@media (max-width: 860px) { .two { grid-template-columns: minmax(0, 1fr); } }
+
+#tip { position: fixed; pointer-events: none; z-index: 20; background: var(--surface); color: var(--ink); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 8px 10px; font-size: 12.5px; line-height: 1.45; box-shadow: 0 6px 20px rgb(0 0 0 / 0.16); max-width: 300px; }
+#tip .t { font-weight: 700; margin-bottom: 2px; }
+#tip .r { display: flex; justify-content: space-between; gap: 14px; }
+#tip .r span:last-child { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+footer { font-size: 12.5px; color: var(--ink-3); display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--rule); padding-top: 20px; }
+@media (prefers-reduced-motion: no-preference) { .card, .seg button { transition: border-color .15s, background-color .15s; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">NYC 311 · 2025-11 ~ 2026-10 · 민원 396만 건</span>
+    <h1>민원으로 읽는 다섯 자치구</h1>
+    <p class="lede">어떤 민원이 유난히 많고 적은지만 보고 각 자치구가 어떤 곳인지 짐작해 봅니다. 기준은 <b>배율</b>입니다. 그 자치구 민원 중 이 유형의 비중을 나머지 네 자치구의 비중으로 나눈 값으로, 1보다 크면 유난히 많고 작으면 유난히 적다는 뜻입니다.</p>
+    <div class="facts" id="facts"></div>
+  </header>
+
+  <section aria-labelledby="h-cards">
+    <div class="sec-head">
+      <h2 id="h-cards">한 줄 성격</h2>
+      <p class="source">카드를 누르면 아래 '자치구 깊이 보기'가 그 자치구로 바뀝니다. 숫자는 배율 상위 3개 유형입니다.</p>
+    </div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section aria-labelledby="h-theme">
+    <div class="sec-head">
+      <h2 id="h-theme">주제 지도</h2>
+      <p>194개 유형을 11개 주제로 묶었습니다. 도심에서 멀어질수록 민원의 무대가 집 안(임대 아파트)에서 집 앞(자동차·도로), 집 밖(나무·눈)으로 옮겨 갑니다.</p>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="히트맵 값" id="heatMode"></div>
+    </div>
+    <div class="panel">
+      <div class="scroll-x"><table class="heat" id="heat"></table></div>
+      <div class="legend" id="heatLegend" style="margin-top:12px"></div>
+    </div>
+    <p class="meaning" id="heatNote"></p>
+    <p class="source">출처: <code>outputs/tables/edac10_theme.csv</code> · 시스템 중복 신고 제외 · 인구는 2020 인구총조사</p>
+  </section>
+
+  <section aria-labelledby="h-deep">
+    <div class="sec-head">
+      <h2 id="h-deep">자치구 깊이 보기</h2>
+      <p>막대는 로그 눈금이라 2배와 ½배가 같은 길이입니다. 아래 표에서 이 특징이 반복 신고 때문인지, 한 동네만의 모습인지 확인합니다.</p>
+    </div>
+    <div class="controls"><div class="seg" role="group" aria-label="자치구" id="boroPick"></div></div>
+    <div class="deep">
+      <div class="panel story" id="story"></div>
+      <div class="panel" style="display:flex;flex-direction:column;gap:10px">
+        <h3 id="sigTitle"></h3>
+        <div id="sigChart"></div>
+        <div class="legend"><span class="key-item"><span class="swatch" style="background:var(--hi)"></span>유난히 많음 (상위 10)</span><span class="key-item"><span class="swatch" style="background:var(--lo)"></span>유난히 적음 (하위 8)</span></div>
+      </div>
+    </div>
+    <div id="flags"></div>
+    <div class="panel">
+      <div class="scroll-x"><table class="detail" id="detail"></table></div>
+    </div>
+    <p class="source"><b>사건 기준 배율</b>: 같은 날·같은 곳·같은 유형의 반복 신고를 1건으로 다시 센 배율. <b>동네 일관성</b>: 그 자치구 커뮤니티 보드(CB) 중 배율이 1을 넘는 곳의 수. <b>최다 CB</b>: 그 유형 신고를 가장 많이 받은 CB 한 곳의 몫. 출처: <code>edac10_signature.csv</code></p>
+  </section>
+
+  <section aria-labelledby="h-season">
+    <div class="sec-head">
+      <h2 id="h-season">계절 변화</h2>
+      <p>주제를 고르면 다섯 자치구에서 그 주제가 매달 민원의 몇 %였는지 보여 줍니다. 계절에 따라 세기는 달라져도 순서는 거의 그대로입니다.</p>
+    </div>
+    <div class="controls">
+      <label for="themeSel" class="source">주제</label>
+      <select id="themeSel"></select>
+    </div>
+    <div class="panel">
+      <div id="lineChart"></div>
+      <div class="legend" id="lineLegend" style="margin-top:8px"></div>
+    </div>
+    <p class="meaning" id="seasonNote"></p>
+    <p class="source">출처: <code>edac10_theme_monthly.csv</code> · 첫 달(2025-11)은 1일 밤부터 집계 · 1년치뿐이라 겨울 값은 해마다 달라질 수 있습니다</p>
+  </section>
+
+  <section aria-labelledby="h-sim">
+    <div class="sec-head">
+      <h2 id="h-sim">닮은 정도</h2>
+      <p>민원 유형 194개의 비중을 한 묶음으로 놓고 자치구끼리 비교했습니다. 왼쪽의 코사인 유사도는 1에 가까울수록 구성이 같다는 뜻입니다. 오른쪽의 JS 거리는 각 자치구를 나머지 네 자치구와 비교한 값으로, 클수록 개성이 강합니다.</p>
+    </div>
+    <div class="two">
+      <div class="panel"><div class="scroll-x"><table class="heat" id="simTable" style="min-width:420px"></table></div></div>
+      <div class="panel"><div id="distChart"></div></div>
+    </div>
+    <p class="meaning">가장 닮은 쌍은 <b>브루클린–퀸스(0.97)</b>로, 둘 다 주차와 주택가 민원이 중심입니다. 의외로 <b>맨해튼–브롱크스(0.91)</b>도 꽤 닮았습니다. 둘 다 난방·주거 소음·거리 소음 같은 "아파트 도시"의 유형이 상위에 있기 때문입니다. 가장 다른 쌍은 <b>맨해튼–스태튼아일랜드(0.64)</b>입니다. 브루클린은 나머지와 가장 닮아 "보통의 뉴욕"에 가깝습니다.</p>
+    <p class="source">출처: <code>edac10_similarity.csv</code>, <code>edac10_distance.csv</code></p>
+  </section>
+
+  <div class="warn" role="note">
+    <p><b>이 페이지의 '성격'은 민원 유형만으로 한 추정입니다.</b> 311 신고는 문제가 많은 곳이 아니라 신고하는 곳을 보여 줍니다. 신고 습관·언어·앱 사용·기관 신뢰도가 자치구마다 다릅니다.</p>
+    <p>실제 주거 형태·소득과의 관계를 말하려면 인구조사(ACS) 자료를 커뮤니티 보드 단위로 붙여 상관을 봐야 합니다. 자치구는 5개뿐이라 자치구 단위 상관은 표본이 너무 작습니다. 맨해튼은 통근자·관광객이 많아 주민 수로 나눈 값이 부풀려집니다.</p>
+  </div>
+
+  <footer>
+    <span>데이터: NYC Open Data 311 Service Requests (2025-11-01 ~ 2026-10-31), 전처리본에서 시스템 중복 의심 신고와 자치구 결측을 뺐습니다.</span>
+    <span>분석: <code>analysis/eda_borough_character.py</code> → 페이지 생성: <code>reports/build_borough_html.py</code></span>
+  </footer>
+</div>
+<div id="tip" hidden></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const BORO = ["MANHATTAN", "BRONX", "BROOKLYN", "QUEENS", "STATEN ISLAND"];
+const KO = { MANHATTAN: "맨해튼", BRONX: "브롱크스", BROOKLYN: "브루클린", QUEENS: "퀸스", "STATEN ISLAND": "스태튼아일랜드" };
+const BVAR = { MANHATTAN: "--b1", BRONX: "--b2", BROOKLYN: "--b3", QUEENS: "--b4", "STATEN ISLAND": "--b5" };
+const THEMES = ["주거 설비(실내)", "주거 소음", "거리·상업 소음", "주차·차량", "도로·상하수도", "청소·쓰레기", "나무·공원·눈", "노숙·거리 질서", "교통수단·방문객", "상업·소비자", "건물·공사"];
+const PERSONA = {
+  MANHATTAN: { key: "도심·관광·노숙", one: "사는 사람보다 오가는 사람이 많은 도심. 차와 집 앞 공간이 없다.",
+    body: ["분실물·택시·호출 차량(교통수단·방문객 4.8배), 노숙 텐트·노숙인 지원·구걸·노점(노숙·거리 질서 4.5배)이 다른 자치구보다 훨씬 많습니다. 반대로 차고 앞 주차(0.11배)·방치 차량·가로수·눈 민원은 거의 없습니다.",
+      "통근자·관광객·상점이 몰리고, 고층 건물이 빽빽하며, 차를 덜 타는 도시 중심부의 모습입니다. 노숙 텐트·노숙인 지원은 12개 CB 가운데 11~12곳에서 배율이 1을 넘어 맨해튼 전체의 특징입니다. 반면 헬기 소음은 7번 CB(어퍼웨스트사이드) 한 곳이 70%를 차지하는 국지적 특징입니다."],
+    ctx: "배경 자료: 1인 가구·임차 비중이 압도적이고 가구 소득이 가장 높습니다. 주거 설비 민원이 1.2배로 조금 많은 것은 북부(할렘·워싱턴하이츠)의 임대 아파트 영향입니다." },
+  BRONX: { key: "노후 임대 아파트", one: "엘리베이터 있는 오래된 임대 아파트에 사람이 빽빽이 사는 곳.",
+    body: ["배율 상위 10개가 모두 집 안 하자입니다(가전·엘리베이터·벽·바닥·배관·난방·창문·누수·위생, 1.8~2.2배). 주거 소음도 2.0배로, 민원 6건 중 1건이 이웃 소음입니다. 노숙·가로수·호출 차량 민원은 적습니다.",
+      "이 특징은 12개 CB 가운데 10~11곳에서 똑같이 나타나 브롱크스 전체가 같은 성격입니다. 주민 수로 나눠도 주거 설비·주거 소음이 시 평균의 약 2배라서, 구성만이 아니라 양 자체도 많습니다."],
+    ctx: "배경 자료: 다세대 임대 비율과 빈곤율이 가장 높고, 가구 소득은 가장 낮습니다. 세입자가 주택국(HPD) 신고로 권리를 지키는 습관도 숫자를 키웁니다." },
+  BROOKLYN: { key: "평균형 대형 주거지", one: "가장 '보통의 뉴욕'. 주차난과 공사가 조금 더 많은 오래된 주거 밀집지.",
+    body: ["배율이 큰 유형이 거의 없습니다(대부분 1.3~1.8배). 자기를 뺀 나머지 자치구와 비교해도 구성 차이가 다섯 곳 중 가장 작습니다.",
+      "그래도 거리 청소(2.9배, 18개 CB 전부), 그라피티·주택 폐기물·공사·쥐, 불법 주차(1.45배, 민원 5건 중 1건)가 많아 주차 공간이 부족하고 공사가 잦은 오래된 주거지로 읽힙니다. 노숙·노점·거리 소음은 적습니다."],
+    ctx: "배경 자료: 신규 유입층과 저소득·이민자 주거지가 공존합니다. 자치구 안에서도 북부와 남부의 성격이 달라 CB 단위로 보는 것이 더 정확합니다." },
+  QUEENS: { key: "차량·교외 주택·공항", one: "차고 딸린 주택에서 차를 타고 다니는 넓은 주거지, 그리고 공항.",
+    body: ["차고 앞 주차(2.2배)와 도로 파손(2.2배)은 14개 CB 전부에서 많고, 방치 차량·하수 민원도 많아 개인 주택과 자동차, 넓은 도로망의 모습입니다. 반대로 아파트 실내 하자(0.36~0.46배)는 적습니다. 건물 용도 위반(3.4배, 불법 개조·쪼개기 임대)은 14곳 중 13곳에서 많습니다.",
+      "반면 택시 민원(2.5배)은 배율이 1을 넘는 CB가 1곳뿐이고, 사건 기준으로 다시 세면 0.9배입니다. 공항 주변 반복 신고가 만든 착시에 가깝습니다. 마약·차량 소음도 8번 CB 한 곳이 50~60%를 차지합니다."],
+    ctx: "배경 자료: 면적이 가장 넓고 이민자 비율이 매우 높은 중산층 주거지입니다. 공항 두 곳(JFK·라과디아)이 있습니다." },
+  "STATEN ISLAND": { key: "교외 단독주택·자연", one: "뉴욕 안의 교외. 집 앞 나무·눈·가로등을 주민이 직접 신고한다.",
+    body: ["눈·얼음(7.3배), 불법 게시물, 보도·뿌리, 쓰레기 미수거, 가로등, 나무(3.3~3.7배), 동물 사체 같은 집 밖 공공시설·자연 민원이 많고, 모두 3개 CB 전부에서 나타납니다.",
+      "반대로 노숙 텐트(0.09배)·노점·엘리베이터·난방(0.24배) 민원은 거의 없습니다. 아파트보다 단독주택, 걷기보다 자가용의 생활입니다. 다른 자치구와 구성이 가장 다르고, 맨해튼과는 정반대입니다."],
+    ctx: "배경 자료: 자가 보유율이 가장 높고(약 65% 이상) 단독주택·자가용 의존이 큽니다. 주민 1만 명당 신고는 가장 적지만, 나무·공원·눈은 인구당으로도 시 평균의 2.5배입니다." },
+};
+const PNAME = { "Lost Property": "분실물", "Encampment": "노숙 텐트", "Noise - Helicopter": "헬기 소음", "Homeless Person Assistance": "노숙인 지원",
+  "Vendor Enforcement": "노점 단속", "Taxi Complaint": "택시", "For Hire Vehicle Complaint": "호출 차량", "Air Quality": "대기질", "Traffic": "교통",
+  "Panhandling": "구걸", "Blocked Driveway": "차고 앞 주차", "Overgrown Tree/Branches": "나뭇가지 웃자람", "Abandoned Vehicle": "방치 차량",
+  "Derelict Vehicles": "폐차량", "Damaged Tree": "나무 피해", "Snow or Ice": "눈·얼음", "Building/Use": "건물 용도 위반", "Sewer": "하수",
+  "APPLIANCE": "가전", "Elevator": "엘리베이터", "PAINT/PLASTER": "벽 페인트·회반죽", "FLOORING/STAIRS": "바닥·계단", "Noise - Residential": "주거 소음",
+  "PLUMBING": "배관", "HEAT/HOT WATER": "난방·온수", "DOOR/WINDOW": "문·창문", "WATER LEAK": "누수", "UNSANITARY CONDITION": "위생 불량",
+  "Street Sweeping Complaint": "거리 청소", "Graffiti": "그라피티", "Residential Disposal Complaint": "주택 폐기물", "General Construction/Plumbing": "공사·배관(건물국)",
+  "Illegal Parking": "불법 주차", "Maintenance or Facility": "공원 시설", "Rodent": "쥐", "Lead": "납", "Noise - Vehicle": "차량 소음",
+  "Noise - Street/Sidewalk": "거리 소음", "Street Condition": "도로 파손", "Non-Emergency Police Matter": "비긴급 경찰", "Highway Condition": "고속도로 상태",
+  "Drug Activity": "마약", "Dead/Dying Tree": "죽은 나무", "Illegal Posting": "불법 게시물", "Root/Sewer/Sidewalk Condition": "보도·뿌리",
+  "Missed Collection": "쓰레기 미수거", "Street Light Condition": "가로등", "Dead Animal": "동물 사체", "Water Conservation": "물 낭비",
+  "GENERAL": "일반 주택 하자" };
+const pn = p => PNAME[p] || p;
+
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fmt = (x, d = 2) => x == null ? "–" : x.toLocaleString("ko-KR", { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtInt = x => x.toLocaleString("ko-KR");
+const ratioTxt = r => r >= 1 ? `${fmt(r, r >= 10 ? 1 : 2)}배` : `${fmt(r, 2)}배`;
+const el = (tag, attrs = {}, html = "") => { const e = document.createElement(tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (html) e.innerHTML = html; return e; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+// ── 색 보간 (테마 토큰 기준) ──
+function hex2rgb(h) { h = h.replace("#", ""); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); }
+function mix(a, b, t) { const A = hex2rgb(a), B = hex2rgb(b); return `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * t)).join(",")})`; }
+function lum(c) { const m = c.match(/\d+/g).map(Number).map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]; }
+function divColor(ratio) { const t = Math.max(-1, Math.min(1, Math.log2(ratio) / 2)); return t >= 0 ? mix(css("--mid"), css("--hi"), t) : mix(css("--mid"), css("--lo"), -t); }
+function seqColor(t) { return mix(css("--seq-0"), css("--seq-1"), Math.max(0, Math.min(1, t))); }
+function inkOn(bg) { return lum(bg) > 0.33 ? "#14171c" : "#f4f5f7"; }
+
+// ── 툴팁 ──
+const tip = document.getElementById("tip");
+function showTip(e, html) { tip.innerHTML = html; tip.hidden = false; moveTip(e); }
+function moveTip(e) { const w = tip.offsetWidth, h = tip.offsetHeight; let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + w > innerWidth - 8) x = e.clientX - w - 14; if (y + h > innerHeight - 8) y = e.clientY - h - 14; tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px"; }
+function hideTip() { tip.hidden = true; }
+function bindTip(node, fn) { node.addEventListener("mouseenter", e => showTip(e, fn())); node.addEventListener("mousemove", moveTip); node.addEventListener("mouseleave", hideTip);
+  node.addEventListener("focus", () => { const r = node.getBoundingClientRect(); showTip({ clientX: r.right, clientY: r.top }, fn()); }); node.addEventListener("blur", hideTip); }
+const row = (a, b) => `<div class="r"><span>${a}</span><span>${b}</span></div>`;
+
+// ── 상단 사실 ──
+const total = DATA.distance.reduce((s, d) => s + d.n, 0);
+document.getElementById("facts").innerHTML = DATA.distance.map(d => `<span><b>${KO[d.b]}</b> <span class="num">${fmtInt(d.n)}</span>건 (${fmt(d.cityShare, 1)}%)</span>`).join("");
+document.querySelector(".eyebrow").textContent = `NYC 311 · 2025-11 ~ 2026-10 · 민원 ${fmt(total / 1e4, 0)}만 건`;
+
+// ── 카드 ──
+let current = "MANHATTAN";
+const cards = document.getElementById("cards");
+for (const b of BORO) {
+  const p = PERSONA[b]; const top = DATA.signature.filter(s => s.b === b && s.dir === "많음").slice(0, 3);
+  const c = el("button", { class: "card", type: "button", "aria-label": `${KO[b]} 자세히 보기` });
+  c.innerHTML = `<span class="name"><span class="dot" style="background:var(${BVAR[b]})"></span>${KO[b]}</span><span class="key">${p.key}</span><span class="one">${p.one}</span>
+    <ul>${top.map(t => `<li><span title="${esc(t.p)}">${pn(t.p)}</span><span class="num">${ratioTxt(t.ratio)}</span></li>`).join("")}</ul>`;
+  c.addEventListener("click", () => { setBoro(b); document.getElementById("h-deep").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); });
+  cards.append(c);
+}
+
+// ── 주제 히트맵 ──
+const MODES = {
+  ratio: { label: "구성 배율", key: "ratio", kind: "div", note: "<b>맨해튼</b>은 노숙·거리 질서(4.5배)와 교통수단·방문객(4.8배), <b>브롱크스</b>는 주거 설비(1.8배)와 주거 소음(2.0배), <b>퀸스</b>는 주차·차량과 도로·상하수도(약 1.6배), <b>스태튼아일랜드</b>는 나무·공원·눈(3.9배)과 도로·청소(약 2배)가 많습니다. <b>브루클린</b>은 모든 칸이 0.4~1.4배로 가장 평범합니다." },
+  pcRatio: { label: "인구당 배율", key: "pcRatio", kind: "div", note: "주민 1만 명당 신고를 시 평균과 비교했습니다. 브롱크스의 주거 설비(1.96배)·주거 소음(2.07배), 스태튼아일랜드의 나무·공원·눈(2.53배), 맨해튼의 교통수단·방문객(2.80배)·노숙·거리 질서(2.71배)는 <b>구성도 양도 많습니다</b>. 퀸스의 주차·차량은 구성으로는 1.63배인데 인구당으로는 1.26배로 줄어듭니다. 퀸스 주민이 신고를 덜 하는 편이기 때문입니다." },
+  share: { label: "비중(%)", key: "share", kind: "seq", note: "각 자치구 민원을 100%로 놓은 주제별 비중입니다. 브롱크스는 민원의 38%가 주거 설비, 퀸스는 33%가 주차·차량이고, 스태튼아일랜드는 도로·상하수도(21%)와 나무·공원·눈(17%)이 큽니다." },
+};
+let heatMode = "ratio";
+const heatSeg = document.getElementById("heatMode");
+for (const m in MODES) { const b = el("button", { type: "button", "aria-pressed": String(m === heatMode) }, MODES[m].label); b.onclick = () => { heatMode = m; renderHeat(); }; heatSeg.append(b); }
+function renderHeat() {
+  heatSeg.querySelectorAll("button").forEach((b, i) => b.setAttribute("aria-pressed", String(Object.keys(MODES)[i] === heatMode)));
+  const M = MODES[heatMode]; const t = document.getElementById("heat");
+  const get = (b, th) => DATA.theme.find(d => d.b === b && d.theme === th);
+  const max = Math.max(...DATA.theme.filter(d => THEMES.includes(d.theme)).map(d => d.share));
+  t.innerHTML = `<thead><tr><th></th>${THEMES.map(th => `<th scope="col">${th.replace("(", "<br>(")}</th>`).join("")}</tr></thead>`;
+  const tb = el("tbody");
+  for (const b of BORO) {
+    const tr = el("tr"); tr.append(el("th", { scope: "row" }, `<span class="key-item"><span class="dot" style="background:var(${BVAR[b]})"></span>${KO[b]}</span>`));
+    for (const th of THEMES) {
+      const d = get(b, th); const v = d[M.key];
+      const bg = M.kind === "div" ? divColor(v) : seqColor(v / max);
+      const td = el("td", { tabindex: "0" }, M.kind === "div" ? fmt(v, 2) : fmt(v, 1));
+      td.style.background = bg; td.style.color = inkOn(bg);
+      bindTip(td, () => `<div class="t">${KO[b]} · ${th}</div>${row("비중", fmt(d.share, 1) + "%")}${row("구성 배율 (나머지 자치구 대비)", fmt(d.ratio) + "배")}${row("1만 명당 신고", fmt(d.pc, 0) + "건")}${row("인구당 배율 (시 평균 대비)", fmt(d.pcRatio) + "배")}<div style="margin-top:4px;color:var(--ink-3)">${(DATA.members[th] || []).slice(0, 6).map(pn).join(", ")}${(DATA.members[th] || []).length > 6 ? " 등" : ""}</div>`);
+      tr.append(td);
+    }
+    tb.append(tr);
+  }
+  t.append(tb);
+  const lg = document.getElementById("heatLegend");
+  if (M.kind === "div") {
+    const stops = [0.25, 0.5, 1, 2, 4].map(divColor);
+    lg.innerHTML = `<span>적음</span><span class="ramp" style="background:linear-gradient(90deg,${stops.join(",")})"></span><span>많음</span><span class="num">¼배 · ½배 · 1배 · 2배 · 4배 (로그 눈금, 4배 이상은 같은 색)</span>`;
+  } else {
+    lg.innerHTML = `<span class="num">0%</span><span class="ramp" style="background:linear-gradient(90deg,${seqColor(0)},${seqColor(1)})"></span><span class="num">${fmt(max, 0)}%</span>`;
+  }
+  document.getElementById("heatNote").innerHTML = M.note;
+}
+
+// ── 자치구 깊이 보기 ──
+const boroSeg = document.getElementById("boroPick");
+for (const b of BORO) { const btn = el("button", { type: "button" }, `<span class="dot" style="background:var(${BVAR[b]})"></span>${KO[b]}`); btn.onclick = () => setBoro(b); boroSeg.append(btn); }
+function setBoro(b) { current = b; renderDeep(); }
+function renderDeep() {
+  const b = current, p = PERSONA[b], d = DATA.distance.find(x => x.b === b);
+  boroSeg.querySelectorAll("button").forEach((x, i) => x.setAttribute("aria-pressed", String(BORO[i] === b)));
+  const jsRank = [...DATA.distance].sort((a, c) => c.js - a.js).findIndex(x => x.b === b) + 1;
+  document.getElementById("story").innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:4px"><span class="eyebrow">${KO[b]}</span><h3 style="font-size:20px">${p.key}</h3></div>
+    <div class="stats">
+      <div class="stat"><span class="lab">신고 수</span><span class="val">${fmt(d.n / 1e4, 1)}만</span><span class="sub">시 전체의 ${fmt(d.cityShare, 1)}%</span></div>
+      <div class="stat"><span class="lab">개성 (JS 거리)</span><span class="val">${fmt(d.js, 2)}</span><span class="sub">5개 구 중 ${jsRank}위</span></div>
+      <div class="stat"><span class="lab">절반을 채우는 유형</span><span class="val">${d.half}개</span><span class="sub">유효 유형 수 ${fmt(d.eff, 1)}</span></div>
+    </div>
+    ${p.body.map(x => `<p>${x}</p>`).join("")}<p class="ctx">${p.ctx}</p>`;
+  const rows = DATA.signature.filter(s => s.b === b);
+  const hi = rows.filter(s => s.dir === "많음"), lo = rows.filter(s => s.dir === "적음");
+  document.getElementById("sigTitle").textContent = `${KO[b]}에 유난히 많은 유형과 적은 유형`;
+  drawSig([...hi, ...[...lo].reverse()]);
+  // 경고
+  const flags = [];
+  for (const r of hi) {
+    if (r.gratio != null && r.gratio < r.ratio * 0.6) flags.push(`<b>${pn(r.p)}</b>: 사건 기준으로 다시 세면 ${fmt(r.ratio, 1)}배에서 ${fmt(r.gratio, 1)}배로 떨어집니다. 반복 신고가 부풀린 몫이 큽니다.`);
+    if (r.cbHit / r.cbN < 0.4) flags.push(`<b>${pn(r.p)}</b>: 배율이 1을 넘는 CB가 ${r.cbN}곳 중 ${r.cbHit}곳뿐인 국지적 특징입니다.` + (r.topCb ? ` 가장 많은 CB 한 곳(${r.topCb})이 ${fmt(r.topShare, 0)}%를 차지합니다.` : " 대부분 CB 번호가 없는 장소(고속도로·공항 등)에서 접수됐습니다."));
+  }
+  document.getElementById("flags").innerHTML = flags.length
+    ? `<div class="warn" role="note"><p><b>한 번 더 확인할 특징</b></p>${flags.map(f => `<p>${f}</p>`).join("")}</div>`
+    : `<p class="meaning">상위 특징 유형은 사건 기준으로 다시 세도 비슷하고, 대부분의 CB에서 나타납니다. 자치구 전체의 성격으로 봐도 됩니다.</p>`;
+  // 표
+  document.getElementById("detail").innerHTML = `<thead><tr><th>유형</th><th>주제</th><th>방향</th><th>건수</th><th>자치구 비중</th><th>나머지 비중</th><th>배율</th><th>사건 기준</th><th>동네 일관성</th><th>최다 CB</th></tr></thead><tbody>${rows.map(r => `
+    <tr><td class="txt" title="${esc(r.p)}">${pn(r.p)} <span style="color:var(--ink-3);font-size:11px">${pn(r.p) !== r.p ? esc(r.p) : ""}</span></td><td class="txt">${r.theme}</td>
+    <td class="txt"><span class="pill ${r.dir === "많음" ? "hi" : "lo"}">${r.dir}</span></td><td>${fmtInt(r.n)}</td><td>${fmt(r.me)}%</td><td>${fmt(r.rest)}%</td>
+    <td>${fmt(r.ratio)}</td><td>${fmt(r.gratio)}</td>
+    <td><span class="cbbar"><i><b style="width:${(r.cbHit / r.cbN * 100).toFixed(0)}%"></b></i>${r.cbHit}/${r.cbN}</span></td>
+    <td>${r.topCb ? `${r.topCb.replace(/ .*/, "")}번 ${fmt(r.topShare, 0)}%` : "–"}</td></tr>`).join("")}</tbody>`;
+}
+
+function drawSig(rows) {
+  const host = document.getElementById("sigChart"); const W = Math.max(320, host.clientWidth || 560);
+  const lab = Math.min(150, W * 0.34), padR = 46, bh = 20, gap = 4, top = 22;
+  const H = top + rows.length * (bh + gap) + 6;
+  const lo = -4, hiV = 4; const x = v => lab + (Math.max(lo, Math.min(hiV, v)) - lo) / (hiV - lo) * (W - lab - padR);
+  let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="배율 막대 그래프">`;
+  s += `<g class="grid">${[-3, -2, -1, 1, 2, 3, 4].map(t => `<line x1="${x(t)}" x2="${x(t)}" y1="${top - 4}" y2="${H}"/>`).join("")}</g>`;
+  s += `<g class="axis">${[-3, -2, -1, 0, 1, 2, 3, 4].map(t => `<text x="${x(t)}" y="12" text-anchor="middle">${["⅛", "¼", "½", "1", "2", "4", "8", "16"][t + 3]}</text>`).join("")}</g>`;
+  rows.forEach((r, i) => {
+    const y = top + i * (bh + gap), v = Math.log2(r.ratio), x0 = x(0), x1 = x(v);
+    const sepY = rows[i - 1] && rows[i - 1].dir !== r.dir ? `<line x1="0" x2="${W}" y1="${y - gap / 2}" y2="${y - gap / 2}" stroke="var(--rule)" stroke-dasharray="3 3"/>` : "";
+    const xa = Math.min(x0, x1), w = Math.max(2, Math.abs(x1 - x0)), col = r.dir === "많음" ? "var(--hi)" : "var(--lo)";
+    const rad = 4, path = v >= 0
+      ? `M${xa},${y} h${w - rad} q${rad},0 ${rad},${rad} v${bh - 2 * rad} q0,${rad} -${rad},${rad} h-${w - rad} z`
+      : `M${xa + w},${y} h-${w - rad} q-${rad},0 -${rad},${rad} v${bh - 2 * rad} q0,${rad} ${rad},${rad} h${w - rad} z`;
+    s += `${sepY}<g class="bar" data-i="${i}" tabindex="0"><rect x="0" y="${y - 1}" width="${W}" height="${bh + 2}" fill="transparent"/>
+      <text x="${lab - 8}" y="${y + bh / 2 + 4}" text-anchor="end" font-size="12">${pn(r.p)}</text>
+      <path d="${path}" fill="${col}"/>
+      <text x="${v >= 0 ? x1 + 5 : x1 - 5}" y="${y + bh / 2 + 4}" text-anchor="${v >= 0 ? "start" : "end"}" font-size="11" class="num" style="font-family:var(--font-mono)">${fmt(r.ratio, r.ratio >= 10 ? 1 : 2)}</text></g>`;
+  });
+  s += `<line class="base" x1="${x(0)}" x2="${x(0)}" y1="${top - 4}" y2="${H}" stroke-width="1"/></svg>`;
+  host.innerHTML = s;
+  host.querySelectorAll(".bar").forEach(g => { const r = rows[+g.dataset.i];
+    bindTip(g, () => `<div class="t">${pn(r.p)}</div><div style="color:var(--ink-3);font-size:11.5px">${esc(r.p)} · ${r.theme}</div>${row("자치구 비중", fmt(r.me) + "%")}${row("나머지 자치구 비중", fmt(r.rest) + "%")}${row("배율", fmt(r.ratio) + "배")}${row("사건 기준 배율", fmt(r.gratio) + "배")}${row("배율 1 넘는 CB", `${r.cbHit}/${r.cbN}`)}${row("건수", fmtInt(r.n))}`); });
+}
+
+// ── 계절 꺾은선 ──
+const themeSel = document.getElementById("themeSel");
+THEMES.forEach(t => themeSel.append(el("option", { value: t }, t)));
+themeSel.value = "주거 설비(실내)";
+themeSel.onchange = renderLine;
+const SEASON_NOTE = {
+  "주거 설비(실내)": "겨울에 난방 민원이 몰려 1월에는 브롱크스 민원의 58%가 주거 설비입니다. 여름에는 26%까지 내려가지만, 브롱크스가 1위이고 스태튼아일랜드가 꼴찌인 순서는 1년 내내 같습니다.",
+  "거리·상업 소음": "여름(6~8월)에 크게 늘어납니다. 브롱크스는 겨울 2%에서 7월 20%로 뛰어 맨해튼(18%)을 넘습니다.",
+  "나무·공원·눈": "스태튼아일랜드는 눈이 온 겨울과 나무가 자라는 여름에 두 번 솟습니다. 다른 자치구는 1년 내내 낮습니다.",
+};
+function renderLine() {
+  const th = themeSel.value, host = document.getElementById("lineChart");
+  const months = [...new Set(DATA.monthly.map(d => d.ym))].sort();
+  const series = BORO.map(b => ({ b, v: months.map(m => (DATA.monthly.find(d => d.b === b && d.ym === m && d.theme === th) || { share: 0 }).share) }));
+  const W = Math.max(320, host.clientWidth || 900), H = 300, L = 44, R = 110, T = 12, B = 30;
+  const ymax = Math.ceil(Math.max(...series.flatMap(s => s.v)) / 5) * 5 || 5;
+  const x = i => L + i * (W - L - R) / (months.length - 1), y = v => T + (1 - v / ymax) * (H - T - B);
+  const ticks = []; const step = ymax <= 10 ? 2 : ymax <= 30 ? 5 : 10; for (let t = 0; t <= ymax; t += step) ticks.push(t);
+  let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${th} 월별 비중 꺾은선">`;
+  s += `<g class="grid">${ticks.map(t => `<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}"/>`).join("")}</g>`;
+  s += `<g class="axis">${ticks.map(t => `<text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${t}%</text>`).join("")}
+    ${months.map((m, i) => (i % (W < 560 ? 2 : 1) === 0) ? `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${m.slice(2).replace("-", ".")}</text>` : "").join("")}</g>`;
+  // 끝 라벨 겹침 피하기
+  const ends = series.map(se => ({ b: se.b, y: y(se.v[se.v.length - 1]) })).sort((a, c) => a.y - c.y);
+  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 14) ends[i].y = ends[i - 1].y + 14;
+  for (const se of series) {
+    s += `<path d="${se.v.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("")}" fill="none" stroke="var(${BVAR[se.b]})" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    const e = ends.find(z => z.b === se.b);
+    s += `<circle cx="${x(se.v.length - 1)}" cy="${y(se.v[se.v.length - 1])}" r="4" fill="var(${BVAR[se.b]})" stroke="var(--surface)" stroke-width="2"/>`;
+    s += `<text x="${W - R + 10}" y="${e.y + 4}" font-size="12">${KO[se.b]}</text>`;
+  }
+  s += `<line id="xh" x1="0" x2="0" y1="${T}" y2="${H - B}" stroke="var(--ink-3)" stroke-dasharray="3 3" visibility="hidden"/><rect id="hit" x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent"/></svg>`;
+  host.innerHTML = s;
+  const hit = host.querySelector("#hit"), xh = host.querySelector("#xh"), svg = host.querySelector("svg");
+  hit.addEventListener("mousemove", e => { const r = svg.getBoundingClientRect(); const px = (e.clientX - r.left) * (W / r.width);
+    const i = Math.max(0, Math.min(months.length - 1, Math.round((px - L) / ((W - L - R) / (months.length - 1)))));
+    xh.setAttribute("x1", x(i)); xh.setAttribute("x2", x(i)); xh.setAttribute("visibility", "visible");
+    const ordered = [...series].sort((a, c) => c.v[i] - a.v[i]);
+    showTip(e, `<div class="t">${months[i]} · ${th}</div>${ordered.map(se => row(`<span class="key-item"><span class="dot" style="background:var(${BVAR[se.b]})"></span>${KO[se.b]}</span>`, fmt(se.v[i], 1) + "%")).join("")}`); });
+  hit.addEventListener("mouseleave", () => { xh.setAttribute("visibility", "hidden"); hideTip(); });
+  document.getElementById("lineLegend").innerHTML = BORO.map(b => `<span class="key-item"><span class="swatch" style="background:var(${BVAR[b]})"></span>${KO[b]}</span>`).join("");
+  document.getElementById("seasonNote").innerHTML = SEASON_NOTE[th] || "계절에 따라 세기는 달라지지만, 어느 자치구가 이 주제에서 높은지는 1년 내내 거의 바뀌지 않습니다. 겨울에는 난방, 여름에는 소음이 전체 비중을 흔들어 다른 주제의 비중도 따라 움직입니다.";
+}
+
+// ── 유사도 행렬 + 개성 막대 ──
+function renderSim() {
+  const S = DATA.similarity, t = document.getElementById("simTable");
+  t.innerHTML = `<thead><tr><th></th>${S.labels.map(l => `<th scope="col">${l}</th>`).join("")}</tr></thead>`;
+  const tb = el("tbody");
+  S.labels.forEach((l, i) => { const tr = el("tr"); tr.append(el("th", { scope: "row" }, l));
+    S.matrix[i].forEach((v, j) => { const td = el("td", { tabindex: "0" }, i === j ? "–" : fmt(v, 2)); const bg = i === j ? css("--rule-2") : seqColor((v - 0.6) / 0.4);
+      td.style.background = bg; td.style.color = i === j ? css("--ink-3") : inkOn(bg);
+      if (i !== j) bindTip(td, () => `<div class="t">${l} – ${S.labels[j]}</div>${row("코사인 유사도", fmt(v, 3))}`); tr.append(td); });
+    tb.append(tr); });
+  t.append(tb);
+  const host = document.getElementById("distChart"); const rows = [...DATA.distance].sort((a, c) => c.js - a.js);
+  const W = Math.max(280, host.clientWidth || 420), lab = 104, padR = 44, bh = 24, gap = 10, top = 26, H = top + rows.length * (bh + gap);
+  const x = v => lab + v / 0.4 * (W - lab - padR);
+  let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="나머지 자치구와의 JS 거리"><text x="0" y="14" font-size="12.5" font-weight="700" style="fill:var(--ink)">개성 강한 순서 (JS 거리)</text>`;
+  s += `<g class="grid">${[0.1, 0.2, 0.3, 0.4].map(t => `<line x1="${x(t)}" x2="${x(t)}" y1="${top}" y2="${H}"/>`).join("")}</g>`;
+  rows.forEach((r, i) => { const y = top + i * (bh + gap), w = x(r.js) - lab;
+    s += `<g class="bar" data-i="${i}" tabindex="0"><text x="${lab - 8}" y="${y + bh / 2 + 4}" text-anchor="end" font-size="12.5">${KO[r.b]}</text>
+      <path d="M${lab},${y} h${w - 4} q4,0 4,4 v${bh - 8} q0,4 -4,4 h-${w - 4} z" fill="var(--accent)"/>
+      <text x="${x(r.js) + 6}" y="${y + bh / 2 + 4}" font-size="11.5" style="font-family:var(--font-mono)">${fmt(r.js, 2)}</text></g>`; });
+  s += `<line class="base" x1="${lab}" x2="${lab}" y1="${top}" y2="${H}"/></svg>`;
+  host.innerHTML = s;
+  host.querySelectorAll(".bar").forEach(g => { const r = rows[+g.dataset.i];
+    bindTip(g, () => `<div class="t">${KO[r.b]}</div>${row("나머지 자치구와의 JS 거리", fmt(r.js, 3))}${row("시 전체와의 JS 거리", fmt(r.jsCity, 3))}${row("민원 절반을 채우는 유형 수", r.half + "개")}${row("유효 유형 수", fmt(r.eff, 1))}`); });
+}
+
+function renderAll() { renderHeat(); renderDeep(); renderLine(); renderSim(); }
+renderAll();
+let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { renderDeep(); renderLine(); renderSim(); }, 150); });
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderAll);
+new MutationObserver(renderAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+</script>

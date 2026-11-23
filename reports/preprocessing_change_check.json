@@ -1,0 +1,11 @@
+{
+  "groups_before": 3326912,
+  "groups_after": 3328043,
+  "old_groups_with_mixed_borough": 988,
+  "rows_in_old_mixed_borough_groups": 2835,
+  "old_groups_split": 1060,
+  "rows_in_split_old_groups": 3082,
+  "new_groups_merging_multiple_old": 33,
+  "rows_in_merged_new_groups": 125,
+  "new_groups_with_mixed_borough": 0
+}

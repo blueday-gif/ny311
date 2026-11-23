@@ -7,7 +7,7 @@ header("1부 데이터 알기 · 4단계", "언제, 어디서, 어떤 민원이 
        "빈도와 비율, 주기성, 피어슨·스피어만 상관, 상관 ≠ 인과, 다중 비교", "borough, problem, hour, weekday, month, hours",
        "eda_04_patterns.py", "1 둘러보기, 6 검정·회귀, 8 기관 비교, 9 시계열")
 
-view = st.segmented_control("볼 내용", ["범주", "시간 패턴", "변수 관계", "자치구 비교"], default="범주",
+view = st.segmented_control("볼 내용", ["범주", "인구당 비교", "시간 패턴", "변수 관계", "자치구 비교"], default="범주",
                             label_visibility="collapsed")
 
 if view == "범주":
@@ -24,7 +24,50 @@ if view == "범주":
         st.bar_chart(p, x="problem", y="비율(%)", horizontal=True, sort="-비율(%)", alt="민원 유형 상위 15개 비율")
         show_table(p, alt="민원 유형 상위 15개 건수, 비율, 누적 비율")
     meaning(f"유형은 197개지만 상위 15개가 전체의 {p['누적 비율(%)'].iloc[-1]:.1f}%입니다. 소수 유형에 민원이 몰려 있습니다. "
-            "자치구 건수는 브루클린이 가장 많지만, 이 데이터에는 인구가 없어서 **주민 1인당 민원**은 계산할 수 없습니다.")
+            "자치구 건수는 브루클린이 가장 많지만, 인구가 5배까지 차이 나서 건수만으로는 비교할 수 없습니다. "
+            "외부 인구 자료를 붙인 **주민 1만 명당 민원**은 '인구당 비교' 탭에서 봅니다.")
+
+elif view == "인구당 비교":
+    st.caption("데이터: 전처리본(중복 의심 제외) + 자치구 인구(2020 인구총조사, `docs/borough_context.csv`) · "
+               "스크립트 `analysis/eda_borough_per_capita.py`")
+    term("정규화(1만 명당)", "집단 크기가 다를 때 건수를 크기로 나눠 같은 잣대로 맞추는 것.  \n"
+         "예) 신고 16만 건 / 인구 50만 명 × 1만 = 1만 명당 3,262건. 인구가 5배 차이 나는 브루클린과 스태튼아일랜드를 공정하게 비교할 수 있습니다.")
+    pc = table("edac09_borough_per_capita")
+    top, low = pc.iloc[0], pc.iloc[-1]
+    with st.container(horizontal=True):
+        st.metric(f"1만 명당 최다 · {top['borough_ko']}", f"{top['1만명당 신고']:,.0f}건",
+                  f"시 평균의 {top['시 평균 대비(배)']:.2f}배", delta_color="off", border=True)
+        st.metric(f"1만 명당 최소 · {low['borough_ko']}", f"{low['1만명당 신고']:,.0f}건",
+                  f"시 평균의 {low['시 평균 대비(배)']:.2f}배", delta_color="off", border=True)
+        bx = pc.set_index("borough").loc["BRONX"]
+        st.metric("브롱크스 순위", f"건수 {bx['건수 순위']}위 → 인구당 {bx['1만명당 순위']}위", border=True)
+    figure("edac09_borough_per_capita", alt="자치구별 신고 수와 주민 1만 명당 신고 수 비교")
+    show_table(pc[["borough_ko", "신고수", "population_census2020", "1만명당 신고", "시 평균 대비(배)", "1만명당 사건",
+                   "사건당 신고", "건수 순위", "1만명당 순위", "1만명당 순위(대략 인구)", "사건 기준 순위"]],
+               alt="자치구별 신고 수, 인구, 1만 명당 신고·사건 수와 순위",
+               column_config={"borough_ko": "자치구",
+                              "population_census2020": st.column_config.NumberColumn("인구(2020)", format="localized"),
+                              "신고수": st.column_config.NumberColumn(format="localized"),
+                              "1만명당 신고": st.column_config.NumberColumn(format="%.0f"),
+                              "1만명당 사건": st.column_config.NumberColumn(format="%.0f"),
+                              "시 평균 대비(배)": st.column_config.NumberColumn(format="%.2f"),
+                              "사건당 신고": st.column_config.NumberColumn(format="%.2f")})
+    meaning("건수 3위인 브롱크스가 인구당으로는 1위(시 평균의 약 1.3배)이고, 스태튼아일랜드는 인구당으로도 꼴찌(약 0.7배)입니다. "
+            "같은 날·같은 곳·같은 유형을 하나로 묶은 **사건** 기준으로 봐도 브롱크스가 1위라서, 한 건물의 반복 신고만으로 생긴 차이는 아닙니다.")
+    caution("맨해튼(2위)과 브루클린(3위)은 차이가 2%뿐이라, 인구를 최근 대략값으로 바꾸면 순위가 뒤집힙니다(표의 '대략 인구' 순위). "
+            "차이가 작은 순위는 인구 기준 하나에 기대어 말하지 마세요. 또 맨해튼은 통근자·관광객이 많아 주민 수로 나누면 부풀려집니다.")
+
+    st.markdown("**어떤 민원에서 차이가 나나: 대표 유형별 시 평균 대비 배율**")
+    figure("edac09_group_ratio", alt="자치구별 대표 민원 유형의 1만 명당 신고 수, 시 평균 대비 배율 히트맵")
+    with st.expander("기관별 1만 명당 신고와 배율 표"):
+        show_table(table("edac09_agency_per_capita"), alt="자치구 × 기관 1만 명당 신고 수")
+        show_table(table("edac09_agency_ratio"), alt="자치구 × 기관 시 평균 대비 배율")
+    meaning("임대 주거가 많은 브롱크스는 난방·온수, 실내 설비, 주거 소음이 시 평균의 약 2배입니다(HPD 전체도 약 2배). "
+            "자가·단독주택이 많은 스태튼아일랜드는 실내 설비 민원이 시 평균의 0.2~0.3배인 대신 가로수(2.3배), 도로 파손(1.5배), "
+            "청소(DSNY 1.8배)가 많습니다. 맨해튼은 거리·상업 소음이 가장 높습니다(1.5배). 주거 형태와 민원 성격이 맞물려 있다는 가설과 맞는 모습입니다.")
+    caution("자치구는 5개뿐이라 '임대 비율이 높을수록 난방 민원이 많다'는 상관을 말하기엔 표본이 너무 작습니다. "
+            "또 311 신고는 문제가 많은 곳이 아니라 **신고하는 곳**을 보여 줍니다(신고 습관·언어·접근성의 영향). "
+            "배경 자료와 가설은 `docs/borough_context.md`에 있습니다.")
 
 elif view == "시간 패턴":
     term("주기성", "일정한 간격으로 같은 모양이 반복되는 성질. 예) 매일 새벽에 줄고 낮에 늘어나는 패턴 = 하루 주기.")

@@ -18,6 +18,7 @@ page = st.navigation(
             st.Page("app_pages/eda_02.py", title="2. 숫자로 요약", icon=":material/functions:"),
             st.Page("app_pages/eda_03.py", title="3. 분포와 이상치", icon=":material/bar_chart:"),
             st.Page("app_pages/eda_04.py", title="4. 패턴과 비교", icon=":material/schedule:"),
+            st.Page("app_pages/eda_borough.py", title="4+. 자치구 성격 읽기", icon=":material/travel_explore:"),
         ],
         "2부 머신러닝 기본기": [
             st.Page("app_pages/ml_05.py", title="5. 무엇을 예측하나", icon=":material/flag:"),

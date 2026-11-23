@@ -1,0 +1,88 @@
+﻿theme,problem
+주거 설비(실내),HEAT/HOT WATER
+주거 설비(실내),UNSANITARY CONDITION
+주거 설비(실내),PLUMBING
+주거 설비(실내),PAINT/PLASTER
+주거 설비(실내),DOOR/WINDOW
+주거 설비(실내),WATER LEAK
+주거 설비(실내),GENERAL
+주거 설비(실내),ELECTRIC
+주거 설비(실내),FLOORING/STAIRS
+주거 설비(실내),APPLIANCE
+주거 설비(실내),SAFETY
+주거 설비(실내),Elevator
+주거 설비(실내),Boilers
+주거 설비(실내),Indoor Air Quality
+주거 설비(실내),Lead
+주거 설비(실내),OUTSIDE BUILDING
+주거 설비(실내),Mold
+주거 소음,Noise - Residential
+거리·상업 소음,Noise - Street/Sidewalk
+거리·상업 소음,Noise - Commercial
+거리·상업 소음,Noise
+거리·상업 소음,Noise - Vehicle
+거리·상업 소음,Noise - Helicopter
+거리·상업 소음,Noise - Park
+거리·상업 소음,Illegal Fireworks
+주차·차량,Illegal Parking
+주차·차량,Blocked Driveway
+주차·차량,Abandoned Vehicle
+주차·차량,Derelict Vehicles
+도로·상하수도,Street Condition
+도로·상하수도,Traffic Signal Condition
+도로·상하수도,Street Light Condition
+도로·상하수도,Sidewalk Condition
+도로·상하수도,Curb Condition
+도로·상하수도,Highway Condition
+도로·상하수도,Street Sign - Damaged
+도로·상하수도,Street Sign - Dangling
+도로·상하수도,Street Sign - Missing
+도로·상하수도,Sewer
+도로·상하수도,Water System
+도로·상하수도,Water Maintenance
+도로·상하수도,Sewer Maintenance
+도로·상하수도,Root/Sewer/Sidewalk Condition
+도로·상하수도,Water Conservation
+청소·쓰레기,Dirty Condition
+청소·쓰레기,Illegal Dumping
+청소·쓰레기,Missed Collection
+청소·쓰레기,Residential Disposal Complaint
+청소·쓰레기,Graffiti
+청소·쓰레기,Illegal Posting
+청소·쓰레기,Litter Basket Request
+청소·쓰레기,Street Sweeping Complaint
+청소·쓰레기,Dead Animal
+청소·쓰레기,Sanitation Worker or Vehicle Complaint
+청소·쓰레기,Obstruction
+청소·쓰레기,Rodent
+나무·공원·눈,Damaged Tree
+나무·공원·눈,Overgrown Tree/Branches
+나무·공원·눈,Dead/Dying Tree
+나무·공원·눈,Illegal Tree Damage
+나무·공원·눈,New Tree Request
+나무·공원·눈,Snow or Ice
+나무·공원·눈,Maintenance or Facility
+나무·공원·눈,Animal in a Park
+나무·공원·눈,Violation of Park Rules
+노숙·거리 질서,Encampment
+노숙·거리 질서,Homeless Person Assistance
+노숙·거리 질서,Panhandling
+노숙·거리 질서,Drug Activity
+노숙·거리 질서,Drinking
+노숙·거리 질서,Non-Emergency Police Matter
+노숙·거리 질서,Vendor Enforcement
+노숙·거리 질서,Smoking or Vaping
+노숙·거리 질서,Cannabis Retailer
+교통수단·방문객,Taxi Complaint
+교통수단·방문객,For Hire Vehicle Complaint
+교통수단·방문객,Lost Property
+교통수단·방문객,Traffic
+상업·소비자,Consumer Complaint
+상업·소비자,Food Establishment
+상업·소비자,Food Poisoning
+상업·소비자,Outdoor Dining
+건물·공사,General Construction/Plumbing
+건물·공사,Building/Use
+건물·공사,Real Time Enforcement
+건물·공사,Special Projects Inspection Team (SPIT)
+건물·공사,Emergency Response Team (ERT)

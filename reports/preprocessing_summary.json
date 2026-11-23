@@ -1,0 +1,175 @@
+{
+  "input": {
+    "file": "311_requests_2020_present.parquet",
+    "rows": 3963959,
+    "columns": 44
+  },
+  "step2_columns": {
+    "agency_name_one_to_one": true,
+    "park_borough_equals_borough": true,
+    "location_equals_lat_lon": {
+      "max_abs_diff": 5.002220859751105e-12
+    },
+    "dropped_from_main": [
+      "agency_name",
+      "park_borough",
+      "location"
+    ],
+    "moved_to_specialized": [
+      "due_date",
+      "facility_type",
+      "park_facility_name",
+      "vehicle_type",
+      "taxi_company_borough",
+      "taxi_pick_up_location",
+      "bridge_highway_name",
+      "bridge_highway_direction",
+      "road_ramp",
+      "bridge_highway_segment"
+    ]
+  },
+  "step5_duplicates": {
+    "flag_system_duplicate": 1792,
+    "system_duplicate_groups": 1387,
+    "flag_agency_duplicate": 183920,
+    "incident_groups": 3328043,
+    "repeated_groups": 326131,
+    "rows_in_repeated_groups": 962047,
+    "singleton_no_address_or_borough_rows_all": 147124,
+    "singleton_no_address_or_borough_rows_base": 146888
+  },
+  "step1_standardize": {
+    "trim_whitespace_cells": {
+      "resolution_description": 164
+    },
+    "missing_marker_cells": {
+      "additional_details": 71,
+      "location_type": 423,
+      "street_name": 3,
+      "city": 1,
+      "status": 177,
+      "community_board": 54877,
+      "police_precinct": 70604,
+      "borough": 4070,
+      "open_data_channel_type": 332035,
+      "park_facility_name": 3958829,
+      "park_borough": 4070
+    },
+    "rows_with_missing_markers": 3958847,
+    "city_uppercased_cells": 201,
+    "column_rule_cells": {
+      "incident_zip": 2,
+      "bbl": 68,
+      "city": 1,
+      "cross_street_1": 40,
+      "cross_street_2": 19,
+      "intersection_street_1": 0,
+      "intersection_street_2": 0
+    },
+    "column_rule_total_cells": 130,
+    "column_rule_rows": 122,
+    "invalid_zip_values": [
+      "1704",
+      "No"
+    ],
+    "invalid_zip_cells": 2,
+    "case_merged": {
+      "problem": {
+        "cells": 6112,
+        "mapping": {
+          "Plumbing": "PLUMBING",
+          "ELEVATOR": "Elevator",
+          "Safety": "SAFETY"
+        }
+      },
+      "problem_detail": {
+        "cells": 291,
+        "mapping": {
+          "Lighting": "LIGHTING",
+          "Door": "DOOR",
+          "Sewage": "SEWAGE"
+        }
+      },
+      "additional_details": {
+        "cells": 8847,
+        "mapping": {
+          "OTHER": "Other",
+          "Blocked": "BLOCKED",
+          "No Heat": "NO HEAT",
+          "Exposed": "EXPOSED",
+          "MISSING": "Missing",
+          "No Water": "NO WATER"
+        }
+      },
+      "location_type": {
+        "cells": 13283,
+        "mapping": {
+          "Residential Building": "RESIDENTIAL BUILDING"
+        }
+      }
+    },
+    "due_date_parse_failed": 0,
+    "resolution_action_updated_date_parse_failed": 0,
+    "borough_missing_before_impute": 4070,
+    "borough_imputed_rows": 265,
+    "borough_still_missing": 3805,
+    "comparison_keys": {
+      "address_key": {
+        "source_unique": 622856,
+        "key_unique": 592939
+      },
+      "street_name_key": {
+        "source_unique": 13504,
+        "key_unique": 12559
+      },
+      "cross_street_1_key": {
+        "source_unique": 18187,
+        "key_unique": 17243
+      },
+      "cross_street_2_key": {
+        "source_unique": 17563,
+        "key_unique": 16599
+      },
+      "intersection_street_1_key": {
+        "source_unique": 11133,
+        "key_unique": 10264
+      },
+      "intersection_street_2_key": {
+        "source_unique": 11629,
+        "key_unique": 10739
+      },
+      "landmark_key": {
+        "source_unique": 10161,
+        "key_unique": 9412
+      }
+    }
+  },
+  "step4_flags": {
+    "flag_negative_duration": 1371,
+    "flag_zero_duration": 62788,
+    "flag_duration_over_365d": 5,
+    "flag_midnight_close": 118984,
+    "flag_status_date_mismatch": 19255,
+    "flag_updated_before_created": 69745,
+    "flag_future_date": 1,
+    "flag_no_location": 83134,
+    "borough_imputed": 265
+  },
+  "outputs": {
+    "311_requests_clean.parquet": {
+      "rows": 3963959,
+      "columns": 58
+    },
+    "311_requests_specialized.parquet": {
+      "rows": 262885,
+      "columns": 11
+    },
+    "agency_lookup.parquet": {
+      "rows": 16
+    },
+    "311_value_changes.parquet": {
+      "rows": 130
+    }
+  },
+  "elapsed_seconds": 253.5
+}

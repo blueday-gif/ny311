@@ -1,0 +1,12 @@
+﻿플래그,건수,비율(%)
+flag_negative_duration,1371,0.035
+flag_zero_duration,62788,1.584
+flag_duration_over_365d,5,0.0
+flag_midnight_close,118984,3.002
+flag_status_date_mismatch,19255,0.486
+flag_updated_before_created,69745,1.759
+flag_future_date,1,0.0
+flag_no_location,83134,2.097
+flag_system_duplicate,1792,0.045
+flag_agency_duplicate,183920,4.64
+borough_imputed,265,0.007

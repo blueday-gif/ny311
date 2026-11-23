@@ -1,0 +1,6 @@
+﻿,flag_negative_duration,flag_zero_duration,flag_midnight_close,flag_status_date_mismatch,flag_updated_before_created
+flag_negative_duration,1371,0,12,398,497
+flag_zero_duration,0,62788,1717,9148,18736
+flag_midnight_close,12,1717,118984,8278,1639
+flag_status_date_mismatch,398,9148,8278,19255,9501
+flag_updated_before_created,497,18736,1639,9501,69745

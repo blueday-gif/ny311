@@ -1,0 +1,16 @@
+﻿agency,기관 이름,건수,중앙값,평균,p90,중앙값(자정 종료 제외),자정 종료 비율(%)
+NYPD,New York City Police Department,1720462,1.38,2.74,6.53,1.38,0.0
+DHS,Department of Homeless Services,48492,6.29,56.75,74.89,6.29,0.0
+DEP,Department of Environmental Protection,197292,25.17,107.12,240.74,24.9,0.75
+DSNY,Department of Sanitation,355685,39.9,76.85,155.78,37.71,3.35
+NYC311-PRD,HIQA,371,42.36,138.18,541.69,42.36,0.0
+DOE,Department of Education,932,50.03,352.43,1344.56,50.03,0.0
+DOT,Department of Transportation,244009,72.56,215.91,472.26,71.67,0.84
+HPD,Department of Housing Preservation and Development,865360,100.67,340.12,888.46,100.67,0.0
+DPR,Department of Parks and Recreation,93457,116.0,491.55,1509.45,116.0,0.0
+DOB,Department of Buildings,95055,183.05,710.11,2027.11,,100.0
+DOHMH,Department of Health and Mental Hygiene,68135,314.85,640.46,1440.43,314.85,0.0
+OTI,Office of Technology and Innovation,259,382.08,441.48,869.65,382.08,0.0
+TLC,Taxi and Limousine Commission,16548,383.26,1623.57,5581.77,383.26,0.0
+DCWP,Department of Consumer and Worker Protection,20104,534.96,474.04,897.48,534.96,0.0
+OOS,Office of the Sheriff,3678,1053.71,1146.16,2084.99,1053.71,0.0
