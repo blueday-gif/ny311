@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>신고는 일기다 · NYC 311</title>
+<style>
+@page { size: A4; margin: 15mm 15mm 16mm; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; color: #1c1917; }
+.sheet { page-break-after: always; break-after: page; position: relative; }
+@media screen {
+  body { background: #e7e5e4; }
+  .sheet {
+    width: 210mm; min-height: 297mm; margin: 8mm auto; padding: 15mm 15mm 16mm;
+    background: #fafaf9;
+  }
+}
+@media print {
+  html, body { background: #fff; }
+  .sheet { width: auto; min-height: 266mm; margin: 0; padding: 0; background: #fff; }
+}
+header { display: flex; justify-content: space-between; align-items: baseline;
+  height: 8mm; border-bottom: 0.3pt solid #d6d3d1; font-size: 9pt; letter-spacing: .14em; }
+.kicker { color: #c2410c; }
+.qid, .folio { color: #78716c; font-variant-numeric: tabular-nums; }
+h1 { font-size: 36pt; line-height: 1.15; margin: 4mm 0; font-weight: 700; }
+h2.q { font-size: 22pt; line-height: 1.25; font-weight: 700; margin: 3mm 0 2mm; max-height: 28mm; overflow: hidden; }
+.lead { font-size: 11.5pt; line-height: 1.45; color: #44403c; margin: 0 0 4mm; max-height: 14mm; overflow: hidden; }
+.fig { height: 138mm; margin: 0 0 4mm; display: flex; flex-direction: column; }
+.figcap { height: 8mm; margin: 0; font-size: 9pt; color: #78716c; }
+.plot { flex: 1; min-height: 0; }
+.plot svg { width: 100%; height: 100%; display: block; }
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm;
+  border-top: 0.4pt solid #d6d3d1; padding-top: 3mm; margin: 0 0 4mm; }
+.facts b { display: block; font-size: 16pt; color: #9a3412; font-weight: 700; font-variant-numeric: tabular-nums; }
+.facts span { display: block; margin-top: 1mm; font-size: 8pt; line-height: 1.35; color: #57534e; }
+.band { list-style: none; margin: 0 0 4mm; padding: 3mm 4mm; background: #f5f5f4; }
+.band li { font-size: 9.5pt; line-height: 1.45; }
+.notes { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.note { margin: 0; font-size: 8.5pt; line-height: 1.4; color: #57534e; }
+.tag { display: block; margin-bottom: 1mm; font-size: 8pt; letter-spacing: .12em; color: #c2410c; }
+.folio { position: absolute; right: 15mm; bottom: 6mm; font-size: 8.5pt; }
+@media print { .folio { right: 0; bottom: 0; } }
+.cols { display: flex; align-items: flex-end; height: 100%; gap: 1.2mm; }
+.cols .c { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; min-width: 0; }
+.cols .shaft { width: 68%; background: #a8a29e; }
+.cols .shaft.hot { background: #c2410c; }
+.cols .shaft.mark { box-shadow: inset 0 0 0 0.8pt #c2410c; }
+.cols .lab { height: 10mm; font-size: 7.5pt; color: #57534e; text-align: center; line-height: 1.2; }
+.cols .val { font-size: 8pt; color: #44403c; font-variant-numeric: tabular-nums; margin-bottom: 1mm; }
+.stacks { display: flex; flex-direction: column; justify-content: space-evenly; height: 78%; }
+.srow { display: grid; grid-template-columns: 28mm 1fr; gap: 3mm; align-items: center; }
+.sname { font-size: 10pt; color: #44403c; }
+.sbar { display: flex; height: 8mm; background: #e7e5e4; }
+.sbar i { display: block; height: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 2mm 4mm; margin-top: 3mm; font-size: 8.5pt; color: #44403c; }
+.legend b { display: inline-block; width: 3.5mm; height: 3.5mm; margin-right: 1mm; vertical-align: -0.4mm; }
+.bign { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
+.bign .n { font-size: 64pt; line-height: .9; color: #9a3412; font-weight: 700; margin: 0; }
+.bign .cmp { display: flex; justify-content: space-between; border-top: 0.4pt solid #d6d3d1; margin-top: 6mm; padding-top: 3mm; font-size: 11pt; }
+.opener { min-height: 250mm; display: flex; flex-direction: column; }
+.opener .rule { width: 28mm; height: 1.2mm; background: #c2410c; margin: 8mm 0 4mm; }
+.opener .ch { font-size: 9pt; letter-spacing: .18em; color: #c2410c; margin: 0; }
+.opener .gap { flex: 1; }
+.opener .num { font-size: 72pt; line-height: .85; color: #c2410c; margin: 0; font-weight: 700; }
+.opener h2 { font-size: 32pt; line-height: 1.15; margin: 4mm 0; max-width: 150mm; }
+.dek { font-size: 12pt; line-height: 1.45; max-width: 165mm; margin: 0 0 2mm; }
+.scene { font-size: 11pt; color: #44403c; margin: 0 0 6mm; }
+.previews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; border-top: 0.4pt solid #d6d3d1; padding-top: 4mm; }
+.previews b { display: block; font-size: 18pt; color: #9a3412; }
+.previews span { display: block; margin-top: 1mm; font-size: 8.5pt; color: #57534e; }
+.cover { min-height: 250mm; display: flex; flex-direction: column; }
+.cover .hero { margin-top: auto; font-size: 84pt; line-height: .85; color: #9a3412; font-weight: 700; }
+.meta { font-size: 8.5pt; color: #57534e; margin-top: 6mm; }
+.wire { height: 100%; display: grid; grid-template-rows: 16mm 1fr 18mm 16mm; gap: 3mm; }
+.wire div { border: 0.4pt solid #d6d3d1; display: flex; align-items: center; padding: 0 4mm; font-size: 12pt; color: #44403c; }
+.wire .tall { background: #f5f5f4; align-items: flex-end; padding-bottom: 4mm; }
+.toc { columns: 2; column-gap: 8mm; }
+.entry { break-inside: avoid; display: grid; grid-template-columns: 12mm 1fr 28mm; gap: 2mm; padding: 2.6mm 0; border-bottom: 0.3pt solid #e7e5e4; font-size: 9pt; }
+.entry b { color: #9a3412; text-align: right; font-weight: 700; }
+.close li { font-size: 13.5pt; line-height: 1.45; margin: 0; padding: 7mm 0; border-bottom: 0.3pt solid #e7e5e4; }
+.sources { list-style: none; margin: 6mm 0 0; padding: 0; }
+.sources li { font-size: 10.5pt; line-height: 1.5; padding: 3.5mm 0; border-bottom: 0.3pt solid #e7e5e4; color: #44403c; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; height: 100%; }
+.pair .panel { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.pair h3 { margin: 0 0 2mm; font-size: 11pt; font-weight: 700; }
+.pair .cols { flex: 1; height: auto; }
+.pair .panel + .panel { border-left: 0.4pt solid #d6d3d1; padding-left: 5mm; }
+</style>
+</head>
+<body>
+
+<section class="sheet">
+  <div class="cover">
+    <p class="kicker">NYC 311 · 2025년 11월 – 2026년 10월</p>
+    <p class="hero">396만</p>
+    <h1>신고는 일기다</h1>
+    <p class="dek">기존 백 개 질문집이 이미 센 질문은 다시 만들지 않았다. 그 책이 건너뛴 날, 자정을 넘는 시각, 그리고 2025년 시장 선거의 지도만 펼친다.</p>
+    <p class="meta">자료  NYC Open Data 311 · 기온  Open-Meteo · 인구  2020년 센서스 · 득표  뉴욕시 선거관리위원회 확정 개표</p>
+  </div>
+  <p class="folio">01</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">읽는 법</span><span class="qid">00</span></header>
+  <h2 class="q">가운데 그림이 답이다</h2>
+  <p class="lead">글은 그림의 캡션이다. 주황은 그 질문이 가리키는 값 하나에만 쓴다.</p>
+  <figure class="fig"><p class="figcap">한 쪽의 뼈대</p><div class="plot"><div class="wire"><div>질문 한 줄과, 답 한 문장</div><div class="tall">도표. 이쪽이 쪽의 가운데다</div><div>네 개의 숫자</div><div>기사 한 줄 · 통계 한 줄</div></div></div></figure>
+  <ul class="band">
+    <li>기사 칸은 그 주제가 신문이나 영상에 어떻게 나왔는지다.</li>
+    <li>숫자가 다르면 기간이나 종류가 다른 것이다.</li>
+    <li>통계 칸은 분모와 비교 기준이다.</li>
+    <li>민원이 표를 만들었거나, 정책이 민원을 줄였다는 문장은 쓰지 않는다.</li>
+  </ul>
+  <p class="folio">02</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">차례</span><span class="qid"></span></header>
+  <h2 class="q">네 묶음, 스물일곱 질문</h2>
+  <div class="toc"><div class="entry"><span>Q01</span><span>7월 4일, 불꽃을 빼면 평소 토요일보다 바빴나?</span><b>1.34배</b></div><div class="entry"><span>Q02</span><span>자정을 넘긴 불꽃은 어느 날 장부에 남나?</span><b>739건</b></div><div class="entry"><span>Q03</span><span>7월 4일 불꽃 신고는 맨해튼 하늘만의 일인가?</span><b>618</b></div><div class="entry"><span>Q04</span><span>더운 날의 불꽃이 22배라고 말해도 되나?</span><b>119건</b></div><div class="entry"><span>Q05</span><span>추수감사절의 집 안 소음은 명절의 숫자인가?</span><b>2,522</b></div><div class="entry"><span>Q06</span><span>가장 추운 날, 난방 신고는 다른 영하 날의 몇 배인가?</span><b>6,118</b></div><div class="entry"><span>Q07</span><span>눈이 내리던 날, 불법주차는 같이 늘었나?</span><b>49%</b></div><div class="entry"><span>Q08</span><span>헬기 소음 신고는 한밤중인가, 해 질 무렵인가?</span><b>41%</b></div><div class="entry"><span>Q09</span><span>난방 신고는 건물 전체인가, 그 집만인가?</span><b>231,208</b></div><div class="entry"><span>Q10</span><span>경찰이 딱지를 발부했다고 적은 비율은?</span><b>224,738</b></div><div class="entry"><span>Q11</span><span>9월 22일, 텐트 신고는 어디로 갔나?</span><b>42,222</b></div><div class="entry"><span>Q12</span><span>접수처 변경은 다섯 자치구에서 같이 일어났나?</span><b>64%</b></div><div class="entry"><span>Q13</span><span>맘다니 50.8%는 몇 줄인가?</span><b>944,950</b></div><div class="entry"><span>Q14</span><span>이긴 네 자치구의 민원은 같은 기관으로 가나?</span><b>36%</b></div><div class="entry"><span>Q15</span><span>보도가 가른 두 퀸스는 어느 기관에서 갈리나?</span><b>24.8%</b></div><div class="entry"><span>Q16</span><span>NY-14 퀸스 우편번호 열 개는 한 곳인가?</span><b>12.6%</b></div><div class="entry"><span>Q17</span><span>브롱크스를 섞으면 누구의 평균이 되나?</span><b>36%</b></div><div class="entry"><span>Q18</span><span>겨울의 몫과 여름의 몫은 같은 순서인가?</span><b>28.8%</b></div><div class="entry"><span>Q19</span><span>같은 퀸스에서 길의 민원은 무엇인가?</span><b>9.1%</b></div><div class="entry"><span>Q20</span><span>이 장에서 쓰지 않는 문장은 무엇인가?</span><b>24.8→23.0</b></div><div class="entry"><span>Q21</span><span>채널이 비어 있는 33만 건은 어느 기관의 기록인가?</span><b>33.2만</b></div><div class="entry"><span>Q22</span><span>도시의 8시간은 어느 기관의 한가운데인가?</span><b>1.4시간</b></div><div class="entry"><span>Q23</span><span>자정에 닫힌 기록을 빼면 8시간은 남나?</span><b>110,698</b></div><div class="entry"><span>Q24</span><span>처리시간의 평균과 가운데는 왜 다른가?</span><b>0.33일</b></div><div class="entry"><span>Q25</span><span>200건만 보면 그 8시간은 얼마나 흔들리나?</span><b>16.7시간</b></div><div class="entry"><span>Q26</span><span>채널이 모바일이면 더 빨리 닫히나?</span><b>+26.8p</b></div><div class="entry"><span>Q27</span><span>신고는 결국 닫히나?</span><b>95.5%</b></div></div>
+  <p class="folio">03</p>
+</section>
+
+
+<section class="sheet">
+  <div class="opener">
+    <div class="rule"></div>
+    <p class="ch">CHAPTER 01</p>
+    <div class="gap"></div>
+    <p class="num">01</p>
+    <h2>건너뛴 날</h2>
+    <p class="dek">기존 질문집이 75배와 크리스마스로 채운 자리에, 그 책이 건너뛴 날만 둔다.</p>
+    <p class="scene">7월 4일의 나머지는 토요일과 비슷하고, 가장 추운 하루의 난방은 다른 영하 날과 다르다.</p>
+    <div class="previews"><p><b>1.11배</b><span>불꽃을 뺀 7월 4일</span></p><p><b>−14°C</b><span>난방 6,118건</span></p><p><b>49%</b><span>눈 온 날의 주차</span></p></div>
+  </div>
+  <p class="folio">04</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">01 · 건너뛴 날</span><span class="qid">Q01</span></header>
+  <h2 class="q">7월 4일, 불꽃을 빼면 평소 토요일보다 바빴나?</h2>
+  <p class="lead">불꽃을 빼면 1.11배다. 도시 전체가 들뜬 날이라기보다 불꽃 칸이 바쁜 날이다.</p>
+  <figure class="fig"><p class="figcap">평소 토요일 50일과 2026-07-04. 축은 하루 신고 건수.</p><div class="plot"><div class="cols"><div class="c"><span class="val">9,784</span><span class="shaft" style="height:65.5%"></span><span class="lab">토요일</span></div><div class="c"><span class="val">13,148</span><span class="shaft" style="height:88.0%"></span><span class="lab">7월 4일</span></div><div class="c"><span class="val">10,891</span><span class="shaft hot" style="height:72.9%"></span><span class="lab">불꽃 제외</span></div></div></div></figure>
+  <div class="facts"><p><b>1.34배</b><span>불꽃 포함</span></p><p><b>1.11배</b><span>불꽃 제외</span></p><p><b>2.5배</b><span>길 소음</span></p><p><b>66%</b><span>주차</span></p></div>
+  <ul class="band"><li>공식 불꽃은 맨해튼 강변 중계로 보인다.</li><li>311의 불꽃 칸은 집 앞의 불법 불꽃이다.</li><li>길 소음은 평소 토요일의 2.5배, 집 안 소음은 88%다.</li><li>주차는 평소 토요일보다 적었다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>AP 유튜브, 7월 4일 직전 브리핑. 시장은 공식 행사와 폭염 때 311 전화를 말했다.</p>
+    <p class="note"><span class="tag">통계</span>비교는 다른 토요일 50일의 평균. 첫날, 마지막 날, 7월 4일은 평균에서 뺐다.</p>
+  </div>
+  <p class="folio">05</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">01 · 건너뛴 날</span><span class="qid">Q02</span></header>
+  <h2 class="q">자정을 넘긴 불꽃은 어느 날 장부에 남나?</h2>
+  <p class="lead">7월 5일 0시부터 3시까지 965건이다. 전날 밤 9시의 739건보다 많다.</p>
+  <figure class="fig"><p class="figcap">7월 4일 18시부터 7월 5일 8시. 주황은 21시, 테두리는 다음 날 1시.</p><div class="plot"><div class="cols"><div class="c"><span class="val">31.0</span><span class="shaft" style="height:3.7%"></span><span class="lab">18시</span></div><div class="c"><span class="val">52.0</span><span class="shaft" style="height:6.2%"></span><span class="lab"></span></div><div class="c"><span class="val">281</span><span class="shaft" style="height:33.5%"></span><span class="lab"></span></div><div class="c"><span class="val">739</span><span class="shaft hot" style="height:88.0%"></span><span class="lab">21시</span></div><div class="c"><span class="val">545</span><span class="shaft" style="height:64.9%"></span><span class="lab"></span></div><div class="c"><span class="val">246</span><span class="shaft" style="height:29.3%"></span><span class="lab"></span></div><div class="c"><span class="val">310</span><span class="shaft" style="height:36.9%"></span><span class="lab">0시</span></div><div class="c"><span class="val">442</span><span class="shaft mark" style="height:52.6%"></span><span class="lab">1시</span></div><div class="c"><span class="val">213</span><span class="shaft" style="height:25.4%"></span><span class="lab"></span></div><div class="c"><span class="val">131</span><span class="shaft" style="height:15.6%"></span><span class="lab"></span></div><div class="c"><span class="val">77.0</span><span class="shaft" style="height:9.2%"></span><span class="lab"></span></div><div class="c"><span class="val">28.0</span><span class="shaft" style="height:3.3%"></span><span class="lab"></span></div><div class="c"><span class="val">17.0</span><span class="shaft" style="height:2.0%"></span><span class="lab"></span></div><div class="c"><span class="val">5.0</span><span class="shaft" style="height:0.8%"></span><span class="lab"></span></div><div class="c"><span class="val">7.0</span><span class="shaft" style="height:0.8%"></span><span class="lab"></span></div></div></div></figure>
+  <div class="facts"><p><b>739건</b><span>4일 21시</span></p><p><b>965건</b><span>5일 0–3시</span></p><p><b>1,688건</b><span>5일 하루</span></p><p><b>2,257건</b><span>4일 하루</span></p></div>
+  <ul class="band"><li>방송은 7월 4일 밤에 끝난다.</li><li>장부의 날짜는 자정에 넘어간다.</li><li>하루짜리 배수에는 다음 날 새벽이 빠진다.</li><li>주황 테두리는 다음 날 1시의 442건이다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>같은 AP 브리핑은 공식 쇼를 말한다. 이 칸은 그 시각 전후의 불법 불꽃 신고다.</p>
+    <p class="note"><span class="tag">통계</span>막대는 그 시각에 접수된 불법 불꽃 건수. 하루 합계와 한 축에 두지 않았다.</p>
+  </div>
+  <p class="folio">06</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">01 · 건너뛴 날</span><span class="qid">Q03</span></header>
+  <h2 class="q">7월 4일 불꽃 신고는 맨해튼 하늘만의 일인가?</h2>
+  <p class="lead">건수는 퀸스 618, 브루클린 573, 맨해튼 353이다. 화면의 장소와 민원의 장소가 다르다.</p>
+  <figure class="fig"><p class="figcap">2026-07-04 불법 불꽃 2,257건. 인구로 나누지 않은 건수.</p><div class="plot"><div class="cols"><div class="c"><span class="val">618</span><span class="shaft hot" style="height:88.0%"></span><span class="lab">퀸스</span></div><div class="c"><span class="val">573</span><span class="shaft" style="height:81.6%"></span><span class="lab">브루클린</span></div><div class="c"><span class="val">432</span><span class="shaft" style="height:61.5%"></span><span class="lab">브롱크스</span></div><div class="c"><span class="val">353</span><span class="shaft" style="height:50.3%"></span><span class="lab">맨해튼</span></div><div class="c"><span class="val">281</span><span class="shaft" style="height:40.0%"></span><span class="lab">스태튼</span></div></div></div></figure>
+  <div class="facts"><p><b>618</b><span>퀸스</span></p><p><b>573</b><span>브루클린</span></p><p><b>432</b><span>브롱크스</span></p><p><b>353</b><span>맨해튼</span></p></div>
+  <ul class="band"><li>방송 화면은 강변과 다리 쪽 하늘이다.</li><li>신고는 집 앞에서 접수된다.</li><li>퀸스가 인구가 많아 건수가 많을 수 있다.</li><li>이 쪽은 일부러 건수만 보여 준다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>시의 독립기념일 중계는 맨해튼 강변이다. 민원 지도는 그 화면과 다른 자치구를 가리킨다.</p>
+    <p class="note"><span class="tag">통계</span>분모는 그날 불법 불꽃 2,257건. 1인당 비율로 바꾸지 않았다.</p>
+  </div>
+  <p class="folio">07</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">01 · 건너뛴 날</span><span class="qid">Q04</span></header>
+  <h2 class="q">더운 날의 불꽃이 22배라고 말해도 되나?</h2>
+  <p class="lead">그 더운 날 평균 119건 안에 7월 4일 2,257건이 들어 있다. 기온의 배수가 아니다.</p>
+  <figure class="fig"><p class="figcap">더운 날은 일평균 25도 이상. 영하인 날과 축을 공유한다.</p><div class="plot"><div class="cols"><div class="c"><span class="val">2,257</span><span class="shaft hot" style="height:88.0%"></span><span class="lab">7월 4일</span></div><div class="c"><span class="val">119</span><span class="shaft" style="height:4.6%"></span><span class="lab">더운 날 평균</span></div><div class="c"><span class="val">5.5</span><span class="shaft" style="height:0.8%"></span><span class="lab">영하인 날</span></div></div></div></figure>
+  <div class="facts"><p><b>119건</b><span>더운 날 평균</span></p><p><b>2,257건</b><span>그중 하루</span></p><p><b>5.5건</b><span>영하인 날</span></p><p><b>39일</b><span>25도 이상</span></p></div>
+  <ul class="band"><li>7월 4일의 기온은 29.5도로 그 구간에 들어간다.</li><li>명절 하루가 구간 평균을 차지한다.</li><li>이 책은 그 22배를 더위의 효과로 쓰지 않는다.</li><li>큰 하루를 빼 보면 평균이 누구의 것인지 보인다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>날씨 코너가 더위와 불꽃을 한 문장에 넣을 때, 독립기념일이 그 안에 있는지 먼저 본다.</p>
+    <p class="note"><span class="tag">통계</span>더운 날 39일, 영하인 날 59일. 7월 4일은 더운 날 쪽에 포함된 채 평균에 들어 있다.</p>
+  </div>
+  <p class="folio">08</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">01 · 건너뛴 날</span><span class="qid">Q05</span></header>
+  <h2 class="q">추수감사절의 집 안 소음은 명절의 숫자인가?</h2>
+  <p class="lead">한 주소를 빼면 1,121건, 다른 겨울 목요일의 1.46배다. 주차는 오히려 71%다.</p>
+  <figure class="fig"><p class="figcap">왼쪽은 주소를 뺀 겨울 목요일 10일의 평균. 오른쪽은 추수감사절.</p><div class="plot"><svg viewBox="0 0 180 100"><text x="46" y="8" font-size="8" fill="#78716c">다른 목요일</text><text x="170" y="8" font-size="8" fill="#78716c" text-anchor="end">11월 27일</text><text x="2" y="39.0" font-size="8" fill="#44403c">집 안 소음</text><line x1="98.1" y1="37.5" x2="121.9" y2="37.5" stroke="#a8a29e" stroke-width="1.4"/><circle cx="98.1" cy="37.5" r="2.6" fill="#57534e"/><circle cx="121.9" cy="37.5" r="2.6" fill="#c2410c"/><text x="98.1" y="34.3" font-size="7" fill="#44403c" text-anchor="middle">770.0</text><text x="121.9" y="43.7" font-size="7" fill="#44403c" text-anchor="middle">1121.0</text><text x="2" y="78.0" font-size="8" fill="#44403c">주차</text><line x1="160.8" y1="76.5" x2="127.4" y2="76.5" stroke="#a8a29e" stroke-width="1.4"/><circle cx="160.8" cy="76.5" r="2.6" fill="#57534e"/><circle cx="127.4" cy="76.5" r="2.6" fill="#57534e"/><text x="160.8" y="73.3" font-size="7" fill="#44403c" text-anchor="middle">1696.0</text><text x="127.4" y="82.7" font-size="7" fill="#44403c" text-anchor="middle">1202.0</text></svg></div></figure>
+  <div class="facts"><p><b>2,522</b><span>소음 전체</span></p><p><b>1,401</b><span>한 주소</span></p><p><b>1.46배</b><span>주소 제외</span></p><p><b>71%</b><span>주차</span></p></div>
+  <ul class="band"><li>추수감사절은 2025년 11월 27일 목요일이다.</li><li>집이 모이는 날이라 층간 소음이 기사 소재가 된다.</li><li>그날 소음 2,522건 중 1,401건은 한 주소다.</li><li>도로명은 적지 않는다. 우편번호 10466의 그 주소다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>명절 식탁 기사는 집 안을 보여주고, 주차 기사는 한산한 길을 보여 준다. 장부에서는 둘의 부호가 반대다.</p>
+    <p class="note"><span class="tag">통계</span>비교 목요일은 11월 6일부터 1월 29일, 11월 27일·크리스마스·1월 1일 제외. 그 주소도 뺐다.</p>
+  </div>
+  <p class="folio">09</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">01 · 건너뛴 날</span><span class="qid">Q06</span></header>
+  <h2 class="q">가장 추운 날, 난방 신고는 다른 영하 날의 몇 배인가?</h2>
+  <p class="lead">2월 8일, 영하 14도, 난방 6,118건. 다른 영하 58일의 2.36배다.</p>
+  <figure class="fig"><p class="figcap">영하인 날의 난방 건수. 주황은 2026-02-08. 첫날과 마지막 날은 뺐다.</p><div class="plot"><div class="cols"><div class="c"><span class="val">3,585</span><span class="shaft" style="height:51.6%"></span><span class="lab"></span></div><div class="c"><span class="val">3,019</span><span class="shaft" style="height:43.4%"></span><span class="lab"></span></div><div class="c"><span class="val">3,657</span><span class="shaft" style="height:52.6%"></span><span class="lab"></span></div><div class="c"><span class="val">2,238</span><span class="shaft" style="height:32.2%"></span><span class="lab"></span></div><div class="c"><span class="val">1,751</span><span class="shaft" style="height:25.2%"></span><span class="lab"></span></div><div class="c"><span class="val">2,316</span><span class="shaft" style="height:33.3%"></span><span class="lab"></span></div><div class="c"><span class="val">3,569</span><span class="shaft" style="height:51.3%"></span><span class="lab"></span></div><div class="c"><span class="val">2,627</span><span class="shaft" style="height:37.8%"></span><span class="lab"></span></div><div class="c"><span class="val">1,712</span><span class="shaft" style="height:24.6%"></span><span class="lab"></span></div><div class="c"><span class="val">1,820</span><span class="shaft" style="height:26.2%"></span><span class="lab"></span></div><div class="c"><span class="val">2,267</span><span class="shaft" style="height:32.6%"></span><span class="lab"></span></div><div class="c"><span class="val">2,366</span><span class="shaft" style="height:34.0%"></span><span class="lab"></span></div><div class="c"><span class="val">2,025</span><span class="shaft" style="height:29.1%"></span><span class="lab"></span></div><div class="c"><span class="val">2,393</span><span class="shaft" style="height:34.4%"></span><span class="lab"></span></div><div class="c"><span class="val">1,962</span><span class="shaft" style="height:28.2%"></span><span class="lab"></span></div><div class="c"><span class="val">2,132</span><span class="shaft" style="height:30.7%"></span><span class="lab"></span></div><div class="c"><span class="val">2,766</span><span class="shaft" style="height:39.8%"></span><span class="lab"></span></div><div class="c"><span class="val">2,267</span><span class="shaft" style="height:32.6%"></span><span class="lab"></span></div><div class="c"><span class="val">2,026</span><span class="shaft" style="height:29.1%"></span><span class="lab"></span></div><div class="c"><span class="val">2,231</span><span class="shaft" style="height:32.1%"></span><span class="lab"></span></div><div class="c"><span class="val">2,260</span><span class="shaft" style="height:32.5%"></span><span class="lab"></span></div><div class="c"><span class="val">1,480</span><span class="shaft" style="height:21.3%"></span><span class="lab"></span></div><div class="c"><span class="val">1,419</span><span class="shaft" style="height:20.4%"></span><span class="lab"></span></div><div class="c"><span class="val">2,089</span><span class="shaft" style="height:30.0%"></span><span class="lab"></span></div><div class="c"><span class="val">3,516</span><span class="shaft" style="height:50.6%"></span><span class="lab"></span></div><div class="c"><span class="val">3,327</span><span class="shaft" style="height:47.9%"></span><span class="lab"></span></div><div class="c"><span class="val">2,348</span><span class="shaft" style="height:33.8%"></span><span class="lab"></span></div><div class="c"><span class="val">5,614</span><span class="shaft" style="height:80.8%"></span><span class="lab"></span></div><div class="c"><span class="val">5,601</span><span class="shaft" style="height:80.6%"></span><span class="lab"></span></div><div class="c"><span class="val">3,978</span><span class="shaft" style="height:57.2%"></span><span class="lab"></span></div><div class="c"><span class="val">4,071</span><span class="shaft" style="height:58.6%"></span><span class="lab"></span></div><div class="c"><span class="val">4,148</span><span class="shaft" style="height:59.7%"></span><span class="lab"></span></div><div class="c"><span class="val">4,216</span><span class="shaft" style="height:60.6%"></span><span class="lab"></span></div><div class="c"><span class="val">5,200</span><span class="shaft" style="height:74.8%"></span><span class="lab"></span></div><div class="c"><span class="val">4,427</span><span class="shaft" style="height:63.7%"></span><span class="lab"></span></div><div class="c"><span class="val">4,688</span><span class="shaft" style="height:67.4%"></span><span class="lab"></span></div><div class="c"><span class="val">3,685</span><span class="shaft" style="height:53.0%"></span><span class="lab"></span></div><div class="c"><span class="val">2,531</span><span class="shaft" style="height:36.4%"></span><span class="lab"></span></div><div class="c"><span class="val">1,973</span><span class="shaft" style="height:28.4%"></span><span class="lab"></span></div><div class="c"><span class="val">2,155</span><span class="shaft" style="height:31.0%"></span><span class="lab"></span></div><div class="c"><span class="val">1,999</span><span class="shaft" style="height:28.8%"></span><span class="lab"></span></div><div class="c"><span class="val">3,843</span><span class="shaft" style="height:55.3%"></span><span class="lab"></span></div><div class="c"><span class="val">6,118</span><span class="shaft hot" style="height:88.0%"></span><span class="lab">2/8</span></div><div class="c"><span class="val">4,227</span><span class="shaft" style="height:60.8%"></span><span class="lab"></span></div><div class="c"><span class="val">2,594</span><span class="shaft" style="height:37.3%"></span><span class="lab"></span></div><div class="c"><span class="val">1,599</span><span class="shaft" style="height:23.0%"></span><span class="lab"></span></div><div class="c"><span class="val">1,541</span><span class="shaft" style="height:22.2%"></span><span class="lab"></span></div><div class="c"><span class="val">1,135</span><span class="shaft" style="height:16.3%"></span><span class="lab"></span></div><div class="c"><span class="val">1,153</span><span class="shaft" style="height:16.6%"></span><span class="lab"></span></div><div class="c"><span class="val">1,413</span><span class="shaft" style="height:20.3%"></span><span class="lab"></span></div><div class="c"><span class="val">2,256</span><span class="shaft" style="height:32.4%"></span><span class="lab"></span></div><div class="c"><span class="val">1,641</span><span class="shaft" style="height:23.6%"></span><span class="lab"></span></div><div class="c"><span class="val">1,440</span><span class="shaft" style="height:20.7%"></span><span class="lab"></span></div><div class="c"><span class="val">1,197</span><span class="shaft" style="height:17.2%"></span><span class="lab"></span></div><div class="c"><span class="val">964</span><span class="shaft" style="height:13.9%"></span><span class="lab"></span></div><div class="c"><span class="val">1,126</span><span class="shaft" style="height:16.2%"></span><span class="lab"></span></div><div class="c"><span class="val">1,831</span><span class="shaft" style="height:26.3%"></span><span class="lab"></span></div><div class="c"><span class="val">1,403</span><span class="shaft" style="height:20.2%"></span><span class="lab"></span></div><div class="c"><span class="val">1,436</span><span class="shaft" style="height:20.7%"></span><span class="lab"></span></div></div></div></figure>
+  <div class="facts"><p><b>6,118</b><span>2월 8일</span></p><p><b>2,591</b><span>다른 영하 날</span></p><p><b>149</b><span>20도 이상</span></p><p><b>−14°C</b><span>일평균기온</span></p></div>
+  <ul class="band"><li>난방 민원은 겨울 기사마다 나오지만 영하인 날이 다 같지는 않다.</li><li>이날 도시 전체 신고는 14,514건이다.</li><li>20도 이상 125일의 난방은 하루 149건이다.</li><li>한 날짜의 배수이지, 추위 정책의 성적은 아니다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>한파 브리핑은 가장 추운 아침을 보여 준다. 이 칸은 그 하루를 다른 영하 날 옆에 놓는다.</p>
+    <p class="note"><span class="tag">통계</span>기온은 Open-Meteo 일평균. 평균 2,591건은 2월 8일을 뺀 영하 58일이다.</p>
+  </div>
+  <p class="folio">10</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">01 · 건너뛴 날</span><span class="qid">Q07</span></header>
+  <h2 class="q">눈이 내리던 날, 불법주차는 같이 늘었나?</h2>
+  <p class="lead">2월 23일 주차는 평소 월요일의 49%였다. 다음 날 눈 민원은 더 늘고 주차는 94%로 돌아왔다.</p>
+  <figure class="fig"><p class="figcap">왼쪽은 눈 민원 건수. 오른쪽은 주차. 축을 나누었다. 주황은 눈 민원이 더 많은 24일과, 주차가 줄어든 23일.</p><div class="plot"><div class="pair"><div class="panel"><h3>눈·얼음 민원</h3><div class="cols"><div class="c"><span class="val">6,524</span><span class="shaft" style="height:50.5%"></span><span class="lab">23일</span></div><div class="c"><span class="val">11,370</span><span class="shaft hot" style="height:88.0%"></span><span class="lab">24일</span></div></div></div><div class="panel"><h3>불법주차</h3><div class="cols"><div class="c"><span class="val">1,743</span><span class="shaft" style="height:86.1%"></span><span class="lab">월요일</span></div><div class="c"><span class="val">848</span><span class="shaft hot" style="height:41.9%"></span><span class="lab">23일</span></div><div class="c"><span class="val">1,782</span><span class="shaft" style="height:88.0%"></span><span class="lab">화요일</span></div><div class="c"><span class="val">1,669</span><span class="shaft" style="height:82.4%"></span><span class="lab">24일</span></div></div></div></div></div></figure>
+  <div class="facts"><p><b>49%</b><span>23일 주차</span></p><p><b>94%</b><span>24일 주차</span></p><p><b>6,524</b><span>23일 눈</span></p><p><b>11,370</b><span>24일 눈</span></p></div>
+  <ul class="band"><li>23일 적설은 12.9cm, 24일 적설은 0cm다.</li><li>눈 민원은 24일에 더 많다. 눈이 그친 뒤의 신고다.</li><li>주차는 차를 빼는 사람의 신고라 시계가 다르다.</li><li>민원 총량을 제설 성적표로 읽지 않는다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>폭설 다음 날 브리핑은 민원 건수를 성적처럼 말한다. 주차와 눈은 같은 방향으로 움직이지 않았다.</p>
+    <p class="note"><span class="tag">통계</span>주차 비교는 다른 월요일 48일, 다른 화요일 50일. 공휴일로 쉬는 월·화는 평균에서 뺐다.</p>
+  </div>
+  <p class="folio">11</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">01 · 건너뛴 날</span><span class="qid">Q08</span></header>
+  <h2 class="q">헬기 소음 신고는 한밤중인가, 해 질 무렵인가?</h2>
+  <p class="lead">1년 10,971건 중 15–19시가 4,509건, 41%다. 한 시각의 정점은 16시다.</p>
+  <figure class="fig"><p class="figcap">0시부터 23시. 숫자는 3시간마다. 주황은 16시, 1,097건.</p><div class="plot"><div class="cols"><div class="c"><span class="val">59.0</span><span class="shaft" style="height:4.7%"></span><span class="lab">0</span></div><div class="c"><span class="val">53.0</span><span class="shaft" style="height:4.3%"></span><span class="lab"></span></div><div class="c"><span class="val">30.0</span><span class="shaft" style="height:2.4%"></span><span class="lab"></span></div><div class="c"><span class="val">18.0</span><span class="shaft" style="height:1.4%"></span><span class="lab">3</span></div><div class="c"><span class="val">23.0</span><span class="shaft" style="height:1.8%"></span><span class="lab"></span></div><div class="c"><span class="val">30.0</span><span class="shaft" style="height:2.4%"></span><span class="lab"></span></div><div class="c"><span class="val">233</span><span class="shaft" style="height:18.7%"></span><span class="lab">6</span></div><div class="c"><span class="val">334</span><span class="shaft" style="height:26.8%"></span><span class="lab"></span></div><div class="c"><span class="val">231</span><span class="shaft" style="height:18.5%"></span><span class="lab"></span></div><div class="c"><span class="val">331</span><span class="shaft" style="height:26.6%"></span><span class="lab">9</span></div><div class="c"><span class="val">641</span><span class="shaft" style="height:51.4%"></span><span class="lab"></span></div><div class="c"><span class="val">661</span><span class="shaft" style="height:53.0%"></span><span class="lab"></span></div><div class="c"><span class="val">782</span><span class="shaft" style="height:62.7%"></span><span class="lab">12</span></div><div class="c"><span class="val">756</span><span class="shaft" style="height:60.6%"></span><span class="lab"></span></div><div class="c"><span class="val">786</span><span class="shaft" style="height:63.1%"></span><span class="lab"></span></div><div class="c"><span class="val">866</span><span class="shaft" style="height:69.5%"></span><span class="lab">15</span></div><div class="c"><span class="val">1,097</span><span class="shaft hot" style="height:88.0%"></span><span class="lab"></span></div><div class="c"><span class="val">948</span><span class="shaft" style="height:76.0%"></span><span class="lab"></span></div><div class="c"><span class="val">762</span><span class="shaft" style="height:61.1%"></span><span class="lab">18</span></div><div class="c"><span class="val">836</span><span class="shaft" style="height:67.1%"></span><span class="lab"></span></div><div class="c"><span class="val">748</span><span class="shaft" style="height:60.0%"></span><span class="lab"></span></div><div class="c"><span class="val">368</span><span class="shaft" style="height:29.5%"></span><span class="lab">21</span></div><div class="c"><span class="val">220</span><span class="shaft" style="height:17.6%"></span><span class="lab"></span></div><div class="c"><span class="val">158</span><span class="shaft" style="height:12.7%"></span><span class="lab"></span></div></div></div></figure>
+  <div class="facts"><p><b>41%</b><span>15–19시</span></p><p><b>213건</b><span>0–5시</span></p><p><b>1,097</b><span>16시</span></p><p><b>10,971</b><span>1년</span></p></div>
+  <ul class="band"><li>허드슨 강과 맨해튼 남단 헬기는 오래된 지역 뉴스다.</li><li>이 장부에는 운항 횟수가 없고 신고만 있다.</li><li>한밤중 0–5시는 213건이다.</li><li>16시의 1,097건은 365일에 걸친 그 시각의 합이다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>지역 뉴스는 낮의 강변 헬기를 찍는다. 신고의 시각도 해 질 무렵에 모인다.</p>
+    <p class="note"><span class="tag">통계</span>문제 유형은 Noise - Helicopter. 장소로 나누지 않고 시각만 세었다.</p>
+  </div>
+  <p class="folio">12</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">01 · 건너뛴 날</span><span class="qid">Q09</span></header>
+  <h2 class="q">난방 신고는 건물 전체인가, 그 집만인가?</h2>
+  <p class="lead">352,278건 중 건물 전체가 65.6%다. 겨울 기사가 보일러 하나를 찍는 장면과 같은 칸이다.</p>
+  <figure class="fig"><p class="figcap">HEAT/HOT WATER. 두 조각의 합이 100이다.</p><div class="plot"><div class="stacks"><div class="srow"><span class="sname">전체</span><span class="sbar" style="height:16mm"><i style="width:65.60%;background:#c2410c"></i><i style="width:34.40%;background:#57534e"></i></span></div></div><div class="legend"><span><b style="background:#c2410c"></b>건물 전체</span><span><b style="background:#57534e"></b>그 세대만</span></div></div></figure>
+  <div class="facts"><p><b>231,208</b><span>건물 전체</span></p><p><b>121,070</b><span>그 세대만</span></p><p><b>65.6%</b><span>건물 몫</span></p><p><b>352,278</b><span>분모</span></p></div>
+  <ul class="band"><li>세입자가 겨울에 주택국 장부에 남기는 기록이다.</li><li>접수 칸이 건물 전체인지 그 세대만인지를 적는다.</li><li>66%는 건물 수가 아니라 신고 건수의 몫이다.</li><li>자치구 순위로 다시 그리지 않는다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>난방이 끊긴 건물 꼭지는 현관과 복도를 보여 준다. 장부에서도 건물 전체 칸이 더 크다.</p>
+    <p class="note"><span class="tag">통계</span>세부 유형 ENTIRE BUILDING과 APARTMENT ONLY. 다른 칸은 이 둘뿐이었다.</p>
+  </div>
+  <p class="folio">13</p>
+</section>
+
+
+<section class="sheet">
+  <div class="opener">
+    <div class="rule"></div>
+    <p class="ch">CHAPTER 02</p>
+    <div class="gap"></div>
+    <p class="num">02</p>
+    <h2>신고 다음</h2>
+    <p class="dek">경찰이 남긴 문장과, 2026년 9월 22일에 바뀐 텐트 신고의 접수처.</p>
+    <p class="scene">건수는 거의 그대로다. 바뀐 것은 어느 기관의 장부에 적히는지다.</p>
+    <div class="previews"><p><b>13.1%</b><span>딱지 문장</span></p><p><b>73%→3%</b><span>텐트의 경찰 몫</span></p><p><b>다섯 곳</b><span>같은 방향</span></p></div>
+  </div>
+  <p class="folio">14</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">02 · 신고 다음</span><span class="qid">Q10</span></header>
+  <h2 class="q">경찰이 딱지를 발부했다고 적은 비율은?</h2>
+  <p class="lead">결과 문장 1,720,638건 중 13.1%에 “issued a summons”가 있다.</p>
+  <figure class="fig"><p class="figcap">NYPD 결과 문장. 소환장이라는 낱말만 센 비율이 아니다.</p><div class="plot"><div class="stacks"><div class="srow"><span class="sname">전체</span><span class="sbar" style="height:16mm"><i style="width:13.10%;background:#c2410c"></i><i style="width:86.90%;background:#57534e"></i></span></div></div><div class="legend"><span><b style="background:#c2410c"></b>딱지 문장</span><span><b style="background:#57534e"></b>그 문구 없음</span></div></div></figure>
+  <div class="facts"><p><b>224,738</b><span>딱지 문장</span></p><p><b>13.1%</b><span>몫</span></p><p><b>172만</b><span>결과 문장</span></p><p><b>0건</b><span>증거없음과 겹침</span></p></div>
+  <ul class="band"><li>소환장은 체포가 아니라 현장 벌금 쪽의 딱지다.</li><li>문장에는 발부할 필요가 없었다가 많이 들어 있다.</li><li>낱말만 세면 딱지가 부풀어 오른다.</li><li>이웃 소음만의 딱지 확률은 이 13.1%가 아니다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>현장 정리 기사 속의 딱지는 한 장면이다. 이 쪽은 경찰 문장 전체의 정의만 보여 준다.</p>
+    <p class="note"><span class="tag">통계</span>문자열은 issued a summons. 증거 없음 문구와의 교집합은 0건이다.</p>
+  </div>
+  <p class="folio">15</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">02 · 신고 다음</span><span class="qid">Q11</span></header>
+  <h2 class="q">9월 22일, 텐트 신고는 어디로 갔나?</h2>
+  <p class="lead">이전 325일은 하루 130건, 이후 40일도 하루 129건이다. 경찰 몫만 73%에서 3%로 옮겼다.</p>
+  <figure class="fig"><p class="figcap">시 전체 텐트 신고. 하루 건수는 130에서 129라 그림에 넣지 않았다.</p><div class="plot"><svg viewBox="0 0 180 100"><text x="46" y="8" font-size="8" fill="#78716c">9월 22일 전</text><text x="170" y="8" font-size="8" fill="#78716c" text-anchor="end">9월 22일 후</text><text x="2" y="58.5" font-size="8" fill="#44403c">경찰 몫</text><line x1="160.8" y1="57.0" x2="50.8" y2="57.0" stroke="#a8a29e" stroke-width="1.4"/><circle cx="160.8" cy="57.0" r="2.6" fill="#57534e"/><circle cx="50.8" cy="57.0" r="2.6" fill="#c2410c"/><text x="160.8" y="53.8" font-size="7" fill="#44403c" text-anchor="middle">73.4%</text><text x="50.8" y="63.2" font-size="7" fill="#44403c" text-anchor="middle">3.1%</text></svg></div></figure>
+  <div class="facts"><p><b>42,222</b><span>이전</span></p><p><b>5,147</b><span>이후</span></p><p><b>130건</b><span>이전 하루</span></p><p><b>129건</b><span>이후 하루</span></p></div>
+  <ul class="band"><li>DHS는 노숙인 서비스국이다.</li><li>아웃리치는 경찰 대신 그 기관의 현장팀이 접수한다는 뜻이다.</li><li>이 날짜는 민원 창의 마지막 40일이라 계절을 가리지 못한다.</li><li>텐트가 줄었다는 문장은 쓰지 않는다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>amNewYork, 2026-09-25. 시는 9월 22일부터 텐트 311을 DHS 아웃리치로 보낸다고 확인했다.</p>
+    <p class="note"><span class="tag">통계</span>전후 비교는 그 날짜에 보인 접수 기관의 차이다. 정책이 텐트를 줄였다는 뜻이 아니다.</p>
+  </div>
+  <p class="folio">16</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">02 · 신고 다음</span><span class="qid">Q12</span></header>
+  <h2 class="q">접수처 변경은 다섯 자치구에서 같이 일어났나?</h2>
+  <p class="lead">다섯 곳 모두 경찰 몫이 5% 아래로 떨어졌다. 이후 건수의 64%는 맨해튼이다.</p>
+  <figure class="fig"><p class="figcap">자치구별 텐트 신고 중 NYPD 몫.</p><div class="plot"><svg viewBox="0 0 180 100"><text x="46" y="8" font-size="8" fill="#78716c">9/22 전</text><text x="170" y="8" font-size="8" fill="#78716c" text-anchor="end">9/22 후</text><text x="2" y="27.3" font-size="8" fill="#44403c">브롱크스</text><line x1="152.9" y1="25.8" x2="51.0" y2="25.8" stroke="#a8a29e" stroke-width="1.4"/><circle cx="152.9" cy="25.8" r="2.6" fill="#57534e"/><circle cx="51.0" cy="25.8" r="2.6" fill="#c2410c"/><text x="152.9" y="22.6" font-size="7" fill="#44403c" text-anchor="middle">86.8%</text><text x="51.0" y="32.0" font-size="7" fill="#44403c" text-anchor="middle">4.1%</text><text x="2" y="42.9" font-size="8" fill="#44403c">맨해튼</text><line x1="131.8" y1="41.4" x2="50.3" y2="41.4" stroke="#a8a29e" stroke-width="1.4"/><circle cx="131.8" cy="41.4" r="2.6" fill="#57534e"/><circle cx="50.3" cy="41.4" r="2.6" fill="#57534e"/><text x="131.8" y="38.2" font-size="7" fill="#44403c" text-anchor="middle">69.7%</text><text x="50.3" y="47.6" font-size="7" fill="#44403c" text-anchor="middle">3.4%</text><text x="2" y="58.5" font-size="8" fill="#44403c">브루클린</text><line x1="145.8" y1="57.0" x2="47.5" y2="57.0" stroke="#a8a29e" stroke-width="1.4"/><circle cx="145.8" cy="57.0" r="2.6" fill="#57534e"/><circle cx="47.5" cy="57.0" r="2.6" fill="#57534e"/><text x="145.8" y="53.8" font-size="7" fill="#44403c" text-anchor="middle">81.0%</text><text x="47.5" y="63.2" font-size="7" fill="#44403c" text-anchor="middle">1.3%</text><text x="2" y="74.1" font-size="8" fill="#44403c">퀸스</text><line x1="149.5" y1="72.6" x2="49.9" y2="72.6" stroke="#a8a29e" stroke-width="1.4"/><circle cx="149.5" cy="72.6" r="2.6" fill="#57534e"/><circle cx="49.9" cy="72.6" r="2.6" fill="#57534e"/><text x="149.5" y="69.4" font-size="7" fill="#44403c" text-anchor="middle">84.0%</text><text x="49.9" y="78.8" font-size="7" fill="#44403c" text-anchor="middle">3.2%</text><text x="2" y="89.7" font-size="8" fill="#44403c">스태튼아일랜드</text><line x1="160.8" y1="88.2" x2="48.9" y2="88.2" stroke="#a8a29e" stroke-width="1.4"/><circle cx="160.8" cy="88.2" r="2.6" fill="#57534e"/><circle cx="48.9" cy="88.2" r="2.6" fill="#57534e"/><text x="160.8" y="85.0" font-size="7" fill="#44403c" text-anchor="middle">93.2%</text><text x="48.9" y="94.4" font-size="7" fill="#44403c" text-anchor="middle">2.3%</text></svg></div></figure>
+  <div class="facts"><p><b>64%</b><span>이후의 맨해튼</span></p><p><b>3,305</b><span>맨해튼 이후</span></p><p><b>5,147</b><span>이후 합</span></p><p><b>5% 아래</b><span>다섯 곳</span></p></div>
+  <ul class="band"><li>방향은 다섯 자치구가 같다.</li><li>크기는 맨해튼에 몰려 있다.</li><li>이전 자치구 합은 시 전체보다 9건 적다. 몫은 자치구 안에서 계산했다.</li><li>선거 이야기로 잇지 않는다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>같은 amNewYork 확인은 시의 접수 규칙이다. 자치구 의회가 각각 정한 규칙이 아니다.</p>
+    <p class="note"><span class="tag">통계</span>이후는 2026-09-22 이상. 스태튼아일랜드 이후는 43건이라 비율의 폭이 넓다.</p>
+  </div>
+  <p class="folio">17</p>
+</section>
+
+
+<section class="sheet">
+  <div class="opener">
+    <div class="rule"></div>
+    <p class="ch">CHAPTER 03</p>
+    <div class="gap"></div>
+    <p class="num">03</p>
+    <h2>표가 있는 곳</h2>
+    <p class="dek">2025년 11월 4일 시장 선거와 311을 한 지도에 놓되, 한 사람의 표와 한 사람의 신고로 옮기지 않는다.</p>
+    <p class="scene">이긴 네 자치구는 한 기관이 아니고, 퀸스 안에서도 주차는 닮고 주택 민원은 갈린다.</p>
+    <div class="previews"><p><b>두 줄</b><span>맘다니 50.8%</span></p><p><b>36%→12%</b><span>이긴 곳의 주택국</span></p><p><b>24.8·23.0</b><span>주차는 붙어 있다</span></p></div>
+  </div>
+  <p class="folio">18</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">03 · 표가 있는 곳</span><span class="qid">Q13</span></header>
+  <h2 class="q">맘다니 50.8%는 몇 줄인가?</h2>
+  <p class="lead">민주당 944,950표는 쿠오모보다 이미 38,336표 많다. 노동가족당 169,234표는 역전표가 아니라 둘째 줄이다.</p>
+  <figure class="fig"><p class="figcap">막대 길이는 표수. 100%가 아니다. 맘다니 합계 1,114,184표를 기준으로 길이를 맞췄다.</p><div class="plot"><div class="stacks"><div class="srow"><span class="sname">맘다니</span><span class="sbar" style="height:16mm"><i style="width:84.81%;background:#c2410c"></i><i style="width:15.19%;background:#57534e"></i></span></div><div class="srow"><span class="sname">쿠오모</span><span class="sbar" style="height:16mm"><i style="width:81.37%;background:#44403c"></i></span></div><div class="srow"><span class="sname">슬리와</span><span class="sbar" style="height:16mm"><i style="width:13.80%;background:#44403c"></i></span></div></div><div class="legend"><span><b style="background:#c2410c"></b>민주당</span><span><b style="background:#57534e"></b>노동가족당</span><span><b style="background:#44403c"></b>다른 후보</span></div></div></figure>
+  <div class="facts"><p><b>944,950</b><span>민주당</span></p><p><b>169,234</b><span>노동가족당</span></p><p><b>1,114,184</b><span>후보 합계</span></p><p><b>906,614</b><span>쿠오모</span></p></div>
+  <ul class="band"><li>조란 맘다니는 아스토리아 주의회 의원 출신으로 민주당과 노동가족당에 함께 올랐다.</li><li>앤드루 쿠오모는 전 뉴욕주 지사로, 이 선거에서는 여러 줄의 합이 906,614표다.</li><li>커티스 슬리와는 공화당 후보, 153,749표.</li><li>뉴욕은 한 후보가 둘 이상의 정당 줄에 오를 수 있다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>선거관리위원회 2025-11-04 시장 선거 확정 개표. 50.8%는 후보를 합친 몫이다.</p>
+    <p class="note"><span class="tag">통계</span>민주당 한 줄만으로도 쿠오모의 줄 합보다 크다. 나머지 0.9포인트의 표수는 만들지 않았다.</p>
+  </div>
+  <p class="folio">19</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">03 · 표가 있는 곳</span><span class="qid">Q14</span></header>
+  <h2 class="q">이긴 네 자치구의 민원은 같은 기관으로 가나?</h2>
+  <p class="lead">주택국 몫은 브롱크스 36%, 맨해튼 27%, 브루클린 22%, 퀸스 12%다. 한 줄이 아니다.</p>
+  <figure class="fig"><p class="figcap">주황은 주택국. 타임은 맘다니가 네 자치구에서, 쿠오모가 스태튼아일랜드에서 이겼다고 썼다.</p><div class="plot"><div class="stacks"><div class="srow"><span class="sname">브롱크스</span><span class="sbar" style="height:8mm"><i style="width:36.28%;background:#c2410c"></i><i style="width:43.51%;background:#57534e"></i><i style="width:5.87%;background:#78716c"></i><i style="width:4.01%;background:#a8a29e"></i><i style="width:1.51%;background:#d6d3d1"></i><i style="width:3.97%;background:#e7e5e4"></i><i style="width:4.85%;background:#e7e5e4"></i></span></div><div class="srow"><span class="sname">맨해튼</span><span class="sbar" style="height:8mm"><i style="width:26.65%;background:#c2410c"></i><i style="width:35.72%;background:#57534e"></i><i style="width:7.70%;background:#78716c"></i><i style="width:6.50%;background:#a8a29e"></i><i style="width:2.36%;background:#d6d3d1"></i><i style="width:6.18%;background:#e7e5e4"></i><i style="width:14.90%;background:#e7e5e4"></i></span></div><div class="srow"><span class="sname">브루클린</span><span class="sbar" style="height:8mm"><i style="width:21.87%;background:#c2410c"></i><i style="width:45.10%;background:#57534e"></i><i style="width:9.69%;background:#78716c"></i><i style="width:6.42%;background:#a8a29e"></i><i style="width:4.00%;background:#d6d3d1"></i><i style="width:5.50%;background:#e7e5e4"></i><i style="width:7.42%;background:#e7e5e4"></i></span></div><div class="srow"><span class="sname">퀸스</span><span class="sbar" style="height:8mm"><i style="width:12.17%;background:#c2410c"></i><i style="width:49.50%;background:#57534e"></i><i style="width:10.11%;background:#78716c"></i><i style="width:10.23%;background:#a8a29e"></i><i style="width:4.65%;background:#d6d3d1"></i><i style="width:5.97%;background:#e7e5e4"></i><i style="width:7.37%;background:#e7e5e4"></i></span></div><div class="srow"><span class="sname">스태튼아일랜드</span><span class="sbar" style="height:8mm"><i style="width:8.51%;background:#c2410c"></i><i style="width:31.70%;background:#57534e"></i><i style="width:22.19%;background:#78716c"></i><i style="width:14.21%;background:#a8a29e"></i><i style="width:8.52%;background:#d6d3d1"></i><i style="width:8.49%;background:#e7e5e4"></i><i style="width:6.37%;background:#e7e5e4"></i></span></div></div><div class="legend"><span><b style="background:#c2410c"></b>주택</span><span><b style="background:#57534e"></b>경찰</span><span><b style="background:#78716c"></b>청소</span><span><b style="background:#a8a29e"></b>교통</span><span><b style="background:#d6d3d1"></b>공원</span><span><b style="background:#e7e5e4"></b>환경</span><span><b style="background:#e7e5e4"></b>그 밖</span></div></div></figure>
+  <div class="facts"><p><b>36%</b><span>브롱크스 주택</span></p><p><b>12%</b><span>퀸스 주택</span></p><p><b>22%</b><span>스태튼 청소</span></p><p><b>32%</b><span>스태튼 경찰</span></p></div>
+  <ul class="band"><li>타임 2025-11-05의 승패는 자치구 단위다. 자치구 득표율은 적지 않는다.</li><li>스태튼아일랜드의 둘째 기관은 주택국이 아니라 청소국 22%다.</li><li>그 자치구의 경찰 몫 32%는 다섯 곳 중 가장 낮다.</li><li>승패의 순서와 기관의 순서는 같지 않다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>타임, 2025-11-05. 페이지에는 2026-10-19 수정 표시가 있다. 게재일로 인용한다.</p>
+    <p class="note"><span class="tag">통계</span>몫은 그 자치구 민원 안의 기관 구성. 한 사람의 표와 한 사람의 신고가 아니다.</p>
+  </div>
+  <p class="folio">20</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">03 · 표가 있는 곳</span><span class="qid">Q15</span></header>
+  <h2 class="q">보도가 가른 두 퀸스는 어느 기관에서 갈리나?</h2>
+  <p class="lead">주차는 24.8%와 23.0%로 붙어 있다. 주택국은 17.5%와 4.3%로 갈린다.</p>
+  <figure class="fig"><p class="figcap">왼쪽 80,648건, 오른쪽 24,211건. 첫 줄 주택국만 주황 끝점.</p><div class="plot"><svg viewBox="0 0 180 100"><text x="46" y="8" font-size="8" fill="#78716c">아스토리아</text><text x="170" y="8" font-size="8" fill="#78716c" text-anchor="end">베이사이드</text><text x="2" y="27.3" font-size="8" fill="#44403c">주택국</text><line x1="85.7" y1="25.8" x2="55.8" y2="25.8" stroke="#a8a29e" stroke-width="1.4"/><circle cx="85.7" cy="25.8" r="2.6" fill="#57534e"/><circle cx="55.8" cy="25.8" r="2.6" fill="#c2410c"/><text x="85.7" y="22.6" font-size="7" fill="#44403c" text-anchor="middle">17.5%</text><text x="55.8" y="32.0" font-size="7" fill="#44403c" text-anchor="middle">4.3%</text><text x="2" y="42.9" font-size="8" fill="#44403c">경찰</text><line x1="160.8" y1="41.4" x2="146.6" y2="41.4" stroke="#a8a29e" stroke-width="1.4"/><circle cx="160.8" cy="41.4" r="2.6" fill="#57534e"/><circle cx="146.6" cy="41.4" r="2.6" fill="#57534e"/><text x="160.8" y="38.2" font-size="7" fill="#44403c" text-anchor="middle">50.5%</text><text x="146.6" y="47.6" font-size="7" fill="#44403c" text-anchor="middle">44.3%</text><text x="2" y="58.5" font-size="8" fill="#44403c">청소</text><line x1="67.8" y1="57.0" x2="69.4" y2="57.0" stroke="#a8a29e" stroke-width="1.4"/><circle cx="67.8" cy="57.0" r="2.6" fill="#57534e"/><circle cx="69.4" cy="57.0" r="2.6" fill="#57534e"/><text x="67.8" y="53.8" font-size="7" fill="#44403c" text-anchor="middle">9.6%</text><text x="69.4" y="63.2" font-size="7" fill="#44403c" text-anchor="middle">10.3%</text><text x="2" y="74.1" font-size="8" fill="#44403c">교통</text><line x1="60.6" y1="72.6" x2="80.4" y2="72.6" stroke="#a8a29e" stroke-width="1.4"/><circle cx="60.6" cy="72.6" r="2.6" fill="#57534e"/><circle cx="80.4" cy="72.6" r="2.6" fill="#57534e"/><text x="60.6" y="69.4" font-size="7" fill="#44403c" text-anchor="middle">6.4%</text><text x="80.4" y="78.8" font-size="7" fill="#44403c" text-anchor="middle">15.1%</text><text x="2" y="89.7" font-size="8" fill="#44403c">공원</text><line x1="55.8" y1="88.2" x2="70.9" y2="88.2" stroke="#a8a29e" stroke-width="1.4"/><circle cx="55.8" cy="88.2" r="2.6" fill="#57534e"/><circle cx="70.9" cy="88.2" r="2.6" fill="#57534e"/><text x="55.8" y="85.0" font-size="7" fill="#44403c" text-anchor="middle">4.3%</text><text x="70.9" y="94.4" font-size="7" fill="#44403c" text-anchor="middle">11.0%</text></svg></div></figure>
+  <div class="facts"><p><b>24.8%</b><span>아스토리아 주차</span></p><p><b>23.0%</b><span>베이사이드 주차</span></p><p><b>17.5%</b><span>아스토리아 주택</span></p><p><b>4.3%</b><span>베이사이드 주택</span></p></div>
+  <ul class="band"><li>아스토리아는 퀸스 서부, 베이사이드는 퀸스 북동부다.</li><li>타임이 적은 약 66%와 25포인트는 동네 기사이지 이 우편번호의 득표율이 아니다.</li><li>퀸스 전체는 그 보도에서 이긴 쪽에 있다. 진 자치구와의 비교가 아니다.</li><li>우편번호는 선거구 경계가 아니다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>타임 2025-11-05, QNS 2025-11-05. 서부 퀸스와 동부 퀸스가 갈렸다는 동네 보도다.</p>
+    <p class="note"><span class="tag">통계</span>주차 몫은 거의 누운 기준이다. 이 그림의 기울기는 기관 몫이다.</p>
+  </div>
+  <p class="folio">21</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">03 · 표가 있는 곳</span><span class="qid">Q16</span></header>
+  <h2 class="q">NY-14 퀸스 우편번호 열 개는 한 곳인가?</h2>
+  <p class="lead">열 개의 평균은 난방 5.8%, 주차 21%다. 11372는 난방 12.6%이고 11356은 1.1%다.</p>
+  <figure class="fig"><p class="figcap">가로 주차, 세로 난방. 주황은 11372, 11103, 11356.</p><div class="plot"><svg viewBox="0 0 180 100"><line x1="22" y1="88" x2="174" y2="88" stroke="#d6d3d1"/><line x1="22" y1="88" x2="22" y2="12" stroke="#d6d3d1"/><text x="96" y="98" font-size="8" fill="#78716c" text-anchor="middle">가로 · 주차 몫 %</text><text x="28" y="10" font-size="8" fill="#78716c">세로 · 난방 몫 %</text><circle cx="87.0" cy="67.3" r="2.4" fill="#57534e"/><circle cx="73.9" cy="30.4" r="2.4" fill="#c2410c"/><text x="76.9" y="28.4" font-size="7" fill="#9a3412">11372</text><circle cx="150.7" cy="69.9" r="2.4" fill="#c2410c"/><text x="153.7" y="67.9" font-size="7" fill="#9a3412">11103</text><circle cx="81.2" cy="59.9" r="2.4" fill="#57534e"/><circle cx="82.0" cy="51.8" r="2.4" fill="#57534e"/><circle cx="129.7" cy="67.3" r="2.4" fill="#57534e"/><circle cx="95.4" cy="57.5" r="2.4" fill="#57534e"/><circle cx="109.3" cy="75.9" r="2.4" fill="#57534e"/><circle cx="137.0" cy="83.1" r="2.4" fill="#c2410c"/><text x="140.0" y="81.1" font-size="7" fill="#9a3412">11356</text><circle cx="148.6" cy="82.3" r="2.4" fill="#57534e"/></svg></div></figure>
+  <div class="facts"><p><b>12.6%</b><span>11372 난방</span></p><p><b>32.7%</b><span>11103 주차</span></p><p><b>1.1%</b><span>11356 난방</span></p><p><b>17.6%</b><span>11368 진입로</span></p></div>
+  <ul class="band"><li>알렉산드리아 오카시오코르테스는 연방 하원 NY-14 의원이다.</li><li>의원실 안내는 이 지역구가 퀸스 북부와 브롱크스 동부를 함께 넣는다고 적는다.</li><li>이 열 개는 그 경계가 아니라 퀸스 쪽 근사다.</li><li>11368은 진입로 17.6%가 주차 16.5%보다 크다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>지역구 안내는 두 자치구를 한 구역으로 부른다. 민원 구성은 그 호칭 안에서 갈린다.</p>
+    <p class="note"><span class="tag">통계</span>점 열 개는 우편번호별 민원 안의 몫. 동네 이름은 더 붙이지 않는다.</p>
+  </div>
+  <p class="folio">22</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">03 · 표가 있는 곳</span><span class="qid">Q17</span></header>
+  <h2 class="q">브롱크스를 섞으면 누구의 평균이 되나?</h2>
+  <p class="lead">퀸스 열 개의 주택국은 15%, 브롱크스는 36%다. 한 평균으로 넣으면 서로의 장부를 지운다.</p>
+  <figure class="fig"><p class="figcap">주황은 주택국. 퀸스 10개는 아스토리아 네 개와 나머지 여섯 개의 합, 206,103건.</p><div class="plot"><div class="stacks"><div class="srow"><span class="sname">브롱크스</span><span class="sbar" style="height:16mm"><i style="width:36.28%;background:#c2410c"></i><i style="width:43.51%;background:#57534e"></i><i style="width:5.87%;background:#78716c"></i><i style="width:4.01%;background:#a8a29e"></i><i style="width:1.51%;background:#d6d3d1"></i><i style="width:3.97%;background:#e7e5e4"></i><i style="width:4.85%;background:#e7e5e4"></i></span></div><div class="srow"><span class="sname">퀸스 10개</span><span class="sbar" style="height:16mm"><i style="width:15.22%;background:#c2410c"></i><i style="width:52.35%;background:#57534e"></i><i style="width:9.50%;background:#78716c"></i><i style="width:7.37%;background:#a8a29e"></i><i style="width:3.53%;background:#d6d3d1"></i><i style="width:4.59%;background:#e7e5e4"></i><i style="width:7.43%;background:#e7e5e4"></i></span></div><div class="srow"><span class="sname">스태튼아일랜드</span><span class="sbar" style="height:16mm"><i style="width:8.51%;background:#c2410c"></i><i style="width:31.70%;background:#57534e"></i><i style="width:22.19%;background:#78716c"></i><i style="width:14.21%;background:#a8a29e"></i><i style="width:8.52%;background:#d6d3d1"></i><i style="width:8.49%;background:#e7e5e4"></i><i style="width:6.37%;background:#e7e5e4"></i></span></div></div><div class="legend"><span><b style="background:#c2410c"></b>주택</span><span><b style="background:#57534e"></b>경찰</span><span><b style="background:#78716c"></b>청소</span><span><b style="background:#a8a29e"></b>교통</span><span><b style="background:#d6d3d1"></b>공원</span><span><b style="background:#e7e5e4"></b>환경</span><span><b style="background:#e7e5e4"></b>그 밖</span></div></div></figure>
+  <div class="facts"><p><b>36%</b><span>브롱크스 주택</span></p><p><b>15%</b><span>퀸스 10 주택</span></p><p><b>52%</b><span>퀸스 10 경찰</span></p><p><b>22%</b><span>스태튼 청소</span></p></div>
+  <ul class="band"><li>NY-14의 브롱크스 쪽을 이 열 개와 섞지 않는 이유다.</li><li>스태튼아일랜드는 그 반대 극이 아니다.</li><li>주택국은 낮지만 둘째 조각은 청소국이다.</li><li>지역구 평균은 어느 쪽의 장부도 아니다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>의원실이 두 자치구를 한 지역구로 적는 것과, 민원을 한 평균으로 적는 것은 다른 일이다.</p>
+    <p class="note"><span class="tag">통계</span>세 막대는 각자 자기 민원 안의 기관 몫. 인구당이 아니다.</p>
+  </div>
+  <p class="folio">23</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">03 · 표가 있는 곳</span><span class="qid">Q18</span></header>
+  <h2 class="q">겨울의 몫과 여름의 몫은 같은 순서인가?</h2>
+  <p class="lead">겨울 난방 1위는 브롱크스 28.8%다. 여름 주차 1위는 퀸스 19.3%다. 순서가 바뀐다.</p>
+  <figure class="fig"><p class="figcap">그 계절 민원 안의 몫. 첫 줄 퀸스만 오른쪽 점이 주황.</p><div class="plot"><svg viewBox="0 0 180 100"><text x="46" y="8" font-size="8" fill="#78716c">겨울 난방</text><text x="170" y="8" font-size="8" fill="#78716c" text-anchor="end">여름 주차</text><text x="2" y="27.3" font-size="8" fill="#44403c">퀸스</text><line x1="91.7" y1="25.8" x2="123.0" y2="25.8" stroke="#a8a29e" stroke-width="1.4"/><circle cx="91.7" cy="25.8" r="2.6" fill="#57534e"/><circle cx="123.0" cy="25.8" r="2.6" fill="#c2410c"/><text x="91.7" y="22.6" font-size="7" fill="#44403c" text-anchor="middle">11.5%</text><text x="123.0" y="32.0" font-size="7" fill="#44403c" text-anchor="middle">19.3%</text><text x="2" y="42.9" font-size="8" fill="#44403c">브롱크스</text><line x1="160.8" y1="41.4" x2="92.3" y2="41.4" stroke="#a8a29e" stroke-width="1.4"/><circle cx="160.8" cy="41.4" r="2.6" fill="#57534e"/><circle cx="92.3" cy="41.4" r="2.6" fill="#57534e"/><text x="160.8" y="38.2" font-size="7" fill="#44403c" text-anchor="middle">28.8%</text><text x="92.3" y="47.6" font-size="7" fill="#44403c" text-anchor="middle">11.6%</text><text x="2" y="58.5" font-size="8" fill="#44403c">맨해튼</text><line x1="147.3" y1="57.0" x2="85.8" y2="57.0" stroke="#a8a29e" stroke-width="1.4"/><circle cx="147.3" cy="57.0" r="2.6" fill="#57534e"/><circle cx="85.8" cy="57.0" r="2.6" fill="#57534e"/><text x="147.3" y="53.8" font-size="7" fill="#44403c" text-anchor="middle">25.4%</text><text x="85.8" y="63.2" font-size="7" fill="#44403c" text-anchor="middle">10.0%</text><text x="2" y="74.1" font-size="8" fill="#44403c">브루클린</text><line x1="118.7" y1="72.6" x2="122.0" y2="72.6" stroke="#a8a29e" stroke-width="1.4"/><circle cx="118.7" cy="72.6" r="2.6" fill="#57534e"/><circle cx="122.0" cy="72.6" r="2.6" fill="#57534e"/><text x="118.7" y="69.4" font-size="7" fill="#44403c" text-anchor="middle">18.3%</text><text x="122.0" y="78.8" font-size="7" fill="#44403c" text-anchor="middle">19.1%</text><text x="2" y="89.7" font-size="8" fill="#44403c">스태튼아일랜드</text><line x1="64.1" y1="88.2" x2="88.8" y2="88.2" stroke="#a8a29e" stroke-width="1.4"/><circle cx="64.1" cy="88.2" r="2.6" fill="#57534e"/><circle cx="88.8" cy="88.2" r="2.6" fill="#57534e"/><text x="64.1" y="85.0" font-size="7" fill="#44403c" text-anchor="middle">4.6%</text><text x="88.8" y="94.4" font-size="7" fill="#44403c" text-anchor="middle">10.8%</text></svg></div></figure>
+  <div class="facts"><p><b>28.8%</b><span>브롱크스 겨울</span></p><p><b>19.3%</b><span>퀸스 여름</span></p><p><b>13.4%</b><span>아스토리아 겨울</span></p><p><b>4.8%</b><span>베이사이드 겨울</span></p></div>
+  <ul class="band"><li>겨울은 12·1·2월, 여름은 6·7·8월이다.</li><li>이 겨울은 선거 다음 겨울이고 이 여름은 2026년 여름이다.</li><li>아스토리아 여름 주차는 25.0%, 베이사이드는 20.6%다.</li><li>브롱크스 겨울 분모에서 10466의 한 주소를 빼도 난방 1위는 그대로다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>계절 기사는 겨울의 난방과 여름의 주차를 따로 쓴다. 같은 자치구의 순서가 바뀌는지는 잘 안 적는다.</p>
+    <p class="note"><span class="tag">통계</span>10466은 한 주소, 47,105건, 주거지 소음 47,013건, 시 전체 주거지 소음의 11.3%. 도로명은 적지 않는다.</p>
+  </div>
+  <p class="folio">24</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">03 · 표가 있는 곳</span><span class="qid">Q19</span></header>
+  <h2 class="q">같은 퀸스에서 길의 민원은 무엇인가?</h2>
+  <p class="lead">베이사이드는 가로 파손 9.1%, 나무 4.0%, 버려진 차 4.8%다. 아스토리아의 그 셋은 3% 안팎이다.</p>
+  <figure class="fig"><p class="figcap">몫 %. 주황은 베이사이드. 주차 24.8과 23.0은 이 축에 넣지 않았다.</p><div class="plot"><svg viewBox="0 0 180 100"><circle cx="36" cy="6" r="2" fill="#57534e"/><text x="40" y="8" font-size="8" fill="#44403c">아스토리아</text><circle cx="84" cy="6" r="2" fill="#c2410c"/><text x="88" y="8" font-size="8" fill="#44403c">베이사이드</text><circle cx="132" cy="6" r="2" fill="#a8a29e"/><text x="136" y="8" font-size="8" fill="#44403c">나머지 여섯</text><text x="2" y="30.2" font-size="8" fill="#44403c">가로 파손</text><line x1="36" y1="29.2" x2="172" y2="29.2" stroke="#e7e5e4" stroke-width="0.5"/><circle cx="66.4" cy="29.2" r="2.5" fill="#57534e"/><text x="66.4" y="25.9" font-size="6.5" fill="#44403c" text-anchor="middle">3.1</text><circle cx="125.3" cy="29.2" r="2.5" fill="#c2410c"/><text x="125.3" y="25.9" font-size="6.5" fill="#44403c" text-anchor="middle">9.1</text><circle cx="75.7" cy="29.2" r="2.5" fill="#a8a29e"/><text x="75.7" y="25.9" font-size="6.5" fill="#44403c" text-anchor="middle">4.0</text><text x="2" y="48.8" font-size="8" fill="#44403c">나무 피해</text><line x1="36" y1="47.8" x2="172" y2="47.8" stroke="#e7e5e4" stroke-width="0.5"/><circle cx="45.8" cy="47.8" r="2.5" fill="#57534e"/><text x="45.8" y="44.4" font-size="6.5" fill="#44403c" text-anchor="middle">1.0</text><circle cx="75.8" cy="47.8" r="2.5" fill="#c2410c"/><text x="75.8" y="44.4" font-size="6.5" fill="#44403c" text-anchor="middle">4.0</text><circle cx="46.4" cy="47.8" r="2.5" fill="#a8a29e"/><text x="46.4" y="44.4" font-size="6.5" fill="#44403c" text-anchor="middle">1.1</text><text x="2" y="67.2" font-size="8" fill="#44403c">버려진 차</text><line x1="36" y1="66.2" x2="172" y2="66.2" stroke="#e7e5e4" stroke-width="0.5"/><circle cx="47.9" cy="66.2" r="2.5" fill="#57534e"/><text x="47.9" y="62.9" font-size="6.5" fill="#44403c" text-anchor="middle">1.2</text><circle cx="83.5" cy="66.2" r="2.5" fill="#c2410c"/><text x="83.5" y="62.9" font-size="6.5" fill="#44403c" text-anchor="middle">4.8</text><circle cx="52.2" cy="66.2" r="2.5" fill="#a8a29e"/><text x="52.2" y="62.9" font-size="6.5" fill="#44403c" text-anchor="middle">1.6</text><text x="2" y="85.8" font-size="8" fill="#44403c">진입로</text><line x1="36" y1="84.8" x2="172" y2="84.8" stroke="#e7e5e4" stroke-width="0.5"/><circle cx="108.4" cy="84.8" r="2.5" fill="#57534e"/><text x="108.4" y="81.3" font-size="6.5" fill="#44403c" text-anchor="middle">7.3</text><circle cx="87.2" cy="84.8" r="2.5" fill="#c2410c"/><text x="87.2" y="81.3" font-size="6.5" fill="#44403c" text-anchor="middle">5.2</text><circle cx="154.3" cy="84.8" r="2.5" fill="#a8a29e"/><text x="154.3" y="81.3" font-size="6.5" fill="#44403c" text-anchor="middle">12.0</text></svg></div></figure>
+  <div class="facts"><p><b>9.1%</b><span>베이사이드 가로</span></p><p><b>7.3%</b><span>아스토리아 진입로</span></p><p><b>12.0%</b><span>나머지 진입로</span></p><p><b>7.6%</b><span>아스토리아 집 안 소음</span></p></div>
+  <ul class="band"><li>신문이 득표로 가른 두 퀸스는 주차 몫에서는 닮는다.</li><li>집 앞의 다른 민원에서는 다르다.</li><li>나머지 여섯 개의 둘째 민원은 진입로 15,040건이다.</li><li>66%와 25포인트를 이 우편번호에 붙이지 않는다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>QNS가 적은 서부와 동부의 갈림은 표 이야기다. 이 그림은 그 우편번호 장부의 길거리 민원이다.</p>
+    <p class="note"><span class="tag">통계</span>가로 파손은 Street Condition, 나무는 Damaged Tree, 차는 Abandoned Vehicle.</p>
+  </div>
+  <p class="folio">25</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">03 · 표가 있는 곳</span><span class="qid">Q20</span></header>
+  <h2 class="q">이 장에서 쓰지 않는 문장은 무엇인가?</h2>
+  <p class="lead">주차 몫은 거의 눕고, 주택국과 겨울 난방은 기운다. 그 기울기를 표의 이유로 잇지 않는다.</p>
+  <figure class="fig"><p class="figcap">세 지표는 분모가 다르다. 한 축에 놓은 것은 기울기를 나란히 보기 위해서다.</p><div class="plot"><svg viewBox="0 0 180 100"><circle cx="36" cy="6" r="2" fill="#57534e"/><text x="40" y="8" font-size="8" fill="#44403c">아스토리아</text><circle cx="84" cy="6" r="2" fill="#c2410c"/><text x="88" y="8" font-size="8" fill="#44403c">베이사이드</text><text x="2" y="33.3" font-size="8" fill="#44403c">주차 몫</text><line x1="36" y1="32.3" x2="172" y2="32.3" stroke="#e7e5e4" stroke-width="0.5"/><circle cx="154.3" cy="32.3" r="2.5" fill="#57534e"/><text x="154.3" y="28.9" font-size="6.5" fill="#44403c" text-anchor="middle">24.8</text><circle cx="145.7" cy="32.3" r="2.5" fill="#c2410c"/><text x="145.7" y="28.9" font-size="6.5" fill="#44403c" text-anchor="middle">23.0</text><text x="2" y="58.0" font-size="8" fill="#44403c">주택국 몫</text><line x1="36" y1="57.0" x2="172" y2="57.0" stroke="#e7e5e4" stroke-width="0.5"/><circle cx="119.3" cy="57.0" r="2.5" fill="#57534e"/><text x="119.3" y="53.6" font-size="6.5" fill="#44403c" text-anchor="middle">17.5</text><circle cx="56.6" cy="57.0" r="2.5" fill="#c2410c"/><text x="56.6" y="53.6" font-size="6.5" fill="#44403c" text-anchor="middle">4.3</text><text x="2" y="82.7" font-size="8" fill="#44403c">겨울 난방</text><line x1="36" y1="81.7" x2="172" y2="81.7" stroke="#e7e5e4" stroke-width="0.5"/><circle cx="100.1" cy="81.7" r="2.5" fill="#57534e"/><text x="100.1" y="78.3" font-size="6.5" fill="#44403c" text-anchor="middle">13.4</text><circle cx="58.8" cy="81.7" r="2.5" fill="#c2410c"/><text x="58.8" y="78.3" font-size="6.5" fill="#44403c" text-anchor="middle">4.8</text></svg></div></figure>
+  <div class="facts"><p><b>24.8→23.0</b><span>주차</span></p><p><b>17.5→4.3</b><span>주택국</span></p><p><b>13.4→4.8</b><span>겨울 난방</span></p><p><b>쓰지 않음</b><span>표가 민원을 만들었다</span></p></div>
+  <ul class="band"><li>진보 득표가 높아서 민원이 많다.</li><li>민원이 많아서 그가 이겼다.</li><li>임대료를 얼리면 난방 신고가 줄고 표가 오른다.</li><li>이 우편번호의 득표율이 66%이거나 25포인트다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>없는 것은 사람 단위로 붙은 표와 민원, 그리고 정책을 무작위로 배정한 비교다.</p>
+    <p class="note"><span class="tag">통계</span>민원 창은 선거 사흘 전부터 이듬해 10월까지다. 캠페인 기간도, 취임 첫해의 성적표도 아니다.</p>
+  </div>
+  <p class="folio">26</p>
+</section>
+
+
+<section class="sheet">
+  <div class="opener">
+    <div class="rule"></div>
+    <p class="ch">CHAPTER 04</p>
+    <div class="gap"></div>
+    <p class="num">04</p>
+    <h2>분모</h2>
+    <p class="dek">같은 파일에서 1위와 8시간이 바뀌는 자리만 모은다.</p>
+    <p class="scene">빈 칸, 자정에 닫힌 기록, 기관마다 다른 시계. 평균은 그 시계를 한 도시에 섞은 결과다.</p>
+    <div class="previews"><p><b>8시간</b><span>가운데 민원</span></p><p><b>30%</b><span>빈 칸을 빼면</span></p><p><b>−0.7p</b><span>맞춘 뒤의 채널</span></p></div>
+  </div>
+  <p class="folio">27</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">04 · 분모</span><span class="qid">Q21</span></header>
+  <h2 class="q">채널이 비어 있는 33만 건은 어느 기관의 기록인가?</h2>
+  <p class="lead">빈 칸 332,035건의 54%는 교통국, 35%는 건물국이다. 그 칸을 분모에 두면 전화 1위가 바뀐다.</p>
+  <figure class="fig"><p class="figcap">전화 몫 %. 첫 줄 스태튼아일랜드의 오른쪽 점이 주황. 빈 칸을 빼면 그 자치구가 30%로 앞선다.</p><div class="plot"><svg viewBox="0 0 180 100"><text x="46" y="8" font-size="8" fill="#78716c">빈 칸 포함</text><text x="170" y="8" font-size="8" fill="#78716c" text-anchor="end">빈 칸 제외</text><text x="2" y="27.3" font-size="8" fill="#44403c">스태튼아일랜드</text><line x1="144.5" y1="25.8" x2="160.8" y2="25.8" stroke="#a8a29e" stroke-width="1.4"/><circle cx="144.5" cy="25.8" r="2.6" fill="#57534e"/><circle cx="160.8" cy="25.8" r="2.6" fill="#c2410c"/><text x="144.5" y="22.6" font-size="7" fill="#44403c" text-anchor="middle">25.9%</text><text x="160.8" y="32.0" font-size="7" fill="#44403c" text-anchor="middle">30.1%</text><text x="2" y="42.9" font-size="8" fill="#44403c">브롱크스</text><line x1="145.5" y1="41.4" x2="151.2" y2="41.4" stroke="#a8a29e" stroke-width="1.4"/><circle cx="145.5" cy="41.4" r="2.6" fill="#57534e"/><circle cx="151.2" cy="41.4" r="2.6" fill="#57534e"/><text x="145.5" y="38.2" font-size="7" fill="#44403c" text-anchor="middle">26.1%</text><text x="151.2" y="47.6" font-size="7" fill="#44403c" text-anchor="middle">27.6%</text><text x="2" y="58.5" font-size="8" fill="#44403c">브루클린</text><line x1="129.2" y1="57.0" x2="136.5" y2="57.0" stroke="#a8a29e" stroke-width="1.4"/><circle cx="129.2" cy="57.0" r="2.6" fill="#57534e"/><circle cx="136.5" cy="57.0" r="2.6" fill="#57534e"/><text x="129.2" y="53.8" font-size="7" fill="#44403c" text-anchor="middle">21.9%</text><text x="136.5" y="63.2" font-size="7" fill="#44403c" text-anchor="middle">23.8%</text><text x="2" y="74.1" font-size="8" fill="#44403c">퀸스</text><line x1="126.8" y1="72.6" x2="136.5" y2="72.6" stroke="#a8a29e" stroke-width="1.4"/><circle cx="126.8" cy="72.6" r="2.6" fill="#57534e"/><circle cx="136.5" cy="72.6" r="2.6" fill="#57534e"/><text x="126.8" y="69.4" font-size="7" fill="#44403c" text-anchor="middle">21.2%</text><text x="136.5" y="78.8" font-size="7" fill="#44403c" text-anchor="middle">23.8%</text><text x="2" y="89.7" font-size="8" fill="#44403c">맨해튼</text><line x1="122.4" y1="88.2" x2="128.8" y2="88.2" stroke="#a8a29e" stroke-width="1.4"/><circle cx="122.4" cy="88.2" r="2.6" fill="#57534e"/><circle cx="128.8" cy="88.2" r="2.6" fill="#57534e"/><text x="122.4" y="85.0" font-size="7" fill="#44403c" text-anchor="middle">20.1%</text><text x="128.8" y="94.4" font-size="7" fill="#44403c" text-anchor="middle">21.7%</text></svg></div></figure>
+  <div class="facts"><p><b>33.2만</b><span>UNKNOWN</span></p><p><b>54%</b><span>교통국</span></p><p><b>35%</b><span>건물국</span></p><p><b>375건</b><span>경찰의 빈 칸</span></p></div>
+  <ul class="band"><li>빈 칸을 넣으면 전화 1위는 브롱크스 26.1%다.</li><li>빼면 스태튼아일랜드 30.1%, 브롱크스 27.6%다.</li><li>10466의 한 주소가 이 순서를 가른 것은 아니다.</li><li>교통국과 건물국 기록이 채널을 비워 둔 탓이 크다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>전화 민원을 자치구 성격처럼 말하는 기사는 빈 칸을 분모에 뒀는지 적지 않는다.</p>
+    <p class="note"><span class="tag">통계</span>UNKNOWN 332,035건. 알려진 채널만 분모로 둔 전화 몫이 오른쪽 점이다.</p>
+  </div>
+  <p class="folio">28</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">04 · 분모</span><span class="qid">Q22</span></header>
+  <h2 class="q">도시의 8시간은 어느 기관의 한가운데인가?</h2>
+  <p class="lead">경찰의 가운데는 1.4시간이다. 평균 6.6일을 끌어올리는 꼬리는 주택국과 공원국 쪽에 있다.</p>
+  <figure class="fig"><p class="figcap">두 그림의 축은 다르다. 왼쪽 주황은 경찰의 한가운데, 오른쪽 주황은 공원국 평균.</p><div class="plot"><div class="pair"><div class="panel"><h3>중앙값 · 시간</h3><div class="cols"><div class="c"><span class="val">1.4</span><span class="shaft hot" style="height:1.1%"></span><span class="lab">경찰</span></div><div class="c"><span class="val">22.1</span><span class="shaft" style="height:16.8%"></span><span class="lab">환경</span></div><div class="c"><span class="val">39.9</span><span class="shaft" style="height:30.3%"></span><span class="lab">청소</span></div><div class="c"><span class="val">54.0</span><span class="shaft" style="height:41.0%"></span><span class="lab">교통</span></div><div class="c"><span class="val">100</span><span class="shaft" style="height:75.9%"></span><span class="lab">주택</span></div><div class="c"><span class="val">116</span><span class="shaft" style="height:88.0%"></span><span class="lab">공원</span></div></div></div><div class="panel"><h3>평균 · 일</h3><div class="cols"><div class="c"><span class="val">0.1</span><span class="shaft" style="height:0.8%"></span><span class="lab">경찰</span></div><div class="c"><span class="val">4.1</span><span class="shaft" style="height:17.6%"></span><span class="lab">환경</span></div><div class="c"><span class="val">3.2</span><span class="shaft" style="height:13.7%"></span><span class="lab">청소</span></div><div class="c"><span class="val">8.3</span><span class="shaft" style="height:35.6%"></span><span class="lab">교통</span></div><div class="c"><span class="val">14.1</span><span class="shaft" style="height:60.5%"></span><span class="lab">주택</span></div><div class="c"><span class="val">20.5</span><span class="shaft hot" style="height:88.0%"></span><span class="lab">공원</span></div></div></div></div></div></figure>
+  <div class="facts"><p><b>1.4시간</b><span>경찰 중앙값</span></p><p><b>4.2일</b><span>주택 중앙값</span></p><p><b>20.5일</b><span>공원 평균</span></p><p><b>130건</b><span>경찰 7일 초과</span></p></div>
+  <ul class="band"><li>도시의 8시간은 이 여섯 시계를 한 파일에 섞은 가운데다.</li><li>난방·온수만의 중앙값은 1.8일, 평균은 2.0일로 붙어 있다.</li><li>긴 꼬리는 난방 종류가 아니라 주택국 전체와 공원국이다.</li><li>경찰이 7일을 넘긴 건은 130건뿐이다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>처리 속도 기사는 평균 일수를 쓴다. 기관을 나누지 않으면 경찰의 빠른 시계가 평균을 숨긴다.</p>
+    <p class="note"><span class="tag">통계</span>닫힘이고 소요 시간이 0 이상인 민원. 경찰 7일 초과는 1,720,469건 중 130건.</p>
+  </div>
+  <p class="folio">29</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">04 · 분모</span><span class="qid">Q23</span></header>
+  <h2 class="q">자정에 닫힌 기록을 빼면 8시간은 남나?</h2>
+  <p class="lead">110,698건, 2.9%를 빼면 중앙값은 8.0시간에서 6.9시간으로 준다. 가운데는 여전히 하루 안이다.</p>
+  <figure class="fig"><p class="figcap">중앙값, 시간. 평균은 아래 숫자. 6.62일에서 5.98일로 준다.</p><div class="plot"><div class="cols"><div class="c"><span class="val">8.0</span><span class="shaft" style="height:88.0%"></span><span class="lab">빼기 전</span></div><div class="c"><span class="val">6.9</span><span class="shaft hot" style="height:75.9%"></span><span class="lab">자정 제외</span></div></div></div></figure>
+  <div class="facts"><p><b>110,698</b><span>00:00:00</span></p><p><b>2.9%</b><span>닫힌 민원 중</span></p><p><b>6.62일</b><span>빼기 전 평균</span></p><p><b>5.98일</b><span>뺀 평균</span></p></div>
+  <ul class="band"><li>시각이 정확히 자정인 마감은 일괄 처리의 자국일 수 있다.</li><li>빼기 전 중앙값은 0.33일, 약 8시간이다.</li><li>평균은 6.62일에서 5.98일로 준다.</li><li>8시간이라는 문장은 자정을 빼지 않아도 남는다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>처리 시간 보도는 마감 시각이 어떻게 찍히는지 적지 않을 때가 많다.</p>
+    <p class="note"><span class="tag">통계</span>닫힌 시각이 접수 이후인 3,784,880건. 상태만 Closed인 건수와는 991건 차이.</p>
+  </div>
+  <p class="folio">30</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">04 · 분모</span><span class="qid">Q24</span></header>
+  <h2 class="q">처리시간의 평균과 가운데는 왜 다른가?</h2>
+  <p class="lead">가운데는 8시간, 평균은 6.6일이다. 절반은 하루 안에 닫히고 일부는 몇 달이다.</p>
+  <figure class="fig"><p class="figcap">시간으로 환산. 평균 6.62일은 약 159시간.</p><div class="plot"><div class="cols"><div class="c"><span class="val">8.0</span><span class="shaft hot" style="height:4.4%"></span><span class="lab">중앙값</span></div><div class="c"><span class="val">159</span><span class="shaft" style="height:88.0%"></span><span class="lab">평균</span></div></div></div></figure>
+  <div class="facts"><p><b>0.33일</b><span>중앙값</span></p><p><b>6.62일</b><span>평균</span></p><p><b>378만</b><span>분모</span></p><p><b>기관별</b><span>앞쪽</span></p></div>
+  <ul class="band"><li>평균과 중앙값은 다른 질문이다.</li><li>오른쪽 꼬리가 길면 평균이 가운데보다 커진다.</li><li>어느 쪽이 틀린 계산이 아니다.</li><li>꼬리가 어느 기관인지는 앞 쪽이 보여 준다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>시가 평균 처리시간을 발표하면 긴 꼬리가 그 숫자를 가져간다.</p>
+    <p class="note"><span class="tag">통계</span>상태는 Closed이고 닫힌 시각이 접수 이후인 민원. 자정 일괄 마감은 이 쪽에서 빼지 않았다.</p>
+  </div>
+  <p class="folio">31</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">04 · 분모</span><span class="qid">Q25</span></header>
+  <h2 class="q">200건만 보면 그 8시간은 얼마나 흔들리나?</h2>
+  <p class="lead">브루클린 닫힌 민원 200건의 중앙값 구간 너비는 16.7시간이다. 2만 건이면 1.3시간이다.</p>
+  <figure class="fig"><p class="figcap">95% 구간 너비, 시간. 복원추출.</p><div class="plot"><div class="cols"><div class="c"><span class="val">16.7</span><span class="shaft hot" style="height:88.0%"></span><span class="lab">200건</span></div><div class="c"><span class="val">8.6</span><span class="shaft" style="height:45.3%"></span><span class="lab">2천 건</span></div><div class="c"><span class="val">1.3</span><span class="shaft" style="height:6.9%"></span><span class="lab">2만 건</span></div></div></div></figure>
+  <div class="facts"><p><b>16.7시간</b><span>200건</span></p><p><b>8.6시간</b><span>2,000건</span></p><p><b>1.3시간</b><span>2만 건</span></p><p><b>브루클린</b><span>뽑은 곳</span></p></div>
+  <ul class="band"><li>부트스트랩은 그 표본을 다시 뽑아 추정량이 얼마나 움직이는지 본다.</li><li>여론조사의 오차범위와 구조만 같다.</li><li>내년 뉴욕의 처리 속도에 대한 오차범위는 아니다.</li><li>파일 전체의 가운데는 거의 움직이지 않는다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>작은 표본으로 도시의 속도를 말하는 문장은 이 너비 안에 있다.</p>
+    <p class="note"><span class="tag">통계</span>브루클린의 닫힌 민원에서 200, 2,000, 2만 건을 복원추출한 중앙값의 구간 너비.</p>
+  </div>
+  <p class="folio">32</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">04 · 분모</span><span class="qid">Q26</span></header>
+  <h2 class="q">채널이 모바일이면 더 빨리 닫히나?</h2>
+  <p class="lead">겉으로는 7일 안에 닫힌 비율이 26.8포인트 높았다. 자치구·기관·종류·달을 맞추면 −0.7포인트다.</p>
+  <figure class="fig"><p class="figcap">퍼센트포인트. 0에 세로선. 오른쪽 점이 이 질문의 답.</p><div class="plot"><svg viewBox="0 0 180 100"><text x="46" y="8" font-size="8" fill="#78716c">맞추기 전</text><text x="170" y="8" font-size="8" fill="#78716c" text-anchor="end">맞춘 뒤</text><line x1="48.9" y1="12" x2="48.9" y2="96" stroke="#d6d3d1" stroke-width="0.6"/><text x="2" y="58.5" font-size="8" fill="#44403c">모바일−전화</text><line x1="161.0" y1="57.0" x2="46.0" y2="57.0" stroke="#a8a29e" stroke-width="1.4"/><circle cx="161.0" cy="57.0" r="2.6" fill="#57534e"/><circle cx="46.0" cy="57.0" r="2.6" fill="#c2410c"/><text x="161.0" y="53.8" font-size="7" fill="#44403c" text-anchor="middle">26.8</text><text x="46.0" y="63.2" font-size="7" fill="#44403c" text-anchor="middle">-0.7</text></svg></div></figure>
+  <div class="facts"><p><b>+26.8p</b><span>맞추기 전</span></p><p><b>−0.7p</b><span>맞춘 뒤</span></p><p><b>7일</b><span>기준</span></p><p><b>구성</b><span>채널이 아니라</span></p></div>
+  <ul class="band"><li>앱을 쓰면 행정이 빨라진다는 문장이 아니다.</li><li>앱으로 들어오는 민원의 구성이 달랐다.</li><li>−0.7이 이 파일 안에서 0과 떨어져 있어도 효과로 옮기지 않는다.</li><li>채널을 바꾼 실험이 이 장부에는 없다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>디지털 민원 홍보는 채널을 성과처럼 말한다. 겉차이는 거의 전부 민원 구성이었다.</p>
+    <p class="note"><span class="tag">통계</span>조정은 두 겹으로 나눠, 한쪽에서 맞춘 예측을 다른 쪽에 썼다.</p>
+  </div>
+  <p class="folio">33</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">04 · 분모</span><span class="qid">Q27</span></header>
+  <h2 class="q">신고는 결국 닫히나?</h2>
+  <p class="lead">95.5%는 상태 칸이 Closed라는 뜻이다. 문제가 해결됐다는 뜻이 아니다.</p>
+  <figure class="fig"><p class="figcap">3,963,959건의 상태 코드.</p><div class="plot"><div class="stacks"><div class="srow"><span class="sname">전체</span><span class="sbar" style="height:16mm"><i style="width:95.50%;background:#c2410c"></i><i style="width:2.60%;background:#57534e"></i><i style="width:1.40%;background:#78716c"></i><i style="width:0.50%;background:#a8a29e"></i></span></div></div><div class="legend"><span><b style="background:#c2410c"></b>Closed</span><span><b style="background:#57534e"></b>In Progress</span><span><b style="background:#78716c"></b>Open</span><span><b style="background:#a8a29e"></b>그 밖</span></div></div></figure>
+  <div class="facts"><p><b>95.5%</b><span>Closed</span></p><p><b>3,785,871</b><span>닫힘</span></p><p><b>178,088</b><span>그 밖</span></p><p><b>문장</b><span>해결이 아님</span></p></div>
+  <ul class="band"><li>이 파일은 진행 중인 현재가 아니라 이미 끝난 신고가 대부분이다.</li><li>딱지 문장과 텐트 접수처가 그 차이를 보여 준다.</li><li>닫힘과 해결은 다른 변수다.</li><li>처리율이라는 홍보 문구와 상태 코드는 다르다.</li></ul>
+  <div class="notes">
+    <p class="note"><span class="tag">기사</span>시정 홍보의 처리율은 이 상태 칸을 쓸 때가 있다. 칸의 이름은 행정이 붙인다.</p>
+    <p class="note"><span class="tag">통계</span>Closed 3,785,871건. 상태 코드의 구성이지 결과 문장의 구성이 아니다.</p>
+  </div>
+  <p class="folio">34</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">맺음</span><span class="qid"></span></header>
+  <h2 class="q">다섯 줄</h2>
+  <ol class="close">
+    <li>7월 4일은 불꽃을 빼면 평소 토요일의 1.11배다. 다음 날 새벽 세 시간이 전날 밤 9시보다 많다.</li>
+    <li>가장 추운 날의 난방은 다른 영하 날의 2.36배다. 눈 온 날의 주차는 평소 월요일의 49%였다.</li>
+    <li>텐트 신고는 다섯 자치구에서 접수처만 바뀌었다. 하루 건수는 130에서 129다.</li>
+    <li>이긴 네 자치구의 주택국 몫은 36%에서 12%까지 갈린다. 아스토리아와 베이사이드의 주차는 24.8%와 23.0%로 붙어 있다.</li>
+    <li>민주당 한 줄이 이미 쿠오모보다 38,336표 많다. 분모가 바뀌면 전화의 1위도 바뀐다.</li>
+  </ol>
+  <p class="folio">35</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">기존 자료</span><span class="qid"></span></header>
+  <h2 class="q">백 개 질문집에 대해</h2>
+  <p class="lead">그 책의 질문을 더 정밀한 막대로 다시 내지 않았다. 여기서는 그 책이 비워 둔 자리만 적는다.</p>
+  <ul class="band">
+    <li>1년 건수, 몇 초, 불법주차 15.6%, 경찰 43%, 상위 10종, 요일, 크리스마스, 7월 4일 75배와 밤 9시는 그 책에 있다.</li>
+    <li>난방의 자치구 배수, 진입로 12배, 소화전, 헬기의 장소, 택시 93 대 1, 한 주소 47,105건, 딱지가 아닌 체포 문장도 그 책에 있다.</li>
+    <li>그 책의 바닥은 고유번호만 다르고 나머지 열이 모두 같은 1,792줄을 지운 3,962,167건이고, 이 책은 지우지 않은 3,963,959건이다. 같은 질문을 다시 세지 않았다.</li>
+    <li>그 책은 한 주소를 빼지 않으면 겨울 소음이 뒤집힌다고 이미 적었다. 그 배수를 교정판으로 되살리지 않았다.</li>
+    <li>없는 것은 2025년 11월 4일 선거, 한 후보의 두 정당 줄, 퀸스 서부와 동부의 기관 구성, 7월 5일 새벽, 추수감사절, 가장 추운 하루, 눈 온 날의 주차, 헬기의 시각이다.</li>
+    <li>그 책은 자치구에 성격을 하나씩 붙인다. 한 자치구 안의 상반된 구성과, 승패와 어긋나는 기관은 보여 주지 않는다.</li>
+    <li>체포 문장은 그 책 1,163건, 이 파일 1,169건이다. 차이 6건은 그 책이 뺀 한 주소의 체포다. “arrest”가 들어간 42만 건은 상투 문구라 체포가 아니다.</li>
+  </ul>
+  <p class="note">이 파일의 배수는 접수된 신고의 배율이고, 2025년 11월 4일의 표는 투표소의 기록이다. 둘을 한 지도에 놓는 이유는 구성이 어디서 닮고 어디서 갈리는지 보기 위해서다.</p>
+  <p class="folio">36</p>
+</section>
+
+
+<section class="sheet">
+  <header><span class="kicker">만든 법</span><span class="qid"></span></header>
+  <h2 class="q">숫자를 다시 만들 수 있게</h2>
+  <ul class="band">
+    <li>고유번호가 있는 3,963,959건. 중복 키는 0. 접수 2025-11-01 21:09:28부터 2026-10-31 21:09:02.</li>
+    <li>기온과 적설은 Open-Meteo 일별값, 격자 위도 40.81 경도 −74.02. 인구는 2020년 센서스 자치구 인구. 이 책의 새 비교는 인구당을 쓰지 않았다.</li>
+    <li>딱지는 결과 문장의 “issued a summons”만. 체포로 세지 않은 42만 건은 “effect an arrest”가 들어간 상투 문구다.</li>
+    <li>아스토리아는 11102·11103·11105·11106. 베이사이드는 11360·11361·11364. NY-14 퀸스 근사는 그 넷에 11354·11356·11368·11369·11370·11372를 더한 열 개다.</li>
+  </ul>
+  <ul class="sources">
+    <li>뉴욕시 선거관리위원회, 2025-11-04 시장 선거 확정 보고서. 민주당 944,950, 노동가족당 169,234, 합계 1,114,184.</li>
+    <li>타임, 2025-11-05. 페이지에 2026-10-19 수정 표시. 아스토리아 약 66%와 베이사이드 25포인트는 동네 보도다.</li>
+    <li>QNS, 2025-11-05. 퀸스 서부와 동부. amNewYork, 2026-09-25. 텐트 접수처.</li>
+    <li>AP 유튜브, “LIVE: Mamdani speaks on NYC security measures ahead of 4th of July”.</li>
+  </ul>
+  <p class="folio">37</p>
+</section>
+
+</body></html>

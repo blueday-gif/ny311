@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>7.9초마다 기록하는 도시의 일기 · 뉴욕 311 완전판</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #fafaf8;
+      color: #1c1917;
+      scroll-behavior: smooth;
+    }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .editorial-card {
+      background: #ffffff;
+      border: 1px solid #e7e5e4;
+      border-radius: 1rem;
+      box-shadow: 0 1px 3px rgba(28, 25, 23, 0.04);
+    }
+    .spoon-card {
+      background: linear-gradient(135deg, #fff7ed 0%, #fafaf9 100%);
+      border: 1px solid #fed7aa;
+      border-radius: 1rem;
+    }
+    .btn-tab { transition: all 0.18s ease; }
+    .btn-tab.active {
+      background-color: #c2410c;
+      color: #ffffff;
+      border-color: #c2410c;
+    }
+    .pulse-dot {
+      animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.9; }
+      50% { transform: scale(1.25); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.9; }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-orange-100 selection:text-orange-900">
+
+  <!-- Sticky Navigation -->
+  <nav class="sticky top-0 z-40 bg-[#fafaf8]/90 backdrop-blur border-b border-stone-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <a href="#top" class="font-bold text-sm sm:text-base tracking-tight text-stone-900 flex items-center gap-2 shrink-0">
+        <span class="w-2.5 h-2.5 rounded-full bg-orange-600 inline-block"></span>
+        <span>7.9초마다 기록하는</span>
+      </a>
+      <div class="flex items-center gap-1 sm:gap-2 overflow-x-auto text-xs sm:text-sm font-medium text-stone-600">
+        <a href="#prologue" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-stone-900 whitespace-nowrap">0. 숫자의 풍경</a>
+        <a href="#part1" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-stone-900 whitespace-nowrap">1. 달력과 날씨</a>
+        <a href="#part2" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-stone-900 whitespace-nowrap">2. 소음·도로·집</a>
+        <a href="#part3" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-stone-900 whitespace-nowrap">3. 한 주소·답변·표</a>
+        <a href="#part4" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-stone-900 whitespace-nowrap">4. 분모의 마법</a>
+        <a href="#explorer" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-200/60 hover:text-stone-900 whitespace-nowrap">5. 질문 아카이브</a>
+        <a href="#part5" class="px-2.5 py-1.5 rounded-lg hover:bg-orange-100 text-orange-800 whitespace-nowrap">6. 더 묻기</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header id="top" class="max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-12 sm:pt-16 sm:pb-14">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-orange-800 text-xs font-semibold mb-5">
+      <span class="w-2 h-2 rounded-full bg-orange-600 pulse-dot"></span>
+      <span>NYC 311 · 2025년 11월 – 2026년 10월 · 100+27개 질문 완전 통합판</span>
+    </div>
+
+    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-stone-900 leading-[1.12] mb-5">
+      <span class="text-orange-700">7.9초마다 기록하는</span><br />
+      도시의 일기
+    </h1>
+
+    <p class="text-base sm:text-lg text-stone-600 leading-relaxed max-w-3xl mb-8">
+      뉴욕의 비긴급 민원 창구 <strong>311</strong>에는 1년 동안 약 <strong>396만 건</strong>의 생활 기록이 쌓입니다.
+      잠들지 않는 도시가 매일 써 내려간 이 방대한 일기장을 <strong>〈뉴욕 311, 질문 100개〉</strong>의 12가지 시선과
+      <strong>〈신고는 일기다〉</strong>의 27가지 통계적 질문, 실제 언론·유튜브 보도, 그리고 통계학의 지혜로 한 권의 인터랙티브 웹북으로 엮었습니다.
+    </p>
+
+    <!-- Live 7.9s Ticker -->
+    <div class="editorial-card p-4 sm:p-5 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-stone-900 text-stone-100 border-stone-800">
+      <div class="flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-orange-600/20 border border-orange-500/40 flex items-center justify-center shrink-0">
+          <i data-lucide="activity" class="w-5 h-5 text-orange-400"></i>
+        </div>
+        <div>
+          <p class="text-xs text-stone-400 font-medium">이 페이지를 여신 뒤 지금까지 뉴욕 311에 들어왔을 신고</p>
+          <p class="text-lg sm:text-xl font-bold tabular-nums">
+            약 <span id="tickerCount" class="text-orange-400">1</span>건
+            <span class="text-xs font-normal text-stone-400 ml-2">(평균 7.9초당 1건 · 1분당 7.6건 · 오전 10시엔 1분에 11건)</span>
+          </p>
+        </div>
+      </div>
+      <button id="tickerToggle" type="button" class="px-3.5 py-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-xs font-semibold text-stone-200 border border-stone-700 shrink-0 self-start sm:self-center">
+        시계 잠시 멈추기
+      </button>
+    </div>
+
+    <!-- 4 Key KPIs -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div class="editorial-card p-4">
+        <p class="text-xs font-semibold text-stone-500 mb-1">1년 총 민원</p>
+        <p class="text-2xl sm:text-3xl font-extrabold text-orange-700 tabular-nums">396만 건</p>
+        <p class="text-xs text-stone-500 mt-1">하루 평균 10,886건 · 화요일 11,700건 최다</p>
+      </div>
+      <div class="editorial-card p-4">
+        <p class="text-xs font-semibold text-stone-500 mb-1">상위 10종 비중</p>
+        <p class="text-2xl sm:text-3xl font-extrabold text-stone-900 tabular-nums">56.8%</p>
+        <p class="text-xs text-stone-500 mt-1">194종 중 하위 97종은 합쳐도 0.95%</p>
+      </div>
+      <div class="editorial-card p-4">
+        <p class="text-xs font-semibold text-stone-500 mb-1">경찰(NYPD) '흔적 없음'</p>
+        <p class="text-2xl sm:text-3xl font-extrabold text-stone-900 tabular-nums">40.8%</p>
+        <p class="text-xs text-stone-500 mt-1">출동 후 가장 흔한 결말 · 딱지는 13.4%</p>
+      </div>
+      <div class="editorial-card p-4">
+        <p class="text-xs font-semibold text-stone-500 mb-1">처리 상태 'Closed'</p>
+        <p class="text-2xl sm:text-3xl font-extrabold text-stone-900 tabular-nums">95.5%</p>
+        <p class="text-xs text-stone-500 mt-1">마감 코드일 뿐 '해결'은 아님</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 space-y-20 pb-24">
+
+    <!-- PROLOGUE: 숫자로 만나는 311 -->
+    <section id="prologue" class="scroll-mt-20 space-y-6">
+      <div class="border-b border-stone-200 pb-4">
+        <span class="text-xs font-bold tracking-widest uppercase text-orange-700">Prologue · 숫자로 만나는 311</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 mt-1">무엇이 뉴욕을 전화하게 만드는가</h2>
+        <p class="text-stone-600 mt-2 leading-relaxed">
+          194종류의 민원 가운데 절반 이상(56.8%)은 단 10가지 불편에서 나옵니다. 가장 바쁜 화요일(11,700건)과 가장 한가한 토요일(9,847건)의 차이처럼, 도시의 주간 리듬도 분명합니다.
+        </p>
+      </div>
+
+      <div class="editorial-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-stone-900">396만 건의 뼈대: 민원 유형 vs 담당 기관 vs 요일별 리듬</h3>
+            <p id="prologueSubtitle" class="text-sm text-stone-600 mt-0.5">불법주차가 61.8만 건(15.6%)으로 압도적 1위이며, 이웃 소음과 난방·온수가 뒤를 잇습니다.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-pro-mode="top10" class="pro-btn btn-tab active px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold">상위 10대 민원</button>
+            <button type="button" data-pro-mode="agency" class="pro-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">담당 기관 비중</button>
+            <button type="button" data-pro-mode="weekday" class="pro-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">요일별 하루 평균</button>
+          </div>
+        </div>
+        <div class="relative h-72 w-full">
+          <canvas id="prologueChart"></canvas>
+        </div>
+        <div id="prologueExplain" class="mt-4 p-4 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-700 leading-relaxed">
+          <strong>상위 10종이 전체의 56.8%:</strong> 불법주차(61.8만), 이웃 소음(41.7만), 난방·온수(35.2만), 차고 앞 막힘(19.6만), 길거리 소음(17.5만) 순입니다. 반면 98위부터 194위까지 하위 97종을 모두 합쳐도 전체의 0.95%가 되지 않습니다.
+        </div>
+      </div>
+    </section>
+
+    <!-- PART 1: 달력과 날씨 -->
+    <section id="part1" class="scroll-mt-20 space-y-6">
+      <div class="border-b border-stone-200 pb-4">
+        <span class="text-xs font-bold tracking-widest uppercase text-orange-700">Chapter 01 · 달력과 날씨</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 mt-1">축제의 불꽃과 한파가 도시의 리듬을 바꿀 때</h2>
+        <p class="text-stone-600 mt-2 leading-relaxed">
+          311 장부를 펼치면 달력의 빨간 날과 기상청의 일기예보가 그대로 보입니다. 하지만 숫자 뒤에는 늘 자정이라는 시계의 경계선과, '기온'이 아닌 '날짜'가 만든 착시가 숨어 있습니다.
+        </p>
+      </div>
+
+      <!-- Interactive Widget 1: July 4th -->
+      <div class="editorial-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-stone-900">7월 4일 독립기념일, 정말 도시 전체가 들썩였을까?</h3>
+            <p id="july4Subtitle" class="text-sm text-stone-600 mt-0.5">불꽃놀이(2,257건)를 빼면 평소 토요일의 1.11배 수준이었습니다.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-july-mode="compare" class="july-btn btn-tab active px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold">토요일 비교 (1.34배 vs 1.11배)</button>
+            <button type="button" data-july-mode="midnight" class="july-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">자정 넘긴 7월 5일 새벽</button>
+            <button type="button" data-july-mode="hotday" class="july-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">더운 날 22배의 함정</button>
+          </div>
+        </div>
+
+        <div class="relative h-72 w-full">
+          <canvas id="july4Chart"></canvas>
+        </div>
+
+        <div id="july4Explain" class="mt-4 p-4 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-700 leading-relaxed">
+          <strong>불꽃 칸만 바빴던 하루:</strong> 2026년 7월 4일 전체 신고는 13,148건으로 평소 토요일(50일 평균 9,784건)의 1.34배였습니다. 하지만 불법 불꽃놀이(2,257건, 1년 평균의 75배)를 빼면 10,891건(1.11배)으로 차분해집니다. 불법주차는 오히려 평소 토요일의 66%로 줄었죠. 1년 치 불꽃 신고의 66%는 6월 15일~7월 10일 한 달에 몰립니다.
+        </div>
+      </div>
+
+      <!-- Interactive Widget 2: Weather -->
+      <div class="editorial-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-stone-900">한파, 폭설, 폭염, 그리고 3월의 포트홀</h3>
+            <p id="weatherSubtitle" class="text-sm text-stone-600 mt-0.5">같은 '영하의 날'이라도 가장 추운 하루의 난방 신고는 완전히 다릅니다.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-weather-mode="cold" class="weather-btn btn-tab active px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold">2월 8일 한파 (-14°C)</button>
+            <button type="button" data-weather-mode="snow" class="weather-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">2월 23~24일 폭설</button>
+            <button type="button" data-weather-mode="temp" class="weather-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">더위에 민감한 민원들</button>
+            <button type="button" data-weather-mode="pothole" class="weather-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">포트홀 3월 급증</button>
+          </div>
+        </div>
+
+        <div class="relative h-72 w-full">
+          <canvas id="weatherChart"></canvas>
+        </div>
+
+        <div id="weatherExplain" class="mt-4 p-4 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-700 leading-relaxed">
+          <strong>영하 59일 중에서도 유독 매서웠던 날:</strong> 2026년 2월 8일(일평균 -14°C)에는 하루에만 난방·온수 신고가 <strong>6,118건</strong> 쏟아졌습니다. 이는 다른 영하 58일 평균(2,591건)의 <strong>2.36배</strong>이며, 20도 이상인 날 평균(149건)과 비교하면 41배에 달합니다.
+        </div>
+      </div>
+
+      <!-- Mini Intuition Quiz -->
+      <div class="editorial-card p-5 sm:p-6 bg-stone-50/70">
+        <div class="flex items-center gap-2 text-orange-700 font-bold text-sm mb-3">
+          <i data-lucide="help-circle" class="w-4 h-4"></i>
+          <span>직관 테스트 · 달력과 날씨가 만든 의외의 숫자</span>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-white p-4 rounded-xl border border-stone-200">
+            <p class="font-semibold text-sm text-stone-900 mb-3">Q1. 추수감사절(11월 27일)에 뉴욕의 불법주차 신고는 늘었을까요, 줄었을까요?</p>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <button type="button" class="quiz-btn px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-medium hover:bg-stone-100" data-quiz="q1" data-ans="wrong">늘었을 것이다</button>
+              <button type="button" class="quiz-btn px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-medium hover:bg-stone-100" data-quiz="q1" data-ans="right">줄었을 것이다</button>
+            </div>
+            <p id="quiz-q1" class="text-xs text-stone-600 hidden mt-2 leading-relaxed"></p>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-stone-200">
+            <p class="font-semibold text-sm text-stone-900 mb-3">Q2. 1년 중 가장 조용했던 크리스마스(6,213건), 단 1건으로 사라진 민원은?</p>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <button type="button" class="quiz-btn px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-medium hover:bg-stone-100" data-quiz="q2" data-ans="wrong">이웃 소음</button>
+              <button type="button" class="quiz-btn px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-medium hover:bg-stone-100" data-quiz="q2" data-ans="right">쓰레기 미수거</button>
+            </div>
+            <p id="quiz-q2" class="text-xs text-stone-600 hidden mt-2 leading-relaxed"></p>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-stone-200">
+            <p class="font-semibold text-sm text-stone-900 mb-3">Q3. 정전 신고는 1년 중 어느 기온대에서 가장 많이 들어올까요?</p>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <button type="button" class="quiz-btn px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-medium hover:bg-stone-100" data-quiz="q3" data-ans="wrong">선선한 날(10~20도)</button>
+              <button type="button" class="quiz-btn px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-medium hover:bg-stone-100" data-quiz="q3" data-ans="right">영하와 폭염 양 끝(U자형)</button>
+            </div>
+            <p id="quiz-q3" class="text-xs text-stone-600 hidden mt-2 leading-relaxed"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistics Spoon 1 -->
+      <details class="spoon-card p-5 group">
+        <summary class="flex items-center justify-between cursor-pointer list-none font-bold text-stone-900">
+          <span class="flex items-center gap-2 text-sm sm:text-base">
+            <i data-lucide="sparkles" class="w-4 h-4 text-orange-600"></i>
+            통계 한 스푼 · "까마귀 날자 배 떨어진다", 서머타임의 시계, 그리고 존 스노우
+          </span>
+          <span class="text-xs text-orange-700 font-semibold group-open:hidden">펼쳐보기 +</span>
+          <span class="text-xs text-orange-700 font-semibold hidden group-open:inline">접기 −</span>
+        </summary>
+        <div class="mt-4 pt-4 border-t border-orange-200/70 text-sm text-stone-700 space-y-3 leading-relaxed">
+          <p>
+            <strong>1. 더운 날 불꽃놀이가 22배라는 착시:</strong> 기온 25°C 이상인 '더운 날'(39일)의 하루 평균 불꽃놀이 신고는 119건으로 영하인 날(5.5건)의 22배입니다. 하지만 그 안에는 29.5°C였던 <strong>7월 4일 단 하루(2,257건)</strong>가 들어 있습니다. 우리 속담 <em>"까마귀 날자 배 떨어진다"</em>처럼, 함께 움직인다고 해서 더위가 불꽃놀이를 부른 것은 아닙니다.
+          </p>
+          <p>
+            <strong>2. 사라진 1시간과 시계 오류:</strong> 서머타임이 시작된 2026년 3월 8일에는 시계가 새벽 1시 59분에서 바로 3시로 건너뛰면서 평소 169건 들어오던 새벽 2시 신고가 단 <strong>1건</strong>(시스템 기록 오류)으로 줄었습니다. 데이터는 자연현상뿐 아니라 행정 시계의 규칙까지 그대로 비춥니다.
+          </p>
+          <p>
+            <strong>3. 도시 데이터 지도의 시초, 존 스노우(John Snow, 1854):</strong> 1854년 런던 소호에 콜레라가 창궐했을 때, 의사 존 스노우는 사망자 발생 위치를 지도에 점으로 찍어 '브로드 스트리트 펌프'가 원인임을 밝혀냈습니다. 오늘날 뉴욕 311이 자치구와 시각별로 민원을 찍어 도시의 맥박을 읽는 것과 같은 원리입니다.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <!-- PART 2: 소음, 동물, 도로, 그리고 집 -->
+    <section id="part2" class="scroll-mt-20 space-y-6">
+      <div class="border-b border-stone-200 pb-4">
+        <span class="text-xs font-bold tracking-widest uppercase text-orange-700">Chapter 02 · 도시의 속살</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 mt-1">소음의 시간표, 도로 위의 신경전, 동물과 아픈 집</h2>
+        <p class="text-stone-600 mt-2 leading-relaxed">
+          소음마다 출근하는 시간이 따로 있고, 길 위에서는 소화전과 차고 앞, 자전거도로를 둔 다툼이 벌어집니다. 사슴과 수탉, 그리고 문 앞에서 돌아선 주택 검사관의 기록에는 뉴욕의 생활상이 고스란히 담겨 있습니다.
+        </p>
+      </div>
+
+      <!-- Interactive Widget 3: Noise by Hour -->
+      <div class="editorial-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-stone-900">소음의 다른 얼굴들 — 몇 시에, 어디서 가장 시끄러울까?</h3>
+            <p id="noiseSubtitle" class="text-sm text-stone-600 mt-0.5">헬기 소음은 한밤중이 아니라 해 질 무렵인 오후 4시(1,097건)에 정점을 찍습니다.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-noise-mode="heli" class="noise-btn btn-tab active px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold">헬기 소음 (16시 정점)</button>
+            <button type="button" data-noise-mode="compare" class="noise-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">이웃 소음 vs 개 짖음 (%)</button>
+            <button type="button" data-noise-mode="types" class="noise-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">소음 유형 &amp; 주말 몰림</button>
+          </div>
+        </div>
+
+        <div class="relative h-72 w-full">
+          <canvas id="noiseChart"></canvas>
+        </div>
+
+        <div id="noiseExplain" class="mt-4 p-4 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-700 leading-relaxed">
+          <strong>한밤중이 아니라 해 질 무렵:</strong> 1년 10,971건의 헬기 소음 신고 중 <strong>41%(4,509건)가 오후 3시~저녁 7시</strong>에 몰려 있고, 한밤중(0~5시)은 213건뿐입니다. 인구 10만 명당 헬기 소음은 맨해튼(410건)이 브롱크스(7건)의 <strong>62배</strong>이며, 전체의 44.2%가 어퍼웨스트사이드(맨해튼 7번 커뮤니티보드)에서 나옵니다(<a href="https://council.nyc.gov/data/helicopter-noise-and-safety/" target="_blank" rel="noopener noreferrer" class="text-orange-700 underline">뉴욕시의회 헬기 소음 데이터 분석</a>).
+        </div>
+      </div>
+
+      <!-- Interactive Widget 4: Roads, Animals, Homes -->
+      <div class="editorial-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+          <div>
+            <h3 class="text-lg font-bold text-stone-900">길 위의 신경전 · 동물의 도시 · 아픈 집</h3>
+            <p class="text-sm text-stone-600 mt-0.5">세 가지 생활 영역의 대표 숫자들을 탭으로 골라 살펴보세요.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-life-mode="roads" class="life-btn btn-tab active px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold">도로 위의 신경전 (9종)</button>
+            <button type="button" data-life-mode="animals" class="life-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">동물의 도시 (9종)</button>
+            <button type="button" data-life-mode="homes" class="life-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">집이 아프다 (9종)</button>
+          </div>
+        </div>
+
+        <div id="lifeContent" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Statistics Spoon 2 -->
+      <details class="spoon-card p-5 group">
+        <summary class="flex items-center justify-between cursor-pointer list-none font-bold text-stone-900">
+          <span class="flex items-center gap-2 text-sm sm:text-base">
+            <i data-lucide="sparkles" class="w-4 h-4 text-orange-600"></i>
+            통계 한 스푼 · 나이팅게일의 장미와 아브라함 왈드의 '생존자 편향'
+          </span>
+          <span class="text-xs text-orange-700 font-semibold group-open:hidden">펼쳐보기 +</span>
+          <span class="text-xs text-orange-700 font-semibold hidden group-open:inline">접기 −</span>
+        </summary>
+        <div class="mt-4 pt-4 border-t border-orange-200/70 text-sm text-stone-700 space-y-3 leading-relaxed">
+          <p>
+            <strong>1. 신고가 없다고 문제가 없는 걸까? (생존자 편향):</strong> 제2차 세계대전 당시 통계학자 <strong>아브라함 왈드(Abraham Wald)</strong>는 돌아온 폭격기에 총알이 많이 박힌 곳이 아니라, <em>총알 자국이 없는 곳</em>(엔진 등)에 장갑을 덧대야 한다고 조언했습니다. 거기를 맞은 비행기는 돌아오지 못했기 때문이죠. 311도 마찬가지입니다. 난방 민원에 위반 딱지가 4%만 붙고, 주택 수리 민원의 <strong>27%</strong>(가전은 45.1%)에서 검사관이 집에 들어가지 못했다는 사실은 '기록되지 않은 현실'을 보여 줍니다.
+          </p>
+          <p>
+            <strong>2. 공공 데이터를 무기로 바꾼 플로렌스 나이팅게일:</strong> 크림 전쟁의 간호사로 유명한 나이팅게일은 사실 뛰어난 통계학자였습니다. 부상보다 비위생으로 죽는 병사가 많다는 사실을 '로즈 다이어그램'으로 시각화해 영국 정부를 움직였죠. 오늘날 <a href="https://a816-dohbesp.nyc.gov/IndicatorPublic/data-stories/rat-complaints/" target="_blank" rel="noopener noreferrer" class="text-orange-700 underline">뉴욕시 보건국 쥐 민원 리포트</a>나 <a href="https://comptroller.nyc.gov/reports/turn-up-the-heat-2025-update/" target="_blank" rel="noopener noreferrer" class="text-orange-700 underline">뉴욕시 감사원 겨울 난방 보고서</a> 역시 행정 데이터를 시각화해 정책 개선을 요구하는 현대판 로즈 다이어그램입니다.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <!-- PART 3: 한 주소, 경찰·기관 답변서, 표의 지도 -->
+    <section id="part3" class="scroll-mt-20 space-y-6">
+      <div class="border-b border-stone-200 pb-4">
+        <span class="text-xs font-bold tracking-widest uppercase text-orange-700">Chapter 03 · 한 주소, 답변서, 그리고 표의 지도</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 mt-1">한 사람이 흔든 통계, 경찰의 답변, 그리고 2025년 시장 선거</h2>
+        <p class="text-stone-600 mt-2 leading-relaxed">
+          "숫자가 크다"는 말을 들으면 가장 먼저 "누가 냈는가?"를 물어야 합니다. 단 하나의 주소가 브롱크스의 겨울 소음을 4배로 부풀리고, 경찰이 남긴 문장을 뜯어보면 311의 진짜 결말이 보입니다.
+        </p>
+      </div>
+
+      <!-- Interactive Widget 5: One Address Outlier -->
+      <div class="editorial-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-stone-900">'프로 신고러' 스위치: 브롱크스 북부 한 주소(47,105건)</h3>
+            <p class="text-sm text-stone-600 mt-0.5">이 한 주소를 빼고 넣는 것만으로 브롱크스 12월 이웃 소음이 4배 차이 납니다.</p>
+          </div>
+          <label class="inline-flex items-center gap-2.5 cursor-pointer bg-orange-50 border border-orange-200 px-3.5 py-2 rounded-xl shrink-0">
+            <input id="outlierToggle" type="checkbox" checked class="w-4 h-4 accent-orange-600 rounded" />
+            <span id="outlierLabel" class="text-xs font-bold text-orange-900">한 주소 포함 (47,105건 반영)</span>
+          </label>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4 items-center">
+          <div class="md:col-span-2 relative h-64 w-full">
+            <canvas id="outlierChart"></canvas>
+          </div>
+          <div class="space-y-2.5">
+            <div class="p-3 rounded-xl bg-stone-50 border border-stone-200">
+              <p class="text-xs text-stone-500">12월 브롱크스 이웃 소음</p>
+              <p id="outlierDecVal" class="text-2xl font-extrabold text-orange-700 tabular-nums">37,472건</p>
+            </div>
+            <div class="p-3 rounded-xl bg-stone-50 border border-stone-200">
+              <p class="text-xs text-stone-500">추수감사절(11/27) 이웃 소음</p>
+              <p id="outlierThanksVal" class="text-2xl font-extrabold text-stone-900 tabular-nums">2,522건</p>
+            </div>
+            <p class="text-xs text-stone-500 leading-relaxed">
+              가장 바빴던 2025년 11월 30일엔 하루 2,195건(40초마다 1건)을 앱(99.8%)으로 신고했지만, 경찰의 63.2%는 '흔적 없음', 딱지는 단 10건이었습니다. 그 밖에도 브루클린 한 주소는 365일 중 364일(하루 24건꼴), 퀸스 서부 한 주소는 불법주차만 7,604건, 퀸스 파슨스 대로 한 곳은 종교시설 소음의 62%를 냈습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Widget 6: Police & Agency Outcomes + Channel + Oddities -->
+      <div class="editorial-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-stone-900">신고 그 다음: 경찰과 기관들은 뭐라고 답했을까?</h3>
+            <p id="outcomeSubtitle" class="text-sm text-stone-600 mt-0.5">경찰 출동 172만 건 중 가장 흔한 결말은 '가 보니 흔적 없음(40.8%)'이었습니다.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-out-mode="nypd" class="out-btn btn-tab active px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold">경찰(NYPD) 결말</button>
+            <button type="button" data-out-mode="tickets" class="out-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">딱지(소환장) 확률</button>
+            <button type="button" data-out-mode="agencies" class="out-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">다른 기관 답변·미종료</button>
+            <button type="button" data-out-mode="channel" class="out-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">전화·웹·앱 &amp; 별난 민원</button>
+          </div>
+        </div>
+
+        <div class="relative h-72 w-full">
+          <canvas id="outcomeChart"></canvas>
+        </div>
+
+        <div id="outcomeExplain" class="mt-4 p-4 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-700 leading-relaxed">
+          <strong>"소환장"이라는 단어만 세면 안 되는 이유:</strong> 한 주소(47,105건)를 뺀 경찰 결과 문장 1,673,589건 중 "issued a summons(딱지 발부)"가 들어간 건은 <strong>13.4%(224,728건)</strong>입니다. 가장 흔한 문장이 "소환장을 발부할 필요 없이 정리했다"여서, 단순히 단어만 세면 딱지 비율이 세 배로 부풉니다. 체포로 끝난 건은 1,163건(0.07%)뿐이며, 이웃 소음은 12.7%가 문을 열어주지 않아 들어가지 못했습니다.
+        </div>
+      </div>
+
+      <!-- Interactive Widget 7: 2025 Election & 9/22 Tent -->
+      <div class="editorial-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-stone-900">2025년 시장 선거 지도와 민원의 지도는 같을까?</h3>
+            <p id="electionSubtitle" class="text-sm text-stone-600 mt-0.5">맘다니가 승리한 4개 자치구도 311 민원의 성격은 제각각입니다.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-map-mode="boroughs" class="map-btn btn-tab active px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold">5개 자치구 기관 구성</button>
+            <button type="button" data-map-mode="queens" class="map-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">아스토리아 vs 베이사이드</button>
+            <button type="button" data-map-mode="tent" class="map-btn btn-tab px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">9/22 텐트 접수처 변경</button>
+          </div>
+        </div>
+
+        <div class="relative h-72 w-full">
+          <canvas id="electionChart"></canvas>
+        </div>
+
+        <div id="electionExplain" class="mt-4 p-4 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-700 leading-relaxed">
+          <strong>승패는 하나, 장부는 여럿:</strong> 2025년 11월 4일 시장 선거에서 조란 맘다니는 민주당(944,950표)과 노동가족당(169,234표) 두 줄을 합쳐 1,114,184표(50.8%)로 쿠오모(906,614표)를 누르고 스태튼아일랜드를 제외한 4개 자치구에서 승리했습니다(<a href="https://ballotpedia.org/Zohran_Mamdani" target="_blank" rel="noopener noreferrer" class="text-orange-700 underline">Ballotpedia</a> · <a href="https://apnews.com/projects/election-2025-NYC-precinct-map/" target="_blank" rel="noopener noreferrer" class="text-orange-700 underline">AP 선거 지도</a>). 하지만 이긴 네 자치구 안에서도 주택국(HPD) 민원 비중은 브롱크스 36%, 맨해튼 27%, 브루클린 22%, 퀸스 12%로 크게 갈립니다.
+        </div>
+      </div>
+
+      <!-- Statistics Spoon 3 -->
+      <details class="spoon-card p-5 group">
+        <summary class="flex items-center justify-between cursor-pointer list-none font-bold text-stone-900">
+          <span class="flex items-center gap-2 text-sm sm:text-base">
+            <i data-lucide="sparkles" class="w-4 h-4 text-orange-600"></i>
+            통계 한 스푼 · 파레토의 80:20 법칙과 대럴 허프의 《새빨간 거짓말, 통계》
+          </span>
+          <span class="text-xs text-orange-700 font-semibold group-open:hidden">펼쳐보기 +</span>
+          <span class="text-xs text-orange-700 font-semibold hidden group-open:inline">접기 −</span>
+        </summary>
+        <div class="mt-4 pt-4 border-t border-orange-200/70 text-sm text-stone-700 space-y-3 leading-relaxed">
+          <p>
+            <strong>1. 소수가 전체를 흔드는 파레토 법칙:</strong> 이탈리아 경제학자 <strong>빌프레도 파레토(Vilfredo Pareto)</strong>는 19세기 말 이탈리아 땅의 80%를 인구의 20%가 소유한다는 사실을 발견했습니다. 뉴욕 311에서도 <strong>상위 1% 주소가 전체 신고의 30%</strong>를 내고, 난방 민원 역시 <strong>상위 1% 건물(426개)이 23%</strong>를 차지합니다.
+          </p>
+          <p>
+            <strong>2. NY-14 지역구 평균의 함정:</strong> 연방 하원의원 지역구 NY-14는 퀸스 북부와 브롱크스 동부를 함께 묶습니다. 하지만 퀸스 쪽 우편번호 10곳(11372 난방 12.6% vs 11356 난방 1.1%)의 주택국 비중은 15%인 반면 브롱크스는 36%입니다. 둘을 합쳐 평균을 내면 어느 동네의 현실도 아닌 숫자가 나옵니다. 저널리스트 <strong>대럴 허프(Darrell Huff)</strong>가 1954년 <em>《새빨간 거짓말, 통계》</em>에서 경고한 '부적절한 평균'의 전형적인 사례입니다.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <!-- PART 4: 분모의 마법 -->
+    <section id="part4" class="scroll-mt-20 space-y-6">
+      <div class="border-b border-stone-200 pb-4">
+        <span class="text-xs font-bold tracking-widest uppercase text-orange-700">Chapter 04 · 분모의 마법</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 mt-1">빈 칸, 자정의 시계, 그리고 심슨의 역설</h2>
+        <p class="text-stone-600 mt-2 leading-relaxed">
+          같은 396만 건 파일이라도 <strong>분모</strong>에 무엇을 넣고 빼느냐에 따라 1위 자치구가 바뀌고, 처리 속도가 '8시간'에서 '6.6일'로 변하며, 앱이 빠르다는 결론이 정반대로 뒤집힙니다.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5">
+        <!-- Switch A: UNKNOWN 332,035 -->
+        <div class="editorial-card p-5">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div>
+              <h3 class="text-base font-bold text-stone-900">1) 빈 칸(UNKNOWN) 33만 건을 빼면?</h3>
+              <p class="text-xs text-stone-500 mt-0.5">교통국(54%)·건물국(35%) 기록엔 신고 채널이 비어 있습니다.</p>
+            </div>
+            <label class="inline-flex items-center gap-1.5 cursor-pointer bg-stone-100 px-2.5 py-1.5 rounded-lg text-xs font-semibold shrink-0">
+              <input id="unknownToggle" type="checkbox" class="w-3.5 h-3.5 accent-orange-600" />
+              <span id="unknownLabel">빈 칸 제외하기</span>
+            </label>
+          </div>
+          <div class="relative h-56 w-full">
+            <canvas id="unknownChart"></canvas>
+          </div>
+          <p id="unknownExplain" class="mt-3 text-xs text-stone-600 leading-relaxed">
+            빈 칸을 분모에 포함하면 전화 신고 1위는 <strong>브롱크스(26.1%)</strong>지만, 빈 칸을 제외하면 <strong>스태튼아일랜드(30.1%)</strong>가 1위로 올라섭니다.
+          </p>
+        </div>
+
+        <!-- Switch B: Mean vs Median -->
+        <div class="editorial-card p-5">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div>
+              <h3 class="text-base font-bold text-stone-900">2) 도시의 '8시간'은 누구의 시계일까?</h3>
+              <p class="text-xs text-stone-500 mt-0.5">전체 중앙값은 8.0시간, 평균은 6.62일(약 159시간)입니다.</p>
+            </div>
+            <div class="flex gap-1 shrink-0">
+              <button type="button" data-clock-mode="median" class="clock-btn btn-tab active px-2.5 py-1 rounded-lg border border-stone-300 text-xs font-semibold">중앙값(시간)</button>
+              <button type="button" data-clock-mode="mean" class="clock-btn btn-tab px-2.5 py-1 rounded-lg border border-stone-300 text-xs font-semibold bg-white text-stone-700">평균(일)</button>
+            </div>
+          </div>
+          <div class="relative h-56 w-full">
+            <canvas id="clockChart"></canvas>
+          </div>
+          <p id="clockExplain" class="mt-3 text-xs text-stone-600 leading-relaxed">
+            <strong>경찰의 1.4시간 vs 공원국의 116시간:</strong> 여섯 기관의 시계를 한 파일에 섞으면 '도시 중앙값 8시간'이 나옵니다. 자정 일괄 마감(110,698건)을 빼도 중앙값은 6.9시간으로 하루 안입니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- Simpson's Paradox & Bootstrap Strip -->
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="editorial-card p-5">
+          <span class="text-xs font-bold text-orange-700">심슨의 역설 · 모바일 vs 전화</span>
+          <h4 class="font-bold text-stone-900 mt-1 mb-2">앱으로 신고하면 정말 더 빨리 처리될까?</h4>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            겉으로만 보면 모바일 앱 신고의 7일 이내 종료율이 전화보다 <strong>+26.8%p</strong> 높습니다. 하지만 자치구·담당 기관·민원 종류·월을 똑같이 맞춰 비교하면 차이는 <strong>−0.7%p</strong>로 사라집니다. 앱이 빠른 게 아니라, 앱으로 들어오는 민원(구걸 91%, 불법주차 46%)이 원래 경찰이 빨리 닫는 유형이었기 때문입니다.
+          </p>
+        </div>
+        <div class="editorial-card p-5">
+          <span class="text-xs font-bold text-orange-700">부트스트랩 · 표본 크기의 힘</span>
+          <h4 class="font-bold text-stone-900 mt-1 mb-2">200건만 뽑아도 도시의 속도를 알 수 있을까?</h4>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            브루클린 닫힌 민원에서 <strong>200건</strong>만 무작위 복원추출하면 중앙값의 95% 구간 너비가 <strong>16.7시간</strong>이나 흔들립니다. 2,000건이면 8.6시간, <strong>2만 건</strong>이면 <strong>1.3시간</strong>으로 줄어듭니다. 작은 표본으로 도시 전체를 단정할 때 빠지기 쉬운 함정입니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- Statistics Spoon 4 -->
+      <details class="spoon-card p-5 group">
+        <summary class="flex items-center justify-between cursor-pointer list-none font-bold text-stone-900">
+          <span class="flex items-center gap-2 text-sm sm:text-base">
+            <i data-lucide="sparkles" class="w-4 h-4 text-orange-600"></i>
+            통계 한 스푼 · 심슨의 역설, 부트스트랩, 그리고 굿하트의 법칙
+          </span>
+          <span class="text-xs text-orange-700 font-semibold group-open:hidden">펼쳐보기 +</span>
+          <span class="text-xs text-orange-700 font-semibold hidden group-open:inline">접기 −</span>
+        </summary>
+        <div class="mt-4 pt-4 border-t border-orange-200/70 text-sm text-stone-700 space-y-3 leading-relaxed">
+          <p>
+            <strong>1. 에드워드 심슨(Edward H. Simpson, 1951):</strong> 부분 집단에서는 성립하던 경향이 전체를 합치면 반대로 뒤집히는 현상을 '심슨의 역설'이라고 합니다. 모바일 앱(+26.8%p)이 조건을 통제하자 −0.7%p로 바뀐 것이 대표적입니다.
+          </p>
+          <p>
+            <strong>2. 브래들리 에프론(Bradley Efron, 1979)의 부트스트랩:</strong> 확보한 표본에서 다시 수천 번 복원추출을 반복해 추정값의 흔들림을 재는 현대 통계학의 혁신입니다.
+          </p>
+          <p>
+            <strong>3. 굿하트의 법칙(Goodhart's Law):</strong> <em>"어떤 측정 지표가 목표가 되는 순간, 그것은 더 이상 좋은 지표가 아니게 된다."</em> 만약 행정 기관이 'Closed 95.5%'를 성과 목표로 삼으면, 문제 해결보다 자정 일괄 마감(11만 건)이나 '가 보니 흔적 없음(41%)' 처리만 늘어날 수 있습니다.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <!-- PART 5: 100+27 질문 아카이브 탐색기 -->
+    <section id="explorer" class="scroll-mt-20 space-y-6">
+      <div class="border-b border-stone-200 pb-4">
+        <span class="text-xs font-bold tracking-widest uppercase text-orange-700">Chapter 05 · 질문 아카이브</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 mt-1">핵심 질문 한눈에 찾아보기</h2>
+        <p class="text-stone-600 mt-2 leading-relaxed">
+          〈질문 100개〉와 〈신고는 일기다〉에 담긴 주요 발견들을 주제별로 필터링하거나 키워드(예: 쥐, 퀸스, 딱지, 불꽃, 난방)로 검색해 보세요.
+        </p>
+      </div>
+
+      <div class="editorial-card p-5 sm:p-6">
+        <div class="flex flex-col sm:flex-row gap-3 mb-4">
+          <div class="relative flex-1">
+            <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input id="archiveSearch" type="text" placeholder="키워드 검색 (예: 쥐, 헬기, 퀸스, 딱지, 크리스마스, 택시...)" class="w-full pl-10 pr-4 py-2 rounded-xl border border-stone-300 text-sm focus:outline-none focus:border-orange-600" />
+          </div>
+          <select id="archiveFilter" class="px-3.5 py-2 rounded-xl border border-stone-300 text-sm bg-white focus:outline-none focus:border-orange-600">
+            <option value="all">전체 주제 보기</option>
+            <option value="달력·날씨">달력·날씨</option>
+            <option value="소음·동물">소음·동물</option>
+            <option value="도로·집">도로·집</option>
+            <option value="한 주소·답변">한 주소·답변</option>
+            <option value="선거·분모">선거·분모</option>
+            <option value="채널·별난 민원">채널·별난 민원</option>
+          </select>
+        </div>
+        <div id="archiveGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto pr-1">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- PART 6: 뉴스·유튜브 출처 & 더 흥미롭게 살펴볼 질문들 -->
+    <section id="part5" class="scroll-mt-20 space-y-8">
+      <div class="border-b border-stone-200 pb-4">
+        <span class="text-xs font-bold tracking-widest uppercase text-orange-700">Chapter 06 · 더 깊이 읽기</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 mt-1">데이터 밖의 이야기 &amp; 다음으로 던져볼 질문들</h2>
+        <p class="text-stone-600 mt-2 leading-relaxed">
+          숫자 396만 건을 더 입체적으로 읽게 해 주는 실제 보도·영상 자료와, 직접 데이터를 열어볼 때 던져보면 좋을 탐구 질문들입니다.
+        </p>
+      </div>
+
+      <!-- Verified News & YouTube Citations -->
+      <div>
+        <h3 class="text-base font-bold text-stone-900 mb-3 flex items-center gap-2">
+          <i data-lucide="newspaper" class="w-4 h-4 text-orange-600"></i>
+          <span>함께 보면 좋은 신문기사 · 공공 보고서 · 유튜브</span>
+        </h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          <a href="https://www.youtube.com/watch?v=lWycS2oXTo8" target="_blank" rel="noopener noreferrer" class="editorial-card p-4 hover:border-orange-400 transition group block">
+            <span class="text-[11px] font-bold text-red-600 uppercase">YouTube · AP</span>
+            <p class="font-bold text-sm text-stone-900 mt-1 group-hover:text-orange-700">7월 4일 직전 맘다니 시장 보안·폭염 브리핑</p>
+            <p class="text-xs text-stone-500 mt-1">공식 불꽃놀이와 폭염 대응 속 311 안내 현장</p>
+          </a>
+          <a href="https://www.youtube.com/watch?v=wveBHpdqmBU" target="_blank" rel="noopener noreferrer" class="editorial-card p-4 hover:border-orange-400 transition group block">
+            <span class="text-[11px] font-bold text-red-600 uppercase">YouTube · NYC Council</span>
+            <p class="font-bold text-sm text-stone-900 mt-1">뉴욕시의회 311 시스템 공청회 (2026-09-30)</p>
+            <p class="text-xs text-stone-500 mt-1">311 접수 체계와 기관별 처리 과정을 다룬 의회 영상</p>
+          </a>
+          <a href="https://www.youtube.com/watch?v=0q5r7_MmeJQ" target="_blank" rel="noopener noreferrer" class="editorial-card p-4 hover:border-orange-400 transition group block">
+            <span class="text-[11px] font-bold text-red-600 uppercase">YouTube · Data Story</span>
+            <p class="font-bold text-sm text-stone-900 mt-1">1,300만 건의 311 데이터로 본 뉴욕 삶의 질</p>
+            <p class="text-xs text-stone-500 mt-1">오픈데이터를 시각화해 동네별 차이를 푼 해설</p>
+          </a>
+          <a href="https://www.theguardian.com/us-news/2025/nov/04/zohran-mamdani-mayor-new-york-city" target="_blank" rel="noopener noreferrer" class="editorial-card p-4 hover:border-orange-400 transition group block">
+            <span class="text-[11px] font-bold text-stone-500 uppercase">The Guardian · 2025-11-04</span>
+            <p class="font-bold text-sm text-stone-900 mt-1">조란 맘다니 뉴욕시장 당선 보도</p>
+            <p class="text-xs text-stone-500 mt-1">2025년 시장 선거의 배경과 주요 공약(임대료·버스)</p>
+          </a>
+          <a href="https://www.cbsnews.com/newyork/news/nyc-mayoral-race-neighborhood-map/" target="_blank" rel="noopener noreferrer" class="editorial-card p-4 hover:border-orange-400 transition group block">
+            <span class="text-[11px] font-bold text-stone-500 uppercase">CBS News NY · 2025-11-05</span>
+            <p class="font-bold text-sm text-stone-900 mt-1">뉴욕 동네별 시장 선거 득표 지도</p>
+            <p class="text-xs text-stone-500 mt-1">스태튼아일랜드와 4개 자치구, 퀸스 내 동네별 표심</p>
+          </a>
+          <a href="https://www.cbsnews.com/newyork/news/nyc-rats-upper-west-side-gale-brewer/" target="_blank" rel="noopener noreferrer" class="editorial-card p-4 hover:border-orange-400 transition group block">
+            <span class="text-[11px] font-bold text-stone-500 uppercase">CBS News NY · 2025-09-01</span>
+            <p class="font-bold text-sm text-stone-900 mt-1">311 쥐 신고 감소 발표와 현장의 체감 온도</p>
+            <p class="text-xs text-stone-500 mt-1">"신고가 줄었다"는 수치와 어퍼웨스트사이드 주민의 시선</p>
+          </a>
+          <a href="https://www.nyc.gov/opendata/news/all-news/311-Service-Requests-Updates" target="_blank" rel="noopener noreferrer" class="editorial-card p-4 hover:border-orange-400 transition group block">
+            <span class="text-[11px] font-bold text-stone-500 uppercase">NYC Open Data</span>
+            <p class="font-bold text-sm text-stone-900 mt-1">311 Service Requests 원자료 포털</p>
+            <p class="text-xs text-stone-500 mt-1">2010년부터 매일 업데이트되는 4,000만 건+ 공공 데이터</p>
+          </a>
+          <a href="https://comptroller.nyc.gov/reports/turn-up-the-heat-2025-update/" target="_blank" rel="noopener noreferrer" class="editorial-card p-4 hover:border-orange-400 transition group block">
+            <span class="text-[11px] font-bold text-stone-500 uppercase">NYC Comptroller</span>
+            <p class="font-bold text-sm text-stone-900 mt-1">Turn Up the Heat: 겨울 난방 민원 감사 보고서</p>
+            <p class="text-xs text-stone-500 mt-1">반복적으로 난방이 끊기는 건물과 위반 발부율 분석</p>
+          </a>
+          <a href="https://council.nyc.gov/data/helicopter-noise-and-safety/" target="_blank" rel="noopener noreferrer" class="editorial-card p-4 hover:border-orange-400 transition group block">
+            <span class="text-[11px] font-bold text-stone-500 uppercase">NYC Council Data Team</span>
+            <p class="font-bold text-sm text-stone-900 mt-1">헬기 항로와 311 소음 신고 매핑</p>
+            <p class="text-xs text-stone-500 mt-1">관광 헬기 운항 경로와 어퍼웨스트사이드 민원 집중</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- Exploratory Questions -->
+      <div class="editorial-card p-5 sm:p-6 bg-stone-900 text-stone-100 border-stone-800">
+        <h3 class="text-lg sm:text-xl font-bold mb-2 flex items-center gap-2">
+          <i data-lucide="compass" class="w-5 h-5 text-orange-400"></i>
+          <span>다음에 직접 데이터를 열어본다면? — 더 흥미로운 질문 6선</span>
+        </h3>
+        <p class="text-xs sm:text-sm text-stone-400 mb-5">각 질문을 클릭하면 어떤 데이터와 통계 기법으로 답을 찾을 수 있는지 힌트가 펼쳐집니다.</p>
+
+        <div id="exploreList" class="space-y-2.5">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-stone-200 bg-white py-8 text-center text-xs text-stone-500 px-4">
+    <p>기반 자료: NYC Open Data 311 Service Requests (2025-11-01 ~ 2026-10-31) · Open-Meteo 일별 기상 · 2020 미국 센서스 · 2025 뉴욕시 선관위 개표</p>
+    <p class="mt-1">〈뉴욕 311, 질문 100개〉 &amp; 〈신고는 일기다〉 데이터를 바탕으로 재구성한 인터랙티브 완전판</p>
+  </footer>
+
+  <script>
+    if (window.lucide) { window.lucide.createIcons(); }
+
+    // 1. Live 7.9s Ticker
+    let tickerCount = 1;
+    let tickerRunning = true;
+    const tickerEl = document.getElementById('tickerCount');
+    const tickerBtn = document.getElementById('tickerToggle');
+    setInterval(() => {
+      if (tickerRunning) {
+        tickerCount += 1;
+        tickerEl.textContent = tickerCount.toLocaleString('ko-KR');
+      }
+    }, 7900);
+
+    tickerBtn.addEventListener('click', () => {
+      tickerRunning = !tickerRunning;
+      tickerBtn.textContent = tickerRunning ? '시계 잠시 멈추기' : '시계 다시 켜기';
+    });
+
+    // 2. Prologue Chart
+    const proCtx = document.getElementById('prologueChart').getContext('2d');
+    const proConfigs = {
+      top10: {
+        subtitle: '불법주차가 61.8만 건(15.6%)으로 압도적 1위이며, 이웃 소음과 난방·온수가 뒤를 잇습니다.',
+        explain: '<strong>상위 10종이 전체의 56.8%:</strong> 불법주차(61.8만), 이웃 소음(41.7만), 난방·온수(35.2만), 차고 앞 막힘(19.6만), 길거리 소음(17.5만) 순입니다. 반면 98위부터 194위까지 하위 97종을 모두 합쳐도 전체의 0.95%가 되지 않습니다.',
+        labels: ['불법주차', '이웃 소음', '난방·온수', '차고 앞 막힘', '길거리 소음', '집 안 위생', '도로 파손', '배관', '버려진 차', '더러운 거리'],
+        data: [61.8, 41.7, 35.2, 19.6, 17.5, 13.9, 12.3, 8.9, 7.2, 7.0],
+        colors: ['#c2410c', '#78716c', '#78716c', '#a8a29e', '#a8a29e', '#a8a29e', '#d6d3d1', '#d6d3d1', '#d6d3d1', '#d6d3d1'],
+        axis: 'y'
+      },
+      agency: {
+        subtitle: '10건 중 4건 넘게(43.4%)를 뉴욕경찰(NYPD)이 담당하며, 주택보존개발국(22.9%)이 2위입니다.',
+        explain: '<strong>기관별 몫:</strong> 경찰(43.4%)과 주택국(22.9%) 두 기관이 전체 민원의 3분의 2를 처리합니다. 이어서 청소국(9.1%), 교통국(7.2%), 환경보호국(5.5%), 공원국(3.5%), 건물국(3.0%), 보건국(2.1%) 순입니다.',
+        labels: ['경찰(NYPD)', '주택보존개발국', '청소국', '교통국', '환경보호국', '공원국', '건물국', '보건국'],
+        data: [43.4, 22.9, 9.1, 7.2, 5.5, 3.5, 3.0, 2.1],
+        colors: ['#c2410c', '#78716c', '#a8a29e', '#a8a29e', '#d6d3d1', '#d6d3d1', '#d6d3d1', '#d6d3d1'],
+        axis: 'y'
+      },
+      weekday: {
+        subtitle: '가장 바쁜 요일은 화요일(하루 11,700건), 가장 한가한 요일은 토요일(9,847건)입니다.',
+        explain: '<strong>평일이 주말보다 바쁘다:</strong> 화요일(11,700건)과 월요일(11,656건)이 가장 바쁘고 토요일(9,847건)이 가장 한산해 1.2배 차이를 보입니다. 직장·공사·행정 일정이 평일에 집중되기 때문입니다.',
+        labels: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+        data: [11656, 11700, 11148, 10843, 10976, 9847, 10009],
+        colors: ['#a8a29e', '#c2410c', '#a8a29e', '#a8a29e', '#a8a29e', '#57534e', '#a8a29e'],
+        axis: 'x'
+      }
+    };
+
+    let proChart = new Chart(proCtx, {
+      type: 'bar',
+      data: {
+        labels: proConfigs.top10.labels,
+        datasets: [{ data: proConfigs.top10.data, backgroundColor: proConfigs.top10.colors, borderRadius: 5 }]
+      },
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    });
+
+    document.querySelectorAll('.pro-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pro-btn').forEach(b => {
+          b.classList.remove('active'); b.classList.add('bg-white', 'text-stone-700');
+        });
+        btn.classList.add('active'); btn.classList.remove('bg-white', 'text-stone-700');
+        const cfg = proConfigs[btn.dataset.proMode];
+        document.getElementById('prologueSubtitle').textContent = cfg.subtitle;
+        document.getElementById('prologueExplain').innerHTML = cfg.explain;
+        proChart.options.indexAxis = cfg.axis;
+        proChart.data.labels = cfg.labels;
+        proChart.data.datasets[0].data = cfg.data;
+        proChart.data.datasets[0].backgroundColor = cfg.colors;
+        proChart.update();
+      });
+    });
+
+    // 3. July 4th Chart
+    const july4Ctx = document.getElementById('july4Chart').getContext('2d');
+    const july4Configs = {
+      compare: {
+        subtitle: '불꽃놀이(2,257건)를 빼면 평소 토요일의 1.11배 수준이었습니다.',
+        explain: '<strong>불꽃 칸만 바빴던 하루:</strong> 2026년 7월 4일 전체 신고는 13,148건으로 평소 토요일(50일 평균 9,784건)의 1.34배였습니다. 하지만 불법 불꽃놀이(2,257건, 1년 평균의 75배)를 빼면 10,891건(1.11배)으로 차분해집니다. 불법주차는 오히려 평소 토요일의 66%로 줄었죠. 1년 치 불꽃 신고의 66%는 6월 15일~7월 10일 한 달에 몰립니다.',
+        labels: ['평소 토요일(50일 평균)', '7월 4일 전체', '7월 4일 (불꽃 제외)'],
+        datasets: [{ data: [9784, 13148, 10891], backgroundColor: ['#a8a29e', '#57534e', '#c2410c'], borderRadius: 6 }]
+      },
+      midnight: {
+        subtitle: '방송은 밤에 끝나지만, 7월 5일 0~3시에만 965건이 자정을 넘어 접수됐습니다.',
+        explain: '<strong>자정의 시계:</strong> 7월 4일 밤 9시(739건)가 단일 시각 정점이지만, 자정을 넘긴 7월 5일 0시~3시(310+442+213=965건)가 오히려 전날 밤 9시보다 많습니다. 하루 단위로만 끊어 세면 이 새벽의 불꽃이 다음 날 장부(5일 하루 1,688건)로 넘어갑니다.',
+        labels: ['18시', '19시', '20시', '21시(정점)', '22시', '23시', '5일 0시', '5일 1시', '5일 2시', '5일 3시', '5일 4시'],
+        datasets: [{ data: [31, 52, 281, 739, 545, 246, 310, 442, 213, 131, 77], backgroundColor: (ctx) => ctx.dataIndex === 3 ? '#c2410c' : (ctx.dataIndex === 7 ? '#ea580c' : '#a8a29e'), borderRadius: 4 }]
+      },
+      hotday: {
+        subtitle: '더운 날(25°C 이상) 평균 119건 안에는 7월 4일 단 하루(2,257건)가 들어 있습니다.',
+        explain: '<strong>22배라는 숫자의 함정:</strong> 7월 4일의 기온은 29.5°C였습니다. 이 하루가 25°C 이상 39일 평균(119건)에 들어가면서 영하인 날(5.5건) 대비 22배라는 숫자가 나옵니다. 기온이 불꽃놀이를 부른 게 아니라 독립기념일 하루가 평균을 끌어올린 것입니다.',
+        labels: ['7월 4일 단 하루 (29.5°C)', '더운 날 39일 평균 (25°C+)', '영하인 날 59일 평균'],
+        datasets: [{ data: [2257, 119, 5.5], backgroundColor: ['#c2410c', '#78716c', '#d6d3d1'], borderRadius: 6 }]
+      }
+    };
+
+    let july4Chart = new Chart(july4Ctx, {
+      type: 'bar',
+      data: { labels: july4Configs.compare.labels, datasets: july4Configs.compare.datasets },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    });
+
+    document.querySelectorAll('.july-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.july-btn').forEach(b => {
+          b.classList.remove('active'); b.classList.add('bg-white', 'text-stone-700');
+        });
+        btn.classList.add('active'); btn.classList.remove('bg-white', 'text-stone-700');
+        const cfg = july4Configs[btn.dataset.julyMode];
+        document.getElementById('july4Subtitle').textContent = cfg.subtitle;
+        document.getElementById('july4Explain').innerHTML = cfg.explain;
+        july4Chart.data.labels = cfg.labels;
+        july4Chart.data.datasets = cfg.datasets;
+        july4Chart.update();
+      });
+    });
+
+    // 4. Weather Chart
+    const weatherCtx = document.getElementById('weatherChart').getContext('2d');
+    const weatherConfigs = {
+      cold: {
+        subtitle: '2월 8일(-14°C) 하루 난방 신고는 6,118건으로 다른 영하 날 평균의 2.36배입니다.',
+        explain: '<strong>영하 59일 중에서도 유독 매서웠던 날:</strong> 2026년 2월 8일(일평균 -14°C)에는 하루에만 난방·온수 신고가 <strong>6,118건</strong> 쏟아졌습니다. 이는 다른 영하 58일 평균(2,591건)의 <strong>2.36배</strong>이며, 20도 이상인 날 평균(149건)과 비교하면 41배에 달합니다.',
+        labels: ['2월 8일 (-14°C)', '다른 영하 58일 평균', '20도 이상 125일 평균'],
+        datasets: [{ data: [6118, 2591, 149], backgroundColor: ['#c2410c', '#78716c', '#d6d3d1'], borderRadius: 6 }]
+      },
+      snow: {
+        subtitle: '폭설 첫날(23일) 불법주차는 평소 월요일의 49%로 줄고, 눈 민원은 다음 날(24일) 폭발했습니다.',
+        explain: '<strong>서로 다른 시계:</strong> 적설량 12.9cm였던 2월 23일 월요일엔 나무 쓰러짐 신고도 평소의 12배(1,496건)로 치솟았고, 불법주차는 평소 월요일(1,743건)의 <strong>49%(848건)</strong>로 떨어졌습니다. 1년 눈 민원의 28%(1.8만 건)가 23~24일 이틀에 몰렸고, 스태튼아일랜드의 1인당 눈 민원은 맨해튼의 11배였습니다.',
+        labels: ['23일 눈·얼음', '24일 눈·얼음', '23일 나무 쓰러짐', '평소 월요일 주차', '23일 주차', '24일 주차'],
+        datasets: [{ data: [6524, 11370, 1496, 1743, 848, 1669], backgroundColor: ['#78716c', '#c2410c', '#57534e', '#a8a29e', '#ea580c', '#a8a29e'], borderRadius: 6 }]
+      },
+      temp: {
+        subtitle: '25도 이상인 날 vs 영하인 날 배수: 길거리 소음은 5.7배, 이웃 소음은 1.03배로 거의 안 탑니다.',
+        explain: '<strong>더위를 타는 민원과 안 타는 민원:</strong> 기온 25°C를 넘기면 웃자란 나무(8.9배), 공원 소음(5.9배), 길거리 소음(5.7배), 길거리 음주(4.5배), 소화전 물놀이(3.7배, 하루 122건), 노숙인 텐트(2.6배)가 크게 늡니다. 반면 집 안 이웃 소음(1.03배)은 날씨와 무관합니다.',
+        labels: ['웃자란 나무', '죽어 가는 나무', '공원 소음', '길거리 소음', '도로 청소', '길거리 음주', '소화전 물놀이', '노숙인 텐트', '이웃 소음'],
+        datasets: [{ data: [8.9, 6.4, 5.9, 5.7, 4.7, 4.5, 3.7, 2.6, 1.03], backgroundColor: ['#78716c', '#78716c', '#c2410c', '#c2410c', '#a8a29e', '#ea580c', '#ea580c', '#a8a29e', '#d6d3d1'], borderRadius: 5 }]
+      },
+      pothole: {
+        subtitle: '포트홀(도로 파손) 신고는 한겨울이 아니라 얼었다 녹기를 반복한 3월(22,761건)에 정점을 찍습니다.',
+        explain: '<strong>늦겨울 뒤 한꺼번에 깨지는 도로:</strong> 3월 포트홀 신고는 22,761건으로 월평균(6,312건)의 <strong>3.6배</strong>에 달합니다. 한겨울(1월 3,215건)보다 해빙기인 3~4월에 집중됩니다.',
+        labels: ['11월', '12월', '1월', '2월', '3월(정점)', '4월', '5월', '6월', '7월', '8월', '9월', '10월'],
+        datasets: [{ data: [1845, 2910, 3215, 4612, 22761, 11371, 7102, 6053, 4632, 4278, 3640, 3325], backgroundColor: (ctx) => ctx.dataIndex === 4 ? '#c2410c' : '#a8a29e', borderRadius: 4 }]
+      }
+    };
+
+    let weatherChart = new Chart(weatherCtx, {
+      type: 'bar',
+      data: { labels: weatherConfigs.cold.labels, datasets: weatherConfigs.cold.datasets },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    });
+
+    document.querySelectorAll('.weather-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.weather-btn').forEach(b => {
+          b.classList.remove('active'); b.classList.add('bg-white', 'text-stone-700');
+        });
+        btn.classList.add('active'); btn.classList.remove('bg-white', 'text-stone-700');
+        const cfg = weatherConfigs[btn.dataset.weatherMode];
+        document.getElementById('weatherSubtitle').textContent = cfg.subtitle;
+        document.getElementById('weatherExplain').innerHTML = cfg.explain;
+        weatherChart.data.labels = cfg.labels;
+        weatherChart.data.datasets = cfg.datasets;
+        weatherChart.update();
+      });
+    });
+
+    // 5. Mini Quizzes
+    const quizMessages = {
+      q1: {
+        right: '정답! 추수감사절 불법주차는 1,202건으로 다른 겨울 목요일 평균(1,696건)의 71%였습니다. 반면 집 안 소음은 한 주소를 빼고도 1.46배(1,121건)로 늘었죠.',
+        wrong: '의외로 줄었습니다! 추수감사절 불법주차는 1,202건으로 다른 겨울 목요일(1,696건)의 71%였습니다. 거리 한산함과 집 안 모임의 부호가 반대로 움직였죠.'
+      },
+      q2: {
+        right: '정답! 크리스마스는 청소국이 수거를 쉬는 날이라 "쓰레기 미수거" 신고가 단 1건(평소 목요일 95건)뿐이었습니다. 반면 이웃 소음은 평소보다 1.6배 늘었습니다.',
+        wrong: '이웃 소음은 오히려 평소보다 1.6배 늘었습니다! 정답은 청소국이 쉬어 수거 자체가 없던 "쓰레기 미수거" 신고(단 1건, 평소 95건)입니다.'
+      },
+      q3: {
+        right: '정답! 정전은 영하의 날(하루 36.9건)과 25°C 이상 더운 날(36.0건) 양 끝이 선선한 20~25도(21.7건)보다 1.7배 높은 U자형 곡선을 그립니다.',
+        wrong: '오히려 선선한 20~25도(하루 21.7건)가 가장 적고, 너무 추운 날(36.9건)과 너무 더운 날(36.0건) 양 끝이 1.7배 높은 U자형입니다.'
+      }
+    };
+    document.querySelectorAll('.quiz-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const qid = btn.dataset.quiz;
+        const ans = btn.dataset.ans;
+        const el = document.getElementById(`quiz-${qid}`);
+        el.textContent = quizMessages[qid][ans];
+        el.classList.remove('hidden');
+        el.className = `text-xs mt-2 leading-relaxed font-medium ${ans === 'right' ? 'text-emerald-700' : 'text-orange-700'}`;
+      });
+    });
+
+    // 6. Noise Chart
+    const noiseCtx = document.getElementById('noiseChart').getContext('2d');
+    const hours24 = Array.from({length: 24}, (_, i) => `${i}시`);
+    const heliHourly = [59, 53, 30, 18, 23, 30, 233, 334, 231, 331, 641, 661, 782, 756, 786, 866, 1097, 948, 762, 836, 748, 368, 220, 158];
+    const partyShare = [11.2, 7.8, 4.7, 2.8, 1.9, 1.3, 1.1, 1.1, 1.2, 1.3, 1.5, 1.6, 1.7, 1.8, 2.1, 2.5, 3.0, 3.6, 4.9, 6.2, 8.3, 12.9, 12.6, 11.2];
+    const dogShare = [3.2, 2.0, 1.3, 0.9, 0.8, 1.2, 2.1, 3.8, 5.5, 6.4, 6.0, 6.0, 5.9, 4.9, 5.0, 4.8, 4.6, 5.2, 5.2, 5.7, 5.5, 5.7, 4.9, 4.6];
+
+    let noiseChart = new Chart(noiseCtx, {
+      type: 'bar',
+      data: {
+        labels: hours24,
+        datasets: [{
+          label: '헬기 소음 신고(건)',
+          data: heliHourly,
+          backgroundColor: heliHourly.map((_, i) => i === 16 ? '#c2410c' : (i >= 15 && i <= 19 ? '#fdba74' : '#d6d3d1')),
+          borderRadius: 4
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    });
+
+    document.querySelectorAll('.noise-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.noise-btn').forEach(b => {
+          b.classList.remove('active'); b.classList.add('bg-white', 'text-stone-700');
+        });
+        btn.classList.add('active'); btn.classList.remove('bg-white', 'text-stone-700');
+        const mode = btn.dataset.noiseMode;
+        if (mode === 'heli') {
+          noiseChart.config.type = 'bar';
+          noiseChart.data.labels = hours24;
+          noiseChart.data.datasets = [{
+            label: '헬기 소음 신고(건)',
+            data: heliHourly,
+            backgroundColor: heliHourly.map((_, i) => i === 16 ? '#c2410c' : (i >= 15 && i <= 19 ? '#fdba74' : '#d6d3d1')),
+            borderRadius: 4
+          }];
+          noiseChart.options.plugins.legend.display = false;
+          document.getElementById('noiseSubtitle').textContent = '1년 10,971건의 헬기 소음 중 41%가 오후 3시~7시에 몰립니다.';
+          document.getElementById('noiseExplain').innerHTML = '<strong>한밤중이 아니라 해 질 무렵:</strong> 1년 10,971건의 헬기 소음 신고 중 <strong>41%(4,509건)가 오후 3시~저녁 7시</strong>에 몰려 있고, 인구 10만 명당 맨해튼(410건)이 브롱크스(7건)의 <strong>62배</strong>입니다.';
+        } else if (mode === 'compare') {
+          noiseChart.config.type = 'line';
+          noiseChart.data.labels = hours24;
+          noiseChart.data.datasets = [
+            { label: '음악·파티 소음 비중(%)', data: partyShare, borderColor: '#57534e', backgroundColor: 'rgba(87,83,78,0.1)', tension: 0.3, pointRadius: 2.5 },
+            { label: '개 짖는 소리 비중(%)', data: dogShare, borderColor: '#c2410c', backgroundColor: 'rgba(194,65,12,0.1)', tension: 0.3, pointRadius: 2.5 }
+          ];
+          noiseChart.options.plugins.legend.display = true;
+          document.getElementById('noiseSubtitle').textContent = '이웃의 파티는 밤 10시(12.9%), 개 짖는 소리는 오전 9시(6.4%)가 정점입니다.';
+          document.getElementById('noiseExplain').innerHTML = '<strong>낮의 민원 vs 밤의 민원:</strong> 이웃 소음 중 음악·파티(49.6%)와 쿵쿵 소리(40.4%)가 90%를 차지하며 밤 10시에 정점을 찍습니다. 반면 개 짖는 소리는 오전 9시, 아이스크림 트럭 소음(3~10월 99%)은 6월·저녁 8시가 정점입니다.';
+        } else {
+          noiseChart.config.type = 'bar';
+          noiseChart.data.labels = ['공원 소음', '가게 소음', '길거리 소음', '이웃 소음', '차량 소음', '환경국(공사)', '헬기 소음', '종교시설 소음'];
+          noiseChart.data.datasets = [{
+            label: '토·일요일 주말 비중(%)',
+            data: [50.0, 47.4, 44.7, 40.5, 34.6, 25.4, 23.6, 20.7],
+            backgroundColor: ['#c2410c', '#ea580c', '#78716c', '#78716c', '#a8a29e', '#d6d3d1', '#d6d3d1', '#d6d3d1'],
+            borderRadius: 5
+          }];
+          noiseChart.options.plugins.legend.display = false;
+          document.getElementById('noiseSubtitle').textContent = '요일이 고르면 주말 몫은 28.6%지만, 공원 소음은 절반(50%)이 토·일에 들어옵니다.';
+          document.getElementById('noiseExplain').innerHTML = '<strong>주말의 소음 vs 평일의 소음:</strong> 공원 소음(50.0%)과 가게 소음(47.4%)은 주말에 몰리는 반면, 공사 소음(1위 사유는 허가 시간 밖 공사 25%)과 헬기 소음(23.6%)은 평일 비중이 더 높습니다. 차량 소음 1위는 경적(38.5%)이 아니라 차 안 음악(42.1%)입니다.';
+        }
+        noiseChart.update();
+      });
+    });
+
+    // 7. Roads, Animals, Homes Cards
+    const lifeData = {
+      roads: [
+        { kpi: '27.9%', title: '불법주차 1위: 소화전 앞', desc: '전체 불법주차의 27.9%가 소화전 앞, 24.3%가 표지판 위반, 14.2%가 보도 막음입니다.' },
+        { kpi: '12배', title: '차고 앞 막힘: 퀸스 1위', desc: '인구 대비 퀸스가 맨해튼의 12배. 단독주택과 차고가 많은 주거 형태가 반영됐습니다.' },
+        { kpi: '24배', title: '자전거도로 막는 주차: 맨해튼·브루클린', desc: '스태튼아일랜드(10만 명당 14건) 대비 맨해튼(333건)·브루클린(326건)이 24배입니다.' },
+        { kpi: '7.8배', title: '버려진 차: 퀸스 10만 명당 1,287건', desc: '맨해튼(165건)의 7.8배. 스태튼아일랜드(1,151건)가 2위로 뒤를 잇습니다.' },
+        { kpi: '3.2배', title: '가로등 꺼짐: 스태튼아일랜드 1위', desc: '10만 명당 1,164건으로 가장 적은 브루클린(365건)의 3.2배입니다.' },
+        { kpi: '8.7배', title: '버려진 자전거: 브루클린 1위', desc: '인구 10만 명당 41.8건으로 브롱크스(4.8건)의 8.7배, 맨해튼(33.5건)이 2위입니다.' },
+        { kpi: '94%', title: '전동킥보드 신고: 퀸스·브롱크스', desc: '퀸스(292건)와 브롱크스(133건)가 94%를 차지. 맨해튼은 단 2건뿐입니다.' },
+        { kpi: '41.8%', title: '고장 난 주차 미터: 맨해튼 몫', desc: '맨해튼이 전체의 41.8%를 차지하며, 1인당으로는 스태튼아일랜드의 6.1배입니다.' },
+        { kpi: '오전 8시', title: '불법주차 신고 피크 시각', desc: '오전 8시(약 3.9만 건)가 가장 적은 새벽 3시(8천 건)의 4.9배입니다.' }
+      ],
+      animals: [
+        { kpi: '38%', title: '죽은 동물 신고 1위: 고양이', desc: '4,220건으로 1위. 너구리(1,362건)와 쥐(1,356건), 새(1,001건)가 뒤를 잇습니다.' },
+        { kpi: '79%', title: '뉴욕의 사슴은 스태튼아일랜드에', desc: '사슴 사체 신고 86건 중 68건(79%)이 스태튼아일랜드에서 나왔습니다.' },
+        { kpi: '23배', title: '너구리 사체도 스태튼아일랜드', desc: '10만 명당 58.3건으로 맨해튼(2.5건)의 23배입니다.' },
+        { kpi: '61%', title: '몰래 키우다 걸린 동물 1위: 수탉', desc: '불법 반려동물 신고 중 수탉이 382건(61%). 가축(79건), 뱀(18건) 순입니다.' },
+        { kpi: '61%', title: '불법 판매 동물 1위: 작은 거북', desc: '살모넬라균 위험으로 금지된 등딱지 10cm 미만 새끼 거북이 72건(61%)입니다.' },
+        { kpi: '2.7배', title: '여름에 더 눈에 띄는 쥐', desc: '8월 목격(2,139건)이 12월(789건)의 2.7배. 인구 대비 1위는 맨해튼(269건)입니다.' },
+        { kpi: '9월', title: '모기는 8~9월(64%), 벌은 9월(22.5%)', desc: '모기는 겨울 0건·8~9월 64%이며, 벌·말벌은 한여름보다 9월(98건)에 가장 많습니다.' },
+        { kpi: '6.5배', title: '비둘기 배설물: 맨해튼 1위', desc: '10만 명당 49건으로 브롱크스(8건)의 6.5배. 공원 동물 1위는 목줄 없는 개(53%)입니다.' },
+        { kpi: '49%', title: '동물 학대 신고 1위: 방치', desc: '방치가 5,737건(49%)으로 절반을 차지하며, 차 안 방치는 147건입니다.' }
+      ],
+      homes: [
+        { kpi: '7.4배', title: '집 수리 민원: 브롱크스 1위', desc: '10만 명당 20,545건으로 스태튼아일랜드(2,774건)의 7.4배. 임대주택 비중이 반영됩니다.' },
+        { kpi: '65.6%', title: '건물 전체가 추운 난방 민원', desc: '352,278건 중 건물 전체(231,208건)가 65.6%, 우리 집만(121,070건)이 34.4%입니다.' },
+        { kpi: '53%', title: '집 안 위생 민원 1위: 해충', desc: '해충이 52.7%, 곰팡이가 28.6%, 쓰레기 보관 15.5%. 8~10월에 해충 신고가 가장 많습니다.' },
+        { kpi: '23%', title: '상위 1% 건물이 내는 난방 민원', desc: '426개 건물(1%)이 전체 난방 민원의 23%를 냅니다. 최다 1개 건물은 1년에 2,211건.' },
+        { kpi: '14배', title: '엘리베이터 고장: 브롱크스 1위', desc: '10만 명당 688건으로 스태튼아일랜드(50건)의 14배입니다.' },
+        { kpi: '61%', title: '고장 신고 1위 가전: 레인지', desc: '가스·전기레인지 16,103건(61%), 냉장고 10,368건(39%). 전자레인지는 15건입니다.' },
+        { kpi: '27%', title: '문 앞에서 돌아선 검사관', desc: '주택 수리 민원 4건 중 1건(27%)은 검사관이 집에 들어가지 못했습니다. 가전은 45.1%가 불발.' },
+        { kpi: '4%', title: '난방 민원 위반 딱지 비율', desc: '페인트·바닥 민원은 26%에 위반 딱지가 붙지만, 난방·온수는 4%뿐(30.7%는 중복 접수).' },
+        { kpi: '10.6%', title: '건물국 2회 진입 실패 비율', desc: '건물국이 두 번 찾아가도 들어가지 못한 비율이 10.6%(12,472건)입니다.' }
+      ]
+    };
+
+    function renderLife(mode) {
+      document.getElementById('lifeContent').innerHTML = lifeData[mode].map(item => `
+        <div class="p-4 rounded-xl bg-stone-50 border border-stone-200">
+          <p class="text-2xl font-extrabold text-orange-700 tabular-nums">${item.kpi}</p>
+          <p class="font-bold text-sm text-stone-900 mt-1">${item.title}</p>
+          <p class="text-xs text-stone-600 mt-1 leading-relaxed">${item.desc}</p>
+        </div>
+      `).join('');
+    }
+    renderLife('roads');
+
+    document.querySelectorAll('.life-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.life-btn').forEach(b => {
+          b.classList.remove('active'); b.classList.add('bg-white', 'text-stone-700');
+        });
+        btn.classList.add('active'); btn.classList.remove('bg-white', 'text-stone-700');
+        renderLife(btn.dataset.lifeMode);
+      });
+    });
+
+    // 8. Outlier Switch Chart
+    const outlierCtx = document.getElementById('outlierChart').getContext('2d');
+    const months6 = ['11월', '12월', '1월', '2월', '3월', '4월'];
+    const bronxWithOutlier = [22100, 37472, 9100, 8600, 9900, 9000];
+    const bronxWithoutOutlier = [7700, 9316, 8200, 8000, 8600, 8000];
+
+    let outlierChart = new Chart(outlierCtx, {
+      type: 'line',
+      data: {
+        labels: months6,
+        datasets: [{
+          label: '브롱크스 월별 이웃 소음(건)',
+          data: bronxWithOutlier,
+          borderColor: '#c2410c',
+          backgroundColor: 'rgba(194,65,12,0.12)',
+          fill: true, tension: 0.25, pointRadius: 4
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 40000 } } }
+    });
+
+    const outlierToggle = document.getElementById('outlierToggle');
+    outlierToggle.addEventListener('change', () => {
+      const inc = outlierToggle.checked;
+      document.getElementById('outlierLabel').textContent = inc ? '한 주소 포함 (47,105건 반영)' : '한 주소 제외 (통계 교정)';
+      document.getElementById('outlierDecVal').textContent = inc ? '37,472건' : '9,316건';
+      document.getElementById('outlierThanksVal').textContent = inc ? '2,522건' : '1,121건';
+      outlierChart.data.datasets[0].data = inc ? bronxWithOutlier : bronxWithoutOutlier;
+      outlierChart.data.datasets[0].borderColor = inc ? '#c2410c' : '#57534e';
+      outlierChart.data.datasets[0].backgroundColor = inc ? 'rgba(194,65,12,0.12)' : 'rgba(87,83,78,0.12)';
+      outlierChart.update();
+    });
+
+    // 9. Outcome & Channel Chart
+    const outCtx = document.getElementById('outcomeChart').getContext('2d');
+    const outConfigs = {
+      nypd: {
+        subtitle: '경찰 출동 172만 건 중 가장 흔한 결말은 "가 보니 흔적 없음(40.8%)"이었습니다.',
+        explain: '<strong>"소환장"이라는 단어만 세면 안 되는 이유:</strong> 한 주소(47,105건)를 뺀 경찰 결과 문장 1,673,589건 중 "issued a summons(딱지 발부)"가 들어간 건은 <strong>13.4%(224,728건)</strong>입니다. 체포로 끝난 건은 1,163건(0.07%)뿐이며, 이웃 소음은 12.7%가 문을 열어주지 않아 들어가지 못했습니다.',
+        labels: ['가 보니 흔적 없음', '현장 정리', '경찰 조치 불필요', '소환장(딱지)', '들어가지 못함', '관할 아님', '텐트 없음', '기타'],
+        data: [40.8, 25.3, 13.5, 13.4, 3.0, 1.2, 0.9, 0.8],
+        colors: ['#c2410c', '#57534e', '#78716c', '#ea580c', '#a8a29e', '#d6d3d1', '#d6d3d1', '#d6d3d1']
+      },
+      tickets: {
+        subtitle: '딱지 확률 1위는 차고 앞 막힘(33.0%)이고, 이웃 소음은 0.4%(250건에 1건꼴)입니다.',
+        explain: '<strong>딱지가 붙는 민원 vs 안 붙는 민원:</strong> 차고 앞 막힘(33.0%)과 불법주차(23.8%, 브롱크스 28.4% vs 스태튼 19.0%)는 딱지 비율이 높지만, 이웃 소음은 0.4%, 가게 소음은 1.3%에 불과합니다. 불꽃놀이는 72.8%가 이미 끝나 흔적이 없었습니다.',
+        labels: ['차고 앞 막힘', '불법주차', '버려진 차', '길거리 음주', '공원 소음', '길거리 소음', '차량 소음', '이웃 소음'],
+        data: [33.0, 23.8, 7.1, 3.7, 2.8, 1.9, 1.4, 0.4],
+        colors: ['#c2410c', '#ea580c', '#78716c', '#a8a29e', '#a8a29e', '#d6d3d1', '#d6d3d1', '#57534e']
+      },
+      agencies: {
+        subtitle: '노숙인서비스국(DHS)은 48.1%가 "못 찾음"이고, 헬기·납먼지는 100% "처리 중"입니다.',
+        explain: '<strong>기관별 답변서의 속사정:</strong> 노숙인 지원팀은 48.1%가 사람을 찾지 못했고 13.8%는 도움을 거절당했습니다(수락 2.6%). 쥐 신고의 33.5%는 "이미 접수됨"으로 중복 처리됐고, 공원국 나무 민원 12,759건은 "1년 이상 걸릴 수 있음" 답을 받았습니다. 헬기 소음(10,971건)과 공사 납 먼지(1,316건)는 단 1건도 종료되지 않았습니다.',
+        labels: ['헬기·납먼지 미종료율', 'DHS 못 찾음', '경찰 흔적 없음', '쥐 이미 접수됨', '흐르는 소화전 잠금(만건/10)', 'DHS 도움 거절', '공원국 1년 이상(%)'],
+        data: [100.0, 48.1, 40.8, 33.5, 20.2, 13.8, 9.2],
+        colors: ['#57534e', '#c2410c', '#78716c', '#ea580c', '#a8a29e', '#d6d3d1', '#d6d3d1']
+      },
+      channel: {
+        subtitle: '웹(53.8%)·전화(24.8%)·앱(21.4%)으로 접수되며, 구걸은 91%가 앱, 동물 사체는 65%가 전화입니다.',
+        explain: '<strong>신고 방법과 별난 민원들:</strong> 택시 불만 대 칭찬은 <strong>93:1</strong>(불만 10,455건 vs 칭찬 113건), 분실물(가방·지갑 49.2%)의 <strong>98%</strong>는 택시에서 잃어버린 물건, 가게 불만 1위는 견인차 회사(10.6%)였습니다. 1년에 10건 이하로 들어온 17종 중 비둘기 포획은 단 1건이었습니다.',
+        labels: ['구걸(앱 비중)', '동물 사체(전화 비중)', '웃자란 나무(전화)', '분실물(전화)', '웹 전체 비중', '불법주차(앱 비중)', '전화 전체 비중', '앱 전체 비중'],
+        data: [91.0, 65.0, 65.0, 63.0, 53.8, 46.0, 24.8, 21.4],
+        colors: ['#c2410c', '#78716c', '#78716c', '#a8a29e', '#57534e', '#ea580c', '#d6d3d1', '#d6d3d1']
+      }
+    };
+
+    let outChart = new Chart(outCtx, {
+      type: 'bar',
+      data: { labels: outConfigs.nypd.labels, datasets: [{ data: outConfigs.nypd.data, backgroundColor: outConfigs.nypd.colors, borderRadius: 5 }] },
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    });
+
+    document.querySelectorAll('.out-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.out-btn').forEach(b => {
+          b.classList.remove('active'); b.classList.add('bg-white', 'text-stone-700');
+        });
+        btn.classList.add('active'); btn.classList.remove('bg-white', 'text-stone-700');
+        const cfg = outConfigs[btn.dataset.outMode];
+        document.getElementById('outcomeSubtitle').textContent = cfg.subtitle;
+        document.getElementById('outcomeExplain').innerHTML = cfg.explain;
+        outChart.data.labels = cfg.labels;
+        outChart.data.datasets[0].data = cfg.data;
+        outChart.data.datasets[0].backgroundColor = cfg.colors;
+        outChart.update();
+      });
+    });
+
+    // 10. Election & 9/22 Tent Chart
+    const electionCtx = document.getElementById('electionChart').getContext('2d');
+    const electionConfigs = {
+      boroughs: {
+        subtitle: '맘다니가 승리한 4개 자치구도 311 민원의 성격은 제각각입니다.',
+        explain: '<strong>승패는 하나, 장부는 여럿:</strong> 2025년 11월 4일 시장 선거에서 조란 맘다니는 민주당(944,950표)과 노동가족당(169,234표) 두 줄을 합쳐 1,114,184표(50.8%)로 쿠오모(906,614표)를 누르고 스태튼아일랜드를 제외한 4개 자치구에서 승리했습니다(<a href="https://ballotpedia.org/Zohran_Mamdani" target="_blank" rel="noopener noreferrer" class="text-orange-700 underline">Ballotpedia</a> · <a href="https://apnews.com/projects/election-2025-NYC-precinct-map/" target="_blank" rel="noopener noreferrer" class="text-orange-700 underline">AP 선거 지도</a>). 하지만 이긴 네 자치구 안에서도 주택국(HPD) 민원 비중은 브롱크스 36%, 맨해튼 27%, 브루클린 22%, 퀸스 12%로 크게 갈립니다.',
+        labels: ['브롱크스(승)', '맨해튼(승)', '브루클린(승)', '퀸스(승)', '스태튼아일랜드(패)'],
+        datasets: [
+          { label: '주택국(HPD) %', data: [36.3, 26.7, 21.9, 12.2, 8.5], backgroundColor: '#c2410c' },
+          { label: '경찰(NYPD) %', data: [43.5, 35.7, 45.1, 49.5, 31.7], backgroundColor: '#57534e' },
+          { label: '청소국(DSNY) %', data: [5.9, 7.7, 9.7, 10.1, 22.2], backgroundColor: '#a8a29e' }
+        ]
+      },
+      queens: {
+        subtitle: '보도가 가른 퀸스 서부(아스토리아)와 동부(베이사이드), 주차는 닮고 주택은 갈립니다.',
+        explain: '<strong>같은 퀸스의 닮은 점과 다른 점:</strong> 2025년 선거 보도에서 서부 아스토리아와 북동부 베이사이드는 표심이 갈린 동네로 꼽혔습니다. 311 장부를 보면 두 곳 모두 <strong>불법주차 비중(24.8% vs 23.0%)</strong>은 거의 똑같습니다. 하지만 <strong>주택국 비중(17.5% vs 4.3%)</strong>과 <strong>겨울 난방 비중(13.4% vs 4.8%)</strong>은 아스토리아가 3~4배 높고, 베이사이드는 가로 파손(9.1%)·버려진 차(4.8%)가 더 많습니다.',
+        labels: ['불법주차 몫(%)', '주택국 몫(%)', '겨울 난방 몫(%)', '가로 파손 몫(%)', '버려진 차 몫(%)'],
+        datasets: [
+          { label: '아스토리아 (서부 퀸스)', data: [24.8, 17.5, 13.4, 3.1, 1.2], backgroundColor: '#57534e' },
+          { label: '베이사이드 (북동부 퀸스)', data: [23.0, 4.3, 4.8, 9.1, 4.8], backgroundColor: '#c2410c' }
+        ]
+      },
+      tent: {
+        subtitle: '9월 22일 이후 하루 텐트 신고는 130건→129건으로 같지만, 경찰 몫만 73%→3%로 옮겼습니다.',
+        explain: '<strong>건수는 그대로, 주인만 바뀐 장부:</strong> 시가 2026년 9월 22일부터 노숙인 텐트 311 신고를 경찰(NYPD) 대신 노숙인서비스국(DHS) 아웃리치 팀으로 보내기 시작했습니다. 이후 5개 자치구 모두 경찰 몫이 5% 아래로 떨어졌지만, 하루 평균 신고 건수는 130건에서 129건으로 변함이 없었습니다.',
+        labels: ['브롱크스', '맨해튼', '브루클린', '퀸스', '스태튼아일랜드'],
+        datasets: [
+          { label: '9/22 이전 NYPD 몫(%)', data: [86.8, 69.7, 81.0, 84.0, 93.2], backgroundColor: '#78716c' },
+          { label: '9/22 이후 NYPD 몫(%)', data: [4.1, 3.4, 1.3, 3.2, 2.3], backgroundColor: '#c2410c' }
+        ]
+      }
+    };
+
+    let electionChart = new Chart(electionCtx, {
+      type: 'bar',
+      data: { labels: electionConfigs.boroughs.labels, datasets: electionConfigs.boroughs.datasets },
+      options: { responsive: true, maintainAspectRatio: false }
+    });
+
+    document.querySelectorAll('.map-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.map-btn').forEach(b => {
+          b.classList.remove('active'); b.classList.add('bg-white', 'text-stone-700');
+        });
+        btn.classList.add('active'); btn.classList.remove('bg-white', 'text-stone-700');
+        const cfg = electionConfigs[btn.dataset.mapMode];
+        document.getElementById('electionSubtitle').textContent = cfg.subtitle;
+        document.getElementById('electionExplain').innerHTML = cfg.explain;
+        electionChart.data.labels = cfg.labels;
+        electionChart.data.datasets = cfg.datasets;
+        electionChart.update();
+      });
+    });
+
+    // 11. Unknown Denominator Chart
+    const unknownCtx = document.getElementById('unknownChart').getContext('2d');
+    const phoneWithUnknown = [25.9, 26.1, 21.9, 21.2, 20.1];
+    const phoneWithoutUnknown = [30.1, 27.6, 23.8, 23.8, 21.7];
+    const boroNames = ['스태튼아일랜드', '브롱크스', '브루클린', '퀸스', '맨해튼'];
+
+    let unknownChart = new Chart(unknownCtx, {
+      type: 'bar',
+      data: {
+        labels: boroNames,
+        datasets: [{ data: phoneWithUnknown, backgroundColor: ['#78716c', '#c2410c', '#a8a29e', '#a8a29e', '#a8a29e'], borderRadius: 5 }]
+      },
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { max: 35 } } }
+    });
+
+    const unknownToggle = document.getElementById('unknownToggle');
+    unknownToggle.addEventListener('change', () => {
+      const exc = unknownToggle.checked;
+      document.getElementById('unknownLabel').textContent = exc ? '빈 칸 제외됨 (교정)' : '빈 칸 제외하기';
+      unknownChart.data.datasets[0].data = exc ? phoneWithoutUnknown : phoneWithUnknown;
+      unknownChart.data.datasets[0].backgroundColor = exc
+        ? ['#c2410c', '#78716c', '#a8a29e', '#a8a29e', '#a8a29e']
+        : ['#78716c', '#c2410c', '#a8a29e', '#a8a29e', '#a8a29e'];
+      document.getElementById('unknownExplain').innerHTML = exc
+        ? '빈 칸 332,035건을 분모에서 빼자 <strong>스태튼아일랜드(30.1%)</strong>가 단번에 전화 신고 1위로 올라섰습니다.'
+        : '빈 칸을 분모에 포함하면 전화 신고 1위는 <strong>브롱크스(26.1%)</strong>지만, 빈 칸을 제외하면 <strong>스태튼아일랜드(30.1%)</strong>가 1위로 올라섭니다.';
+      unknownChart.update();
+    });
+
+    // 12. Clock Chart (Median vs Mean)
+    const clockCtx = document.getElementById('clockChart').getContext('2d');
+    const agencies = ['경찰', '환경', '청소', '교통', '주택', '공원'];
+    const clockMedian = [1.4, 22.1, 39.9, 54.0, 100, 116];
+    const clockMean = [0.1, 4.1, 3.2, 8.3, 14.1, 20.5];
+
+    let clockChart = new Chart(clockCtx, {
+      type: 'bar',
+      data: {
+        labels: agencies,
+        datasets: [{ data: clockMedian, backgroundColor: ['#c2410c', '#a8a29e', '#a8a29e', '#a8a29e', '#78716c', '#57534e'], borderRadius: 5 }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    });
+
+    document.querySelectorAll('.clock-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.clock-btn').forEach(b => {
+          b.classList.remove('active'); b.classList.add('bg-white', 'text-stone-700');
+        });
+        btn.classList.add('active'); btn.classList.remove('bg-white', 'text-stone-700');
+        const isMean = btn.dataset.clockMode === 'mean';
+        clockChart.data.datasets[0].data = isMean ? clockMean : clockMedian;
+        clockChart.data.datasets[0].backgroundColor = isMean
+          ? ['#a8a29e', '#a8a29e', '#a8a29e', '#78716c', '#78716c', '#c2410c']
+          : ['#c2410c', '#a8a29e', '#a8a29e', '#a8a29e', '#78716c', '#57534e'];
+        document.getElementById('clockExplain').innerHTML = isMean
+          ? '<strong>평균(6.62일)을 끌어올리는 꼬리:</strong> 공원국(20.5일)과 주택국(14.1일)의 긴 꼬리가 도시 전체 평균을 6.6일로 끌어올립니다. 경찰은 7일을 넘긴 건이 172만 건 중 130건뿐입니다.'
+          : '<strong>경찰의 1.4시간 vs 공원국의 116시간:</strong> 여섯 기관의 시계를 한 파일에 섞으면 \'도시 중앙값 8시간\'이 나옵니다. 자정 일괄 마감(110,698건)을 빼도 중앙값은 6.9시간으로 하루 안입니다.';
+        clockChart.update();
+      });
+    });
+
+    // 13. Question Archive (Searchable)
+    const archiveItems = [
+      { cat: '달력·날씨', q: '새해 첫 1시간 불꽃놀이 신고는?', a: '1월 1일 0시대 94건으로, 평소 0시대 평균(3.7건)의 25배였습니다.' },
+      { cat: '달력·날씨', q: '이웃 소음 신고가 가장 많았던 날은?', a: '한 주소를 빼면 2026년 6월 21일(일) 2,375건으로 평소의 2.3배였습니다.' },
+      { cat: '달력·날씨', q: '서머타임 시작일 새벽 2시 신고는?', a: '시계가 2시를 건너뛰어 평소 169건에서 단 1건(기록 오류)으로 줄었습니다.' },
+      { cat: '달력·날씨', q: '3월 포트홀 신고는 왜 가장 많을까?', a: '22,761건(월평균의 3.6배). 얼었다 녹기를 반복한 늦겨울 뒤 도로가 깨집니다.' },
+      { cat: '소음·동물', q: '차 소음 1위는 경적일까, 음악일까?', a: '차 안 음악이 42.1%로 경적(38.5%)과 공회전(19.4%)보다 많았습니다.' },
+      { cat: '소음·동물', q: '아이스크림 트럭 소음 신고는 언제?', a: '3~10월에 1년 치의 99%가 몰리며, 6월(195건)·저녁 8시가 정점입니다.' },
+      { cat: '소음·동물', q: '죽은 동물·불법 반려동물·불법 판매 1위는?', a: '죽은 동물 고양이(38%), 불법 반려동물 수탉(61%), 불법 판매 10cm 미만 거북(61%)입니다.' },
+      { cat: '소음·동물', q: '벌·말벌 신고는 한여름에 많을까?', a: '오히려 9월(98건, 1년 치의 22.5%)에 가장 많았고, 모기는 8~9월에 64%가 몰렸습니다.' },
+      { cat: '도로·집', q: '불법주차 1위 사유와 피크 시각은?', a: '소화전 앞 주차(27.9%)가 1위이며, 오전 8시가 새벽 3시의 4.9배입니다.' },
+      { cat: '도로·집', q: '자전거도로 막는 주차와 전동킥보드는?', a: '자전거도로는 맨해튼·브루클린이 스태튼의 24배, 전동킥보드는 퀸스·브롱크스가 94%입니다.' },
+      { cat: '도로·집', q: '난방 민원은 건물 전체인가, 우리 집만인가?', a: '352,278건 중 건물 전체(231,208건)가 65.6%, 그 세대만(121,070건)이 34.4%입니다.' },
+      { cat: '도로·집', q: '집 수리 민원 중 검사관이 못 들어간 비율은?', a: '전체 27%, 가전 고장은 45.1%에서 문 앞에서 돌아섰습니다.' },
+      { cat: '한 주소·답변', q: '한 주소가 1년에 낸 최다 신고는?', a: '브롱크스 북부의 한 주소가 47,105건(이웃 소음 47,013건, 뉴욕 이웃 소음의 11.3%)을 냈습니다.' },
+      { cat: '한 주소·답변', q: '경찰 출동 후 가장 흔한 결말은?', a: '40.8%가 "가 보니 흔적 없음"이었고, 이웃 소음에 딱지가 나온 비율은 0.4%입니다.' },
+      { cat: '한 주소·답변', q: '한 건도 종료되지 않은 민원은?', a: '헬기 소음(10,971건)과 공사 납 먼지(1,316건)는 100% 아직 "처리 중"입니다.' },
+      { cat: '선거·분모', q: '맘다니 50.8%는 몇 줄의 표인가?', a: '민주당(944,950표) + 노동가족당(169,234표) = 1,114,184표. 민주당 한 줄만으로도 쿠오모(906,614표)보다 많습니다.' },
+      { cat: '선거·분모', q: '채널 빈 칸(33만 건)을 빼면 전화 1위는?', a: '브롱크스(26.1%)에서 스태튼아일랜드(30.1%)로 바뀝니다.' },
+      { cat: '채널·별난 민원', q: '택시 불만 대 칭찬, 그리고 택시 분실물은?', a: '택시 불만 대 칭찬은 93:1(칭찬 113건), 311 분실물의 98%는 택시에서 잃어버린 물건입니다.' }
+    ];
+
+    function renderArchive() {
+      const q = document.getElementById('archiveSearch').value.trim().toLowerCase();
+      const cat = document.getElementById('archiveFilter').value;
+      const filtered = archiveItems.filter(it => {
+        const matchCat = cat === 'all' || it.cat === cat;
+        const matchQ = !q || it.q.toLowerCase().includes(q) || it.a.toLowerCase().includes(q) || it.cat.toLowerCase().includes(q);
+        return matchCat && matchQ;
+      });
+      const grid = document.getElementById('archiveGrid');
+      grid.innerHTML = filtered.length ? filtered.map(it => `
+        <div class="p-3.5 rounded-xl bg-stone-50 border border-stone-200">
+          <span class="text-[11px] font-bold text-orange-700">${it.cat}</span>
+          <p class="font-bold text-sm text-stone-900 mt-1">${it.q}</p>
+          <p class="text-xs text-stone-600 mt-1.5 leading-relaxed">${it.a}</p>
+        </div>
+      `).join('') : '<p class="text-sm text-stone-500 col-span-full py-6 text-center">일치하는 질문이 없습니다. 다른 키워드를 입력해 보세요.</p>';
+    }
+    renderArchive();
+    document.getElementById('archiveSearch').addEventListener('input', renderArchive);
+    document.getElementById('archiveFilter').addEventListener('change', renderArchive);
+
+    // 14. Exploratory Questions Accordion
+    const exploreQuestions = [
+      {
+        q: '1. 브롱크스에서 40초마다 신고한 4만 7천 건은 사람일까, 자동화 봇일까?',
+        a: '접수 시각의 초(second) 단위 분포와 앱 버전, 6주 집중 기간(11월 7일~12월 16일)의 일정한 간격(시간당 약 91건)을 시계열 자기상관(Autocorrelation)으로 분석하면 매크로/자동화 여부를 강하게 추정할 수 있습니다.'
+      },
+      {
+        q: '2. 서울의 120 다산콜센터 데이터와 나란히 놓으면 어떤 차이가 보일까?',
+        a: '뉴욕은 불법주차(15.6%)와 난방·온수(집주인 규제) 비중이 압도적이지만, 서울 120은 대중교통·지방세·생활폐기물 비중이 다릅니다. 도시의 주거 형태(임대 아파트 vs 자가·전월세)와 행정 권한 구조가 민원 구성에 어떻게 투영되는지 비교할 수 있습니다.'
+      },
+      {
+        q: '3. 기온이 아니라 강수량·미세먼지·습도로 나누면 어떤 민원이 움직일까?',
+        a: 'Open-Meteo의 강수량(mm)과 대기질 데이터를 결합하면 폭우 날 하수도 역류·포트홀 급증 시차(Lag)나, 대기질 나쁜 날의 공사·대기질 민원 반응을 교차 검증할 수 있습니다.'
+      },
+      {
+        q: '4. 경찰이 "가 보니 흔적 없음(40.8%)"이라고 적은 건 진짜 사라진 걸까, 출동이 늦었던 걸까?',
+        a: '접수 시각부터 종료 시각까지의 소요 시간(중앙값 83분)과 "흔적 없음" 비율의 상관관계를 민원 유형별로 쪼개 보면, 출동이 늦을수록(예: 불꽃놀이 73%) 현장이 비어 있을 확률이 어떻게 변하는지 볼 수 있습니다.'
+      },
+      {
+        q: '5. 같은 건물에서 같은 날 여러 세대가 신고한 난방 민원을 \'건물 단위\'로 묶으면 순위가 바뀔까?',
+        a: '현재 상위 1% 건물이 난방 민원의 23%를 내는 것은 세대별 중복 신고를 모두 센 결과입니다. 이를 고유 건물 ID(BBL)로 중복 제거해 다시 세면, \'가장 민원이 잦은 건물\'과 \'가장 많은 세대가 고통받는 건물\'의 지도가 다르게 그려집니다.'
+      },
+      {
+        q: '6. 11월 1일 서머타임이 끝나는 새벽(1시가 두 번 오는 날)의 311 시계는 어떻게 기록될까?',
+        a: '3월 서머타임 시작일에는 새벽 2시가 건너뛰어 평소 169건이 단 1건으로 줄었습니다. 반대로 11월 첫째 주 일요일 새벽 1시가 두 번 반복될 때는 타임스탬프가 겹쳐 2배로 솟구치는지 확인해 볼 수 있습니다.'
+      }
+    ];
+
+    document.getElementById('exploreList').innerHTML = exploreQuestions.map(item => `
+      <details class="rounded-xl bg-stone-800/80 border border-stone-700 p-4 group">
+        <summary class="cursor-pointer list-none flex items-center justify-between gap-3 font-semibold text-sm text-stone-100">
+          <span>${item.q}</span>
+          <span class="text-xs text-orange-400 shrink-0 group-open:hidden">힌트 +</span>
+          <span class="text-xs text-orange-400 shrink-0 hidden group-open:inline">닫기 −</span>
+        </summary>
+        <p class="mt-3 pt-3 border-t border-stone-700 text-xs sm:text-sm text-stone-300 leading-relaxed">${item.a}</p>
+      </details>
+    `).join('');
+  </script>
+</body>
+</html>
