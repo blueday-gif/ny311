@@ -1,7 +1,6 @@
 ﻿item,value
-input_file,311_Service_Requests_from_2020_to_Present_20261112.csv.zip
+input_file,311_Service_Requests_from_2020_to_Present_20261112.csv
 rows,3963959
-csv_member,311_Service_Requests_from_2020_to_Present_20261112.csv
 columns,44
 Created Date_parse_failed,0
 Closed Date_parse_failed,0
