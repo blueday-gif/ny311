@@ -3,7 +3,8 @@
 streamlit>=1.66
 pandas>=2.2
 altair>=5.3
+matplotlib>=3.9  # 4+쪽 표 색칠(pandas Styler.background_gradient)에 필요
 
 # 아래는 분석 스크립트(analysis/, scripts/)를 다시 돌릴 때만 필요하다. 배포에는 없어도 된다.
 # 확인한 버전: pandas 3.1.0, pyarrow 26.0.0, numpy 2.5.4, scipy 1.18.1, scikit-learn 1.9.1, matplotlib 3.11.2
-# scipy  scikit-learn  matplotlib  pyarrow
+# scipy  scikit-learn  pyarrow
